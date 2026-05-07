@@ -171,6 +171,58 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .resize-handle{width:8px;cursor:col-resize;flex-shrink:0;background:transparent;position:relative;z-index:20}
 .resize-handle::after{content:"";position:absolute;top:0;left:3px;width:2px;height:100%;background:var(--border);transition:background 0.15s}
 .resize-handle:hover::after,.resize-handle.active::after{background:var(--gold);width:3px;left:2px}
+
+/* ── MOBILE RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body{font-size:15px;overflow:auto}
+  .topbar{padding:0 12px;height:52px;gap:10px}
+  .logo-sub{display:none}
+  .topbar-divider{display:none}
+  .nav-tabs{gap:2px}
+  .nav-tab{padding:5px 10px;font-size:14px}
+  .status-pill{display:none}
+  .main{flex-direction:column;overflow:auto;height:auto}
+  .sidebar{width:100%!important;max-width:100%!important;min-width:0!important;
+    border-right:none;border-bottom:1px solid var(--border);
+    flex-direction:row;flex-wrap:wrap;overflow-x:auto;overflow-y:hidden;
+    padding:8px 12px;gap:8px;flex-shrink:0}
+  .sidebar-section{padding:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .sidebar-label{display:none}
+  .sidebar-item{padding:5px 10px;border-left:none;border:1px solid var(--border);
+    border-radius:20px;white-space:nowrap;flex-shrink:0}
+  .sidebar-item.active{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+  .sidebar-count{font-size:11px}
+  .sidebar-search{margin:0;width:140px;font-size:13px}
+  .sdiv{display:none}
+  .center{min-width:0;overflow:hidden}
+  .detail-panel{width:100%!important;max-width:100%!important;min-width:0!important;
+    border-left:none;border-top:1px solid var(--border);
+    max-height:60vh;display:none}
+  .detail-panel.mobile-open{display:flex}
+  .resize-handle{display:none}
+  .panel-header{padding:10px 14px}
+  .panel-title{font-size:15px}
+  .panel-meta{font-size:11px}
+  .search-bar{padding:8px 12px;gap:8px}
+  .search-input{font-size:14px}
+  .fetch-btn{padding:8px 12px;font-size:11px}
+  .source-chips{padding:6px 12px;gap:5px}
+  .source-chip{font-size:11px;padding:3px 8px}
+  .feed{padding:10px 12px;gap:8px}
+  .feed-card{padding:12px 14px}
+  .card-title{font-size:14px}
+  .card-summary{font-size:13px}
+  .experts-grid{grid-template-columns:1fr;padding:10px 12px}
+  .consult-input-area{padding:10px 14px}
+  .consult-actions{gap:5px}
+  .mode-btn{font-size:11px;padding:6px 8px}
+  /* Mobile back button for detail panel */
+  .mobile-back{display:flex;align-items:center;gap:8px;padding:10px 14px;
+    border-bottom:1px solid var(--border);cursor:pointer;
+    font-family:"DM Mono",monospace;font-size:12px;color:var(--gold);
+    flex-shrink:0}
+}
+@media (min-width:769px){.mobile-back{display:none}}
 </style>
 </head>
 <body>
@@ -229,7 +281,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
         <div class="sidebar-item-left"><div class="region-dot" style="background:var(--blue)"></div>Europe</div>
         <span class="sidebar-count">28</span>
       </div>
-      <div class="sidebar-item" id="rg-United States" onclick="setRegion('United States')">
+      <div class="sidebar-item" id="rg-United+States" onclick="setRegion('United States')">
         <div class="sidebar-item-left"><div class="region-dot" style="background:var(--green)"></div>United States</div>
         <span class="sidebar-count">35</span>
       </div>
@@ -246,14 +298,34 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
         <span class="sidebar-count">7</span>
       </div>
     </div>
+
     <div class="sdiv"></div>
     <div class="sidebar-section">
       <div class="sidebar-label">DOMAINS</div>
-      <div class="sidebar-item" onclick="setDomain('AI & Technology')"><div class="sidebar-item-left"><span style="color:var(--blue)">◆</span> AI & Technology</div><span class="sidebar-count">24</span></div>
-      <div class="sidebar-item" onclick="setDomain('Finance')"><div class="sidebar-item-left"><span style="color:var(--green)">◆</span> Finance & Markets</div><span class="sidebar-count">31</span></div>
-      <div class="sidebar-item" onclick="setDomain('Healthcare')"><div class="sidebar-item-left"><span style="color:var(--red)">◆</span> Healthcare</div><span class="sidebar-count">19</span></div>
-      <div class="sidebar-item" onclick="setDomain('Strategy')"><div class="sidebar-item-left"><span style="color:var(--teal)">◆</span> Strategy & Ops</div><span class="sidebar-count">22</span></div>
-      <div class="sidebar-item" onclick="setDomain('Policy')"><div class="sidebar-item-left"><span style="color:#e879f9">◆</span> Policy & Regulation</div><span class="sidebar-count">12</span></div>
+      <div class="sidebar-item" id="dm-All" onclick="setDomain('All')">
+        <div class="sidebar-item-left"><span style="color:var(--gold)">◆</span> All Domains</div>
+        <span class="sidebar-count" id="dm-All-count">—</span>
+      </div>
+      <div class="sidebar-item" id="dm-AI" onclick="setDomain('AI & Technology')">
+        <div class="sidebar-item-left"><span style="color:var(--blue)">◆</span> AI & Technology</div>
+        <span class="sidebar-count" id="dm-AI-count">—</span>
+      </div>
+      <div class="sidebar-item" id="dm-Finance" onclick="setDomain('Finance')">
+        <div class="sidebar-item-left"><span style="color:var(--green)">◆</span> Finance & Markets</div>
+        <span class="sidebar-count" id="dm-Finance-count">—</span>
+      </div>
+      <div class="sidebar-item" id="dm-Healthcare" onclick="setDomain('Healthcare')">
+        <div class="sidebar-item-left"><span style="color:var(--red)">◆</span> Healthcare</div>
+        <span class="sidebar-count" id="dm-Healthcare-count">—</span>
+      </div>
+      <div class="sidebar-item" id="dm-Strategy" onclick="setDomain('Strategy')">
+        <div class="sidebar-item-left"><span style="color:var(--teal)">◆</span> Strategy & Ops</div>
+        <span class="sidebar-count" id="dm-Strategy-count">—</span>
+      </div>
+      <div class="sidebar-item" id="dm-Policy" onclick="setDomain('Policy')">
+        <div class="sidebar-item-left"><span style="color:#e879f9">◆</span> Policy & Regulation</div>
+        <span class="sidebar-count" id="dm-Policy-count">—</span>
+      </div>
     </div>
     <div style="margin-top:auto;padding:10px 16px;border-top:1px solid var(--border)">
       <div id="bottom-status" style="font-family:'DM Mono',monospace;font-size:16px;color:var(--text3)">● System Ready</div>
@@ -335,6 +407,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
   <div class="resize-handle" id="rh-right"></div>
   <!-- RIGHT DETAIL PANEL -->
   <div class="detail-panel">
+    <div class="mobile-back" onclick="closeMobileDetail()">← 戻る</div>
     <div id="detail-empty" class="detail-empty" style="flex:1">
       <div class="detail-empty-icon">◫</div>
       <div style="font-size:16px;text-align:center;line-height:1.9;color:var(--text3)">SELECT AN ARTICLE<br><span style="font-family:'DM Mono',monospace;font-size:16px;letter-spacing:0.08em;opacity:0.5">OR CONSULT BELOW</span></div>
@@ -362,7 +435,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 
 <script>
 // ─── STATE ───────────────────────────────────────────────────────────────────
-let currentView='feed', currentRegion='All', consultMode='brief', analysisMode='strategy';
+let currentView='feed', currentRegions=new Set(['All']), currentDomains=new Set(['All']), consultMode='brief', analysisMode='strategy';
 let selectedArticle=null, feedItems=[], isFetching=false, isConsulting=false, isAnalyzing=false;
 
 // ─── EXPERTS DATA ─────────────────────────────────────────────────────────────
@@ -526,31 +599,102 @@ function selectExpert(name){
 }
 
 // ─── REGION / DOMAIN ────────────────────────────────────────────────────────
+
+function setDomain(d){
+  if(d==='All'){
+    currentDomains=new Set(['All']);
+    document.querySelectorAll('[id^="dm-"]').forEach(el=>el.classList.remove('active'));
+    document.getElementById('dm-All').classList.add('active');
+  } else {
+    currentDomains.delete('All');
+    document.getElementById('dm-All').classList.remove('active');
+    const map={'AI & Technology':'AI','Finance':'Finance','Healthcare':'Healthcare','Strategy':'Strategy','Policy':'Policy'};
+    const el=document.getElementById('dm-'+(map[d]||d));
+    if(el){
+      if(currentDomains.has(d)){
+        currentDomains.delete(d);
+        el.classList.remove('active');
+      } else {
+        currentDomains.add(d);
+        el.classList.add('active');
+      }
+    }
+    if(currentDomains.size===0){
+      currentDomains.add('All');
+      document.getElementById('dm-All').classList.add('active');
+    }
+  }
+  filterFeed();
+}
 function setRegion(r){
-  currentRegion=r;
-  document.querySelectorAll('[id^="rg-"]').forEach(el=>el.classList.remove('active'));
-  const el=document.getElementById('rg-'+r);
-  if(el)el.classList.add('active');
-  document.getElementById('current-filter').textContent=r;
+  if(r==='All'){
+    currentRegions=new Set(['All']);
+    document.querySelectorAll('[id^="rg-"]').forEach(el=>el.classList.remove('active'));
+    document.getElementById('rg-All').classList.add('active');
+  } else {
+    currentRegions.delete('All');
+    document.getElementById('rg-All').classList.remove('active');
+    const el=document.getElementById('rg-'+r.replace(/ /g,'+'));
+    if(el){
+      if(currentRegions.has(r)){
+        currentRegions.delete(r);
+        el.classList.remove('active');
+      } else {
+        currentRegions.add(r);
+        el.classList.add('active');
+      }
+    }
+    if(currentRegions.size===0){
+      currentRegions.add('All');
+      document.getElementById('rg-All').classList.add('active');
+    }
+  }
+  document.getElementById('current-filter').textContent=
+    currentRegions.has('All')?'All Regions':[...currentRegions].join(', ');
   filterFeed();
 }
 
-function setDomain(d){filterFeed();}
+
 
 function filterFeed(){
   const activeChips=Array.from(document.querySelectorAll('.source-chip.active'))
     .map(c=>c.textContent.trim().toLowerCase());
-  let visible=0;
+  const rCount={}, dCount={};
+  let total=0;
+
   document.querySelectorAll('.feed-card').forEach(c=>{
-    const regionOk=currentRegion==='All'||c.dataset.region===currentRegion;
+    const regionOk=currentRegions.has('All')||currentRegions.has(c.dataset.region);
+    const tags=(c.dataset.tags||'').split(',').map(t=>t.trim());
+    const domainOk=currentDomains.has('All')||tags.some(t=>currentDomains.has(t));
     const src=(c.dataset.source||'').toLowerCase();
     const sourceOk=activeChips.length===0||activeChips.includes(src);
-    const show=regionOk&&sourceOk;
+    const show=regionOk&&domainOk&&sourceOk;
     c.style.display=show?'':'none';
-    if(show)visible++;
+    if(show){
+      total++;
+      const r=c.dataset.region||'Global';
+      rCount[r]=(rCount[r]||0)+1;
+      tags.forEach(t=>{if(t) dCount[t]=(dCount[t]||0)+1;});
+    }
   });
-  document.getElementById('feed-count').textContent=visible||'—';
-  document.getElementById('leader-count').textContent=visible?visible+' articles':'—';
+
+  document.getElementById('feed-count').textContent=total||'—';
+  document.getElementById('leader-count').textContent=total?total+' articles':'—';
+
+  // Update region counts
+  [['All','All'],['Europe','Europe'],['United States','United+States'],
+   ['China','China'],['APAC','APAC'],['Japan','Japan']].forEach(([r,id])=>{
+    const el=document.querySelector('#rg-'+id+' .sidebar-count');
+    if(el) el.textContent=r==='All'?total:(rCount[r]||0);
+  });
+
+  // Update domain counts
+  [['All','All'],['AI & Technology','AI'],['Finance','Finance'],
+   ['Healthcare','Healthcare'],['Strategy','Strategy'],['Policy','Policy']].forEach(([full,id])=>{
+    const el=document.getElementById('dm-'+id+'-count');
+    if(!el) return;
+    el.textContent=full==='All'?total:(dCount[full]||0);
+  });
 }
 
 function sidebarFilter(){
@@ -647,6 +791,7 @@ function renderFeed(articles){
     card.dataset.region=a.region||'Global';
     card.dataset.source=a.source||'web';
     card.dataset.index=i;
+    card.dataset.tags=(a.tags||[]).join(',');
     card.innerHTML=`
       <div class="card-top">
         <span class="card-source ${a.source||'web'}">${(a.source||'WEB').toUpperCase()}</span>
@@ -844,6 +989,26 @@ renderExperts();
   initResize('rh-left',  ()=>document.querySelector('.sidebar'),       ()=>'left');
   initResize('rh-right', ()=>document.querySelector('.detail-panel'),  ()=>'right');
 })();
+
+
+// ── MOBILE DETAIL PANEL ─────────────────────────────────────────
+function openMobileDetail(){
+  if(window.innerWidth<=768){
+    document.querySelector('.detail-panel').classList.add('mobile-open');
+  }
+}
+function closeMobileDetail(){
+  document.querySelector('.detail-panel').classList.remove('mobile-open');
+}
+// Patch selectFeedArticle and selectExpert to open mobile panel
+const _origShowDetail = showDetail;
+showDetail = function(a){
+  _origShowDetail(a);
+  openMobileDetail();
+};
+const _origSelectExpert = selectExpert;
+// Override expert click for mobile
+document.addEventListener('DOMContentLoaded', function(){});
 
 </script>
 </body>
