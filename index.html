@@ -26,7 +26,7 @@
   --green:#4ade80;
   --accent:#7c3aed;
 }
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:16px}
 
 /* TOP BAR */
 .topbar{display:flex;align-items:center;padding:0 20px;height:48px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px}
@@ -441,9 +441,14 @@ function setRegion(r){
 function setDomain(d){filterFeed();}
 
 function filterFeed(){
+  const activeChips=Array.from(document.querySelectorAll('.source-chip.active'))
+    .map(c=>c.textContent.trim().toLowerCase());
   let visible=0;
   document.querySelectorAll('.feed-card').forEach(c=>{
-    const show=currentRegion==='All'||c.dataset.region===currentRegion;
+    const regionOk=currentRegion==='All'||c.dataset.region===currentRegion;
+    const src=(c.dataset.source||'').toLowerCase();
+    const sourceOk=activeChips.length===0||activeChips.includes(src);
+    const show=regionOk&&sourceOk;
     c.style.display=show?'':'none';
     if(show)visible++;
   });
@@ -456,7 +461,10 @@ function sidebarFilter(){
   if(currentView==='experts') renderExperts(q);
 }
 
-function toggleChip(el){el.classList.toggle('active');}
+function toggleChip(el){
+  el.classList.toggle('active');
+  filterFeed();
+}
 
 // ─── FETCH FEED ─────────────────────────────────────────────────────────────
 async function fetchFeed(){
@@ -476,7 +484,7 @@ async function fetchFeed(){
   list.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:14px;color:var(--text3)"><div class="loading-spinner light" style="width:28px;height:28px;border-width:3px"></div><div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:0.08em">Generating expert intelligence...</div></div>`;
 
   try{
-    const sys=`You are an expert intelligence platform serving C-suite executives. Generate exactly 6 expert-grade intelligence articles. Return ONLY valid JSON array, no markdown, no code blocks, no preamble.
+    const sys=`You are an expert intelligence platform serving C-suite executives. Generate exactly 20 expert-grade intelligence articles. Return ONLY valid JSON array, no markdown, no code blocks, no preamble.
 
 JSON schema for each item:
 {
@@ -496,9 +504,9 @@ JSON schema for each item:
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
 
-        max_tokens:2500,
+        max_tokens:6000,
         system:sys,
-        messages:[{role:'user',content:`Generate 6 expert intelligence articles for: "${query}". Current date: 2026-05-07. Focus on actionable C-suite insights. Return only the JSON array.`}]
+        messages:[{role:'user',content:`Generate 20 expert intelligence articles for: "${query}". Current date: 2026-05-07. Focus on actionable C-suite insights. Return only the JSON array.`}]
       })
     });
 
@@ -540,6 +548,7 @@ function renderFeed(articles){
     const card=document.createElement('div');
     card.className='feed-card';
     card.dataset.region=a.region||'Global';
+    card.dataset.source=a.source||'web';
     card.dataset.index=i;
     card.innerHTML=`
       <div class="card-top">
