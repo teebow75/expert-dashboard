@@ -491,11 +491,11 @@ JSON schema for each item:
   "keyData": "1 specific data point or statistic"
 }`;
 
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+
         max_tokens:2500,
         system:sys,
         messages:[{role:'user',content:`Generate 6 expert intelligence articles for: "${query}". Current date: 2026-05-07. Focus on actionable C-suite insights. Return only the JSON array.`}]
@@ -617,11 +617,11 @@ async function runConsult(){
   body.scrollTop=0;
 
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+
         max_tokens:1000,
         system:sys,
         messages:[{role:'user',content:context+'Question: '+q}]
@@ -666,11 +666,11 @@ async function runAnalysis(){
   };
 
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+
         max_tokens:1800,
         system:`You are a world-class strategy consultant with expertise across industries and geographies. ${prompts[analysisMode]}`,
         messages:[{role:'user',content:'Business challenge: '+q}]
