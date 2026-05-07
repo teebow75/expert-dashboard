@@ -168,9 +168,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .framework-title{font-family:'DM Mono',monospace;font-size:16px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
 
 /* RESIZE HANDLES */
-.resize-handle{width:5px;cursor:col-resize;flex-shrink:0;background:transparent;position:relative;z-index:20;transition:background 0.2s}
-.resize-handle::after{content:"";position:absolute;top:0;left:1px;width:3px;height:100%;background:var(--border);transition:background 0.2s}
-.resize-handle:hover::after,.resize-handle.active::after{background:var(--gold)}
+.resize-handle{width:8px;cursor:col-resize;flex-shrink:0;background:transparent;position:relative;z-index:20}
+.resize-handle::after{content:"";position:absolute;top:0;left:3px;width:2px;height:100%;background:var(--border);transition:background 0.15s}
+.resize-handle:hover::after,.resize-handle.active::after{background:var(--gold);width:3px;left:2px}
 </style>
 </head>
 <body>
@@ -211,7 +211,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       </div>
       <div class="sidebar-item" id="sv-experts" onclick="switchView('experts')">
         <div class="sidebar-item-left"><span>◈</span> Experts</div>
-        <span class="sidebar-count">108</span>
+        <span class="sidebar-count">100</span>
       </div>
       <div class="sidebar-item" id="sv-analysis" onclick="switchView('analysis')">
         <div class="sidebar-item-left"><span>◎</span> Analysis</div>
@@ -367,16 +367,106 @@ let selectedArticle=null, feedItems=[], isFetching=false, isConsulting=false, is
 
 // ─── EXPERTS DATA ─────────────────────────────────────────────────────────────
 const EXPERTS=[
-  {name:'Sarah Chen',role:'Chief Strategy Officer',org:'McKinsey & Company',region:'United States',domain:'Strategy',av:'SC',col:'#7c3aed',network:'Alphasight'},
-  {name:'James Worthington',role:'Managing Director',org:'Goldman Sachs',region:'United States',domain:'Finance',av:'JW',col:'#0f6e56',network:'GLG'},
-  {name:'Yuki Tanaka',role:'Technology Principal',org:'SoftBank Vision Fund',region:'Japan',domain:'AI & Technology',av:'YT',col:'#185fa5',network:'Atheneum'},
-  {name:'Marie Dubois',role:'Senior Partner',org:'BCG Paris',region:'Europe',domain:'Strategy',av:'MD',col:'#993c1d',network:'GLG'},
-  {name:'Li Wei',role:'VP Technology Strategy',org:'Alibaba Group',region:'China',domain:'AI & Technology',av:'LW',col:'#3b6d11',network:'Alphasight'},
-  {name:'Raj Patel',role:'Managing Partner',org:'Bain & Company',region:'APAC',domain:'Finance',av:'RP',col:'#854f0b',network:'Atheneum'},
-  {name:'Anna Kowalski',role:'Policy Director',org:'EU Commission',region:'Europe',domain:'Policy',av:'AK',col:'#993356',network:'GLG'},
-  {name:'David Kim',role:'Chief Technology Officer',org:'Samsung Electronics',region:'APAC',domain:'AI & Technology',av:'DK',col:'#533ab7',network:'Alphasight'},
-  {name:'Hiroshi Yamamoto',role:'Senior Executive VP',org:'Toyota Motor Corporation',region:'Japan',domain:'Strategy',av:'HY',col:'#185fa5',network:'GLG'},
-  {name:'Elena Rossi',role:'Head of Digital Innovation',org:'Intesa Sanpaolo',region:'Europe',domain:'Finance',av:'ER',col:'#0f6e56',network:'Atheneum'},
+  {name:'Larry Fink',role:'Chairman & CEO',org:'BlackRock',region:'United States',domain:'Finance',av:'LF',col:'#185fa5',network:'GLG'},
+  {name:'Arvind Krishna',role:'Chairman & CEO',org:'IBM',region:'United States',domain:'AI & Technology',av:'AK',col:'#3b6d11',network:'Alphasight'},
+  {name:'Mary Barra',role:'Chairman & CEO',org:'General Motors',region:'United States',domain:'Strategy',av:'MB',col:'#854f0b',network:'Atheneum'},
+  {name:'Marc Benioff',role:'Chairman & CEO',org:'Salesforce',region:'United States',domain:'AI & Technology',av:'MB',col:'#7c3aed',network:'Alphasight'},
+  {name:'Gina Raimondo',role:'Former Commerce Secretary',org:'US Dept. of Commerce',region:'United States',domain:'Policy',av:'GR',col:'#993356',network:'GLG'},
+  {name:'Albert Bourla',role:'Chairman & CEO',org:'Pfizer',region:'United States',domain:'Healthcare',av:'AB',col:'#533ab7',network:'Alphasight'},
+  {name:'Kenneth Frazier',role:'Former Chairman & CEO',org:'Merck',region:'United States',domain:'Healthcare',av:'KF',col:'#185fa5',network:'Atheneum'},
+  {name:'Roger Ferguson',role:'Former Vice Chair',org:'Federal Reserve / TIAA',region:'United States',domain:'Finance',av:'RF',col:'#0f6e56',network:'GLG'},
+  {name:'Condoleezza Rice',role:'Former Secretary of State',org:'Hoover Institution',region:'United States',domain:'Policy',av:'CR',col:'#854f0b',network:'Alphasight'},
+  {name:'Reid Hoffman',role:'Co-Founder & Partner',org:'LinkedIn / Greylock',region:'United States',domain:'AI & Technology',av:'RH',col:'#533ab7',network:'GLG'},
+  {name:'Anne Chow',role:'Former CEO',org:'AT&T Business',region:'United States',domain:'Strategy',av:'AC',col:'#993c1d',network:'GLG'},
+  {name:'Vivek Murthy',role:'Former Surgeon General',org:'US Public Health Service',region:'United States',domain:'Healthcare',av:'VM',col:'#0f6e56',network:'Atheneum'},
+  {name:'Reshma Kewalramani',role:'CEO',org:'Vertex Pharmaceuticals',region:'United States',domain:'Healthcare',av:'RK',col:'#3b6d11',network:'GLG'},
+  {name:'Antonio Neri',role:'President & CEO',org:'Hewlett Packard Enterprise',region:'United States',domain:'AI & Technology',av:'AN',col:'#993c1d',network:'Alphasight'},
+  {name:'Lisa Su',role:'Chair & CEO',org:'AMD',region:'United States',domain:'AI & Technology',av:'LS',col:'#7c3aed',network:'Atheneum'},
+  {name:'Jensen Huang',role:'Founder & CEO',org:'NVIDIA',region:'United States',domain:'AI & Technology',av:'JH',col:'#185fa5',network:'GLG'},
+  {name:'Safra Catz',role:'CEO',org:'Oracle',region:'United States',domain:'AI & Technology',av:'SC',col:'#854f0b',network:'Alphasight'},
+  {name:'Charles Scharf',role:'CEO',org:'Wells Fargo',region:'United States',domain:'Finance',av:'CS',col:'#533ab7',network:'GLG'},
+  {name:'David Solomon',role:'Chairman & CEO',org:'Goldman Sachs',region:'United States',domain:'Finance',av:'DS',col:'#993356',network:'Atheneum'},
+  {name:'Jane Fraser',role:'CEO',org:'Citigroup',region:'United States',domain:'Finance',av:'JF',col:'#0f6e56',network:'Alphasight'},
+  {name:'Pat Gelsinger',role:'Former CEO',org:'Intel',region:'United States',domain:'AI & Technology',av:'PG',col:'#3b6d11',network:'GLG'},
+  {name:'Hock Tan',role:'President & CEO',org:'Broadcom',region:'United States',domain:'AI & Technology',av:'HT',col:'#993c1d',network:'Atheneum'},
+  {name:'Robert Ford',role:'Chairman & CEO',org:'Abbott Laboratories',region:'United States',domain:'Healthcare',av:'RF',col:'#185fa5',network:'Alphasight'},
+  {name:'Dario Amodei',role:'CEO & Co-Founder',org:'Anthropic',region:'United States',domain:'AI & Technology',av:'DA',col:'#7c3aed',network:'GLG'},
+  {name:'Sam Altman',role:'CEO',org:'OpenAI',region:'United States',domain:'AI & Technology',av:'SA',col:'#854f0b',network:'Alphasight'},
+  {name:'Christine Lagarde',role:'President',org:'European Central Bank',region:'Europe',domain:'Finance',av:'CL',col:'#993356',network:'Atheneum'},
+  {name:'Thierry Breton',role:'Former EU Commissioner',org:'European Commission',region:'Europe',domain:'Policy',av:'TB',col:'#7c3aed',network:'GLG'},
+  {name:'Roland Busch',role:'CEO',org:'Siemens AG',region:'Europe',domain:'AI & Technology',av:'RB',col:'#185fa5',network:'Atheneum'},
+  {name:'Patrick Pouyanné',role:'Chairman & CEO',org:'TotalEnergies',region:'Europe',domain:'Strategy',av:'PP',col:'#854f0b',network:'Alphasight'},
+  {name:'Oliver Blume',role:'CEO',org:'Volkswagen Group',region:'Europe',domain:'Strategy',av:'OB',col:'#993c1d',network:'GLG'},
+  {name:'Peter Wennink',role:'Former CEO',org:'ASML',region:'Europe',domain:'AI & Technology',av:'PW',col:'#7c3aed',network:'Alphasight'},
+  {name:'Leena Nair',role:'CEO',org:'Chanel',region:'Europe',domain:'Strategy',av:'LN',col:'#993356',network:'Atheneum'},
+  {name:'Margrethe Vestager',role:'Former EVP',org:'European Commission',region:'Europe',domain:'Policy',av:'MV',col:'#0f6e56',network:'GLG'},
+  {name:'Nadia Calviño',role:'President',org:'European Investment Bank',region:'Europe',domain:'Finance',av:'NC',col:'#533ab7',network:'Alphasight'},
+  {name:'Carlos Tavares',role:'Former CEO',org:'Stellantis',region:'Europe',domain:'Strategy',av:'CT',col:'#854f0b',network:'Atheneum'},
+  {name:'Emma Walmsley',role:'CEO',org:'GSK',region:'Europe',domain:'Healthcare',av:'EW',col:'#3b6d11',network:'GLG'},
+  {name:'Pascal Soriot',role:'CEO',org:'AstraZeneca',region:'Europe',domain:'Healthcare',av:'PS',col:'#185fa5',network:'Alphasight'},
+  {name:'Vas Narasimhan',role:'CEO',org:'Novartis',region:'Europe',domain:'Healthcare',av:'VN',col:'#993c1d',network:'Atheneum'},
+  {name:'Thomas Buberl',role:'CEO',org:'AXA',region:'Europe',domain:'Finance',av:'TB',col:'#7c3aed',network:'GLG'},
+  {name:'Sergio Ermotti',role:'CEO',org:'UBS Group',region:'Europe',domain:'Finance',av:'SE',col:'#993356',network:'Alphasight'},
+  {name:'Ulf Kristersson',role:'Prime Minister',org:'Swedish Government',region:'Europe',domain:'Policy',av:'UK',col:'#0f6e56',network:'Atheneum'},
+  {name:'Mario Draghi',role:'Former President ECB',org:'European Council',region:'Europe',domain:'Policy',av:'MD',col:'#533ab7',network:'GLG'},
+  {name:'Sundar Pichai',role:'CEO',org:'Alphabet / Google',region:'United States',domain:'AI & Technology',av:'SP',col:'#3b6d11',network:'Alphasight'},
+  {name:'Francesca McDonagh',role:'Former CEO',org:'Bank of Ireland',region:'Europe',domain:'Finance',av:'FM',col:'#854f0b',network:'Atheneum'},
+  {name:'Feike Sijbesma',role:'Former CEO',org:'DSM',region:'Europe',domain:'Strategy',av:'FS',col:'#993c1d',network:'GLG'},
+  {name:'Jean-François Cirelli',role:'Chairman',org:'BlackRock France',region:'Europe',domain:'Finance',av:'JC',col:'#185fa5',network:'Alphasight'},
+  {name:'Pablo Isla',role:'Former CEO',org:'Inditex / Zara',region:'Europe',domain:'Strategy',av:'PI',col:'#7c3aed',network:'Atheneum'},
+  {name:'Ralf Brandstätter',role:'CEO VW China',org:'Volkswagen China',region:'Europe',domain:'Strategy',av:'RB',col:'#993356',network:'GLG'},
+  {name:'Amelia Fawcett',role:'Senior Advisor',org:'Morgan Stanley Europe',region:'Europe',domain:'Finance',av:'AF',col:'#0f6e56',network:'Alphasight'},
+  {name:'John Elkann',role:'Chairman',org:'Stellantis / Exor',region:'Europe',domain:'Finance',av:'JE',col:'#533ab7',network:'Atheneum'},
+  {name:'Ren Zhengfei',role:'Founder & CEO',org:'Huawei',region:'China',domain:'AI & Technology',av:'RZ',col:'#7c3aed',network:'GLG'},
+  {name:'Eric Xu',role:'Rotating Chairman',org:'Huawei',region:'China',domain:'AI & Technology',av:'EX',col:'#533ab7',network:'Atheneum'},
+  {name:'Pony Ma',role:'Chairman & CEO',org:'Tencent',region:'China',domain:'AI & Technology',av:'PM',col:'#3b6d11',network:'Alphasight'},
+  {name:'Robin Li',role:'Co-Founder & CEO',org:'Baidu',region:'China',domain:'AI & Technology',av:'RL',col:'#993c1d',network:'GLG'},
+  {name:'Wang Chuanfu',role:'Chairman & President',org:'BYD',region:'China',domain:'Strategy',av:'WC',col:'#854f0b',network:'Alphasight'},
+  {name:'Zeng Yuqun',role:'Chairman',org:'CATL',region:'China',domain:'Strategy',av:'ZY',col:'#7c3aed',network:'Atheneum'},
+  {name:'Lei Jun',role:'Founder & CEO',org:'Xiaomi',region:'China',domain:'AI & Technology',av:'LJ',col:'#0f6e56',network:'GLG'},
+  {name:'Yi Gang',role:'Former Governor',org:'People's Bank of China',region:'China',domain:'Finance',av:'YG',col:'#185fa5',network:'Alphasight'},
+  {name:'Liu He',role:'Former Vice Premier',org:'State Council of China',region:'China',domain:'Policy',av:'LH',col:'#993356',network:'Atheneum'},
+  {name:'Daniel Zhang',role:'Former CEO',org:'Alibaba Group',region:'China',domain:'AI & Technology',av:'DZ',col:'#854f0b',network:'GLG'},
+  {name:'Ding Lei',role:'CEO',org:'NetEase',region:'China',domain:'AI & Technology',av:'DL',col:'#533ab7',network:'Alphasight'},
+  {name:'Pan Gongsheng',role:'Governor',org:'People's Bank of China',region:'China',domain:'Finance',av:'PG',col:'#3b6d11',network:'Atheneum'},
+  {name:'Fu Chengyu',role:'Former Chairman',org:'CNOOC',region:'China',domain:'Strategy',av:'FC',col:'#993c1d',network:'GLG'},
+  {name:'He Xiaopeng',role:'CEO',org:'Xpeng Motors',region:'China',domain:'AI & Technology',av:'HX',col:'#185fa5',network:'Alphasight'},
+  {name:'Hou Weigui',role:'Founder',org:'ZTE Corporation',region:'China',domain:'AI & Technology',av:'HW',col:'#7c3aed',network:'Atheneum'},
+  {name:'Chen Dongsheng',role:'Chairman',org:'Taikang Insurance',region:'China',domain:'Finance',av:'CD',col:'#993356',network:'GLG'},
+  {name:'Liang Wengen',role:'Chairman',org:'Sany Group',region:'China',domain:'Strategy',av:'LW',col:'#0f6e56',network:'Alphasight'},
+  {name:'Zhang Yong',role:'Former CEO',org:'Alibaba Group',region:'China',domain:'Strategy',av:'ZY',col:'#533ab7',network:'Atheneum'},
+  {name:'Li Shufu',role:'Chairman',org:'Geely Automobile',region:'China',domain:'Strategy',av:'LS',col:'#854f0b',network:'GLG'},
+  {name:'Xu Zhijun',role:'Rotating Chairman',org:'Huawei',region:'China',domain:'AI & Technology',av:'XZ',col:'#3b6d11',network:'Alphasight'},
+  {name:'Toshihiro Toyoda',role:'Chairman',org:'Toyota Motor Corporation',region:'Japan',domain:'Strategy',av:'TT',col:'#854f0b',network:'Alphasight'},
+  {name:'Kentaro Kawabe',role:'Co-CEO',org:'SoftBank Group',region:'Japan',domain:'AI & Technology',av:'KK',col:'#0f6e56',network:'Atheneum'},
+  {name:'Koji Fujiwara',role:'President & CEO',org:'Mizuho Financial Group',region:'Japan',domain:'Finance',av:'KF',col:'#7c3aed',network:'GLG'},
+  {name:'Makoto Uchida',role:'CEO',org:'Nissan Motor',region:'Japan',domain:'Strategy',av:'MU',col:'#993356',network:'Alphasight'},
+  {name:'Junichi Okamoto',role:'President',org:'Panasonic Holdings',region:'Japan',domain:'Strategy',av:'JO',col:'#533ab7',network:'Atheneum'},
+  {name:'Kenichiro Yoshida',role:'Chairman',org:'Sony Group',region:'Japan',domain:'AI & Technology',av:'KY',col:'#3b6d11',network:'GLG'},
+  {name:'Kazuhiro Tsuga',role:'Former President',org:'Panasonic',region:'Japan',domain:'Strategy',av:'KT',col:'#993c1d',network:'Alphasight'},
+  {name:'Seiichi Miyake',role:'CEO',org:'Fujitsu',region:'Japan',domain:'AI & Technology',av:'SM',col:'#185fa5',network:'Atheneum'},
+  {name:'Yoshitaka Kitao',role:'President & CEO',org:'SBI Holdings',region:'Japan',domain:'Finance',av:'YK',col:'#854f0b',network:'GLG'},
+  {name:'Masayoshi Son',role:'Founder & CEO',org:'SoftBank Group',region:'Japan',domain:'AI & Technology',av:'MS',col:'#7c3aed',network:'Alphasight'},
+  {name:'Hiroshi Mikitani',role:'Chairman & CEO',org:'Rakuten Group',region:'Japan',domain:'AI & Technology',av:'HM',col:'#993356',network:'Atheneum'},
+  {name:'Kazuo Ueda',role:'Governor',org:'Bank of Japan',region:'Japan',domain:'Finance',av:'KU',col:'#0f6e56',network:'GLG'},
+  {name:'Ichiro Kashiwagi',role:'President',org:'Tokyo Electric Power',region:'Japan',domain:'Strategy',av:'IK',col:'#533ab7',network:'Alphasight'},
+  {name:'Takeshi Niinami',role:'CEO',org:'Suntory Holdings',region:'Japan',domain:'Strategy',av:'TN',col:'#3b6d11',network:'Atheneum'},
+  {name:'Shigeki Tomoyama',role:'President',org:'Toyota Industries',region:'Japan',domain:'Strategy',av:'ST',col:'#993c1d',network:'GLG'},
+  {name:'Piyush Gupta',role:'CEO',org:'DBS Group',region:'APAC',domain:'Finance',av:'PG',col:'#185fa5',network:'Alphasight'},
+  {name:'Shantanu Narayen',role:'Chairman & CEO',org:'Adobe',region:'APAC',domain:'AI & Technology',av:'SN',col:'#7c3aed',network:'GLG'},
+  {name:'Leong Wai Leng',role:'CEO',org:'Microsoft Asia',region:'APAC',domain:'AI & Technology',av:'LW',col:'#993356',network:'Atheneum'},
+  {name:'Goh Choon Phong',role:'CEO',org:'Singapore Airlines',region:'APAC',domain:'Strategy',av:'GC',col:'#854f0b',network:'Alphasight'},
+  {name:'Mark Tucker',role:'Group Chairman',org:'HSBC Holdings',region:'APAC',domain:'Finance',av:'MT',col:'#0f6e56',network:'GLG'},
+  {name:'Aditya Puri',role:'Former MD & CEO',org:'HDFC Bank',region:'APAC',domain:'Finance',av:'AP',col:'#533ab7',network:'Atheneum'},
+  {name:'N. Chandrasekaran',role:'Chairman',org:'Tata Sons',region:'APAC',domain:'Strategy',av:'NC',col:'#3b6d11',network:'Alphasight'},
+  {name:'Mukesh Ambani',role:'Chairman & MD',org:'Reliance Industries',region:'APAC',domain:'Strategy',av:'MA',col:'#993c1d',network:'GLG'},
+  {name:'Sundar Pichai',role:'CEO',org:'Google DeepMind',region:'APAC',domain:'AI & Technology',av:'SP',col:'#185fa5',network:'Atheneum'},
+  {name:'Satya Nadella',role:'Chairman & CEO',org:'Microsoft',region:'United States',domain:'AI & Technology',av:'SN',col:'#7c3aed',network:'Alphasight'},
+  {name:'Rajiv Kumar',role:'Vice Chairman',org:'NITI Aayog India',region:'APAC',domain:'Policy',av:'RK',col:'#993356',network:'GLG'},
+  {name:'Lee Boon Yang',role:'Chairman',org:'Singapore Press Holdings',region:'APAC',domain:'Policy',av:'LB',col:'#854f0b',network:'Atheneum'},
+  {name:'Ha Jung-woo',role:'CEO',org:'Samsung BioLogics',region:'APAC',domain:'Healthcare',av:'HJ',col:'#0f6e56',network:'Alphasight'},
+  {name:'Kwon Young-soo',role:'Former CEO',org:'LG Chem',region:'APAC',domain:'Strategy',av:'KY',col:'#533ab7',network:'GLG'},
+  {name:'Eunice Yoon',role:'Former Asia Correspondent',org:'CNBC Asia',region:'APAC',domain:'Policy',av:'EY',col:'#3b6d11',network:'Atheneum'},
 ];
 
 // ─── DEMO FEED DATA ────────────────────────────────────────────────────────────
@@ -428,9 +518,9 @@ function selectExpert(name){
   showDetail({
     source:'expert',region:e.region,time:e.network,tags:[e.domain,e.region],
     title:`${e.name} — ${e.role}`,
-    summary:`${e.org}所属。${e.domain}分野の第一人者。`,
-    insight:`${e.name}はグローバルな視点から${e.domain}の実務的知見を提供します。C-suiteレベルの経営課題から実行戦略まで幅広く対応。`,
-    keyData:`ネットワーク: ${e.network} | 地域: ${e.region} | 専門: ${e.domain}`
+    insight:`${e.org} | ${e.domain} | ${e.network} | ${e.region}`,
+    keyData:null,
+    summary:null
   });
   document.getElementById('consultQuery').placeholder=`${e.name}の視点から質問する...`;
 }
@@ -591,10 +681,10 @@ function showDetail(a){
     <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:16px;color:var(--text3)">${a.time||''}</span>`;
   document.getElementById('detail-title').textContent=a.title||'';
   document.getElementById('detail-body').innerHTML=`
-    <div><div class="detail-section-title">SUMMARY</div><div class="detail-text">${a.summary||''}</div></div>
-    ${a.keyData?`<div class="insight-box"><div class="insight-label">KEY DATA POINT</div><div class="insight-text">${a.keyData}</div></div>`:''}
-    ${a.insight?`<div><div class="detail-section-title">EXPERT INSIGHT</div><div class="detail-text">${a.insight}</div></div>`:''}
-    
+    ${a.insight?`<div class="insight-box"><div class="insight-label">EXPERT INSIGHT</div><div class="insight-text">${a.insight}</div></div>`:''}
+    ${a.summary?`<div><div class="detail-section-title">SUMMARY</div><div class="detail-text">${a.summary}</div></div>`:''}
+    ${a.keyData?`<div><div class="detail-section-title">KEY DATA POINT</div><div class="detail-text">${a.keyData}</div></div>`:''}
+    ${a.implications?`<div><div class="detail-section-title">STRATEGIC IMPLICATIONS</div><div class="detail-text">${a.implications}</div></div>`:''}
     <div style="height:20px"></div>`;
 }
 
