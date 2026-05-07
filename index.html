@@ -31,15 +31,15 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 /* TOP BAR */
 .topbar{display:flex;align-items:center;padding:0 20px;height:48px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-box{width:30px;height:30px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--gold);font-family:'DM Mono',monospace;flex-shrink:0}
-.logo-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--gold)}
-.logo-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--text3)}
+.logo-box{width:30px;height:30px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.75em;font-weight:500;color:var(--gold);font-family:'DM Mono',monospace;flex-shrink:0}
+.logo-text{font-family:'DM Mono',monospace;font-size:0.8em;letter-spacing:0.15em;color:var(--gold)}
+.logo-sub{font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.1em;color:var(--text3)}
 .topbar-divider{width:1px;height:24px;background:var(--border)}
 .nav-tabs{display:flex;gap:2px;flex:1}
-.nav-tab{padding:5px 14px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--text2);transition:all 0.15s;letter-spacing:0.02em;border:none;background:none;font-family:'Sora',sans-serif}
+.nav-tab{padding:5px 14px;border-radius:4px;cursor:pointer;font-size:0.85em;color:var(--text2);transition:all 0.15s;letter-spacing:0.02em;border:none;background:none;font-family:'Sora',sans-serif}
 .nav-tab:hover{color:var(--text);background:var(--surface2)}
 .nav-tab.active{color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2)}
-.status-pill{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);padding:4px 12px;border:1px solid var(--border);border-radius:20px}
+.status-pill{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:0.75em;color:var(--text3);padding:4px 12px;border:1px solid var(--border);border-radius:20px}
 .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
@@ -51,16 +51,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .sidebar::-webkit-scrollbar{width:3px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border2)}
 .sidebar-section{padding:16px 0 8px}
-.sidebar-label{padding:0 16px 8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase}
+.sidebar-label{padding:0 16px 8px;font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase}
 .sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:7px 16px;cursor:pointer;transition:all 0.15s;border-left:2px solid transparent}
 .sidebar-item:hover{background:var(--surface2)}
 .sidebar-item.active{background:rgba(201,168,76,0.06);border-left-color:var(--gold)}
-.sidebar-item-left{display:flex;align-items:center;gap:10px;color:var(--text2);font-size:12px}
+.sidebar-item-left{display:flex;align-items:center;gap:10px;color:var(--text2);font-size:0.85em}
 .sidebar-item.active .sidebar-item-left{color:var(--text)}
-.sidebar-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)}
+.sidebar-count{font-family:'DM Mono',monospace;font-size:0.75em;color:var(--text3)}
 .sidebar-item.active .sidebar-count{color:var(--gold)}
 .region-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.sidebar-search{margin:8px 12px;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;font-family:'Sora',sans-serif;outline:none;width:calc(100% - 24px)}
+.sidebar-search{margin:8px 12px;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8em;font-family:'Sora',sans-serif;outline:none;width:calc(100% - 24px)}
 .sidebar-search:focus{border-color:var(--border2)}
 .sidebar-search::placeholder{color:var(--text3)}
 .sdiv{height:1px;background:var(--border);margin:2px 0}
@@ -68,22 +68,22 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 /* CENTER PANEL */
 .center{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface)}
-.panel-title{font-size:14px;font-weight:500;letter-spacing:0.02em}
-.panel-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);display:flex;align-items:center;gap:6px}
+.panel-title{font-size:1em;font-weight:500;letter-spacing:0.02em}
+.panel-meta{font-family:'DM Mono',monospace;font-size:0.75em;color:var(--gold);display:flex;align-items:center;gap:6px}
 .meta-arrow{color:var(--text3)}
 
 /* SEARCH BAR */
 .search-bar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--surface2);flex-shrink:0}
-.ai-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--teal);border:1px solid rgba(45,212,191,0.3);padding:3px 8px;border-radius:3px;white-space:nowrap}
-.search-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none;transition:border 0.2s;min-width:0}
+.ai-tag{font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.1em;color:var(--teal);border:1px solid rgba(45,212,191,0.3);padding:3px 8px;border-radius:3px;white-space:nowrap}
+.search-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-family:'Sora',sans-serif;font-size:0.85em;outline:none;transition:border 0.2s;min-width:0}
 .search-input:focus{border-color:var(--gold)}
 .search-input::placeholder{color:var(--text3)}
-.fetch-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
+.fetch-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:0.75em;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
 .fetch-btn:hover{background:var(--gold2)}
 .fetch-btn:disabled{opacity:0.5;cursor:not-allowed}
 .fetch-btn.loading{background:var(--amber)}
 .source-chips{display:flex;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;align-items:center;flex-wrap:wrap}
-.source-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--text2);cursor:pointer;transition:all 0.15s;user-select:none}
+.source-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.08em;color:var(--text2);cursor:pointer;transition:all 0.15s;user-select:none}
 .source-chip.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08)}
 .chip-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
 .source-chip-remove{color:var(--text3);margin-left:2px}
@@ -95,21 +95,21 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .feed::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px;color:var(--text3)}
 .empty-icon{font-size:36px;opacity:0.25;font-family:'DM Mono',monospace}
-.empty-label{font-size:12px;text-align:center;line-height:1.9}
+.empty-label{font-size:0.85em;text-align:center;line-height:1.9}
 .feed-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:8px}
 .feed-card:hover{border-color:var(--border2);background:var(--surface2);transform:translateX(2px)}
 .feed-card.selected{border-color:var(--gold);background:rgba(201,168,76,0.04)}
 .card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.card-source{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;border:1px solid;white-space:nowrap}
+.card-source{font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;border:1px solid;white-space:nowrap}
 .card-source.web{border-color:rgba(96,165,250,0.4);color:var(--blue)}
 .card-source.expert{border-color:rgba(201,168,76,0.4);color:var(--gold)}
 .card-source.analysis{border-color:rgba(45,212,191,0.4);color:var(--teal)}
 .card-source.news{border-color:rgba(74,222,128,0.4);color:var(--green)}
-.card-region{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)}
-.card-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-left:auto}
-.card-title{font-size:12px;font-weight:500;line-height:1.5;color:var(--text)}
-.card-summary{font-size:11px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:var(--text3)}
+.card-region{font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text3)}
+.card-time{font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text3);margin-left:auto}
+.card-title{font-size:0.85em;font-weight:500;line-height:1.5;color:var(--text)}
+.card-summary{font-size:0.8em;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tag{font-family:'DM Mono',monospace;font-size:0.7em;padding:2px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:var(--text3)}
 
 /* RIGHT DETAIL PANEL */
 .detail-panel{width:360px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
@@ -117,28 +117,28 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .detail-empty-icon{font-size:28px;opacity:0.18;font-family:'DM Mono',monospace}
 .detail-header{padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
 .detail-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.detail-title{font-family:'Playfair Display',serif;font-size:14px;line-height:1.55;color:var(--text)}
+.detail-title{font-family:'Playfair Display',serif;font-size:1em;line-height:1.55;color:var(--text)}
 .detail-body{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px}
 .detail-body::-webkit-scrollbar{width:3px}
 .detail-body::-webkit-scrollbar-thumb{background:var(--border2)}
-.detail-section-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
-.detail-text{font-size:12px;line-height:1.8;color:var(--text2)}
+.detail-section-title{font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
+.detail-text{font-size:0.85em;line-height:1.8;color:var(--text2)}
 .insight-box{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:12px}
-.insight-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px}
-.insight-text{font-size:12px;line-height:1.7;color:var(--text)}
+.insight-label{font-family:'DM Mono',monospace;font-size:0.7em;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px}
+.insight-text{font-size:0.85em;line-height:1.7;color:var(--text)}
 
 /* CONSULT AREA */
 .consult-input-area{padding:14px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
-.consult-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px}
-.consult-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'Sora',sans-serif;font-size:11px;outline:none;resize:none;line-height:1.6;transition:border 0.2s}
+.consult-label{font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px}
+.consult-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'Sora',sans-serif;font-size:0.8em;outline:none;resize:none;line-height:1.6;transition:border 0.2s}
 .consult-textarea:focus{border-color:var(--gold)}
 .consult-textarea::placeholder{color:var(--text3)}
 .consult-actions{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-.consult-btn{padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap}
+.consult-btn{padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:0.75em;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap}
 .consult-btn:hover{background:var(--gold2)}
 .consult-btn:disabled{opacity:0.5;cursor:not-allowed}
 .consult-btn.loading{background:var(--amber)}
-.mode-btn{padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;cursor:pointer;font-family:'DM Mono',monospace;font-size:9px;color:var(--text2);transition:all 0.2s;white-space:nowrap}
+.mode-btn{padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;cursor:pointer;font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text2);transition:all 0.2s;white-space:nowrap}
 .mode-btn.active{border-color:var(--gold);color:var(--gold)}
 .mode-btn:hover{border-color:var(--border2);color:var(--text)}
 
@@ -146,25 +146,25 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .loading-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(10,10,11,0.3);border-top-color:#0a0a0b;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
 .loading-spinner.light{border-color:rgba(201,168,76,0.2);border-top-color:var(--gold)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.error-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(248,113,113,0.1);border-bottom:1px solid rgba(248,113,113,0.2);font-family:'DM Mono',monospace;font-size:10px;color:var(--red);flex-shrink:0}
-.response-stream{font-size:12px;line-height:1.8;color:var(--text);white-space:pre-wrap}
+.error-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(248,113,113,0.1);border-bottom:1px solid rgba(248,113,113,0.2);font-family:'DM Mono',monospace;font-size:0.75em;color:var(--red);flex-shrink:0}
+.response-stream{font-size:0.85em;line-height:1.8;color:var(--text);white-space:pre-wrap}
 
 /* EXPERTS */
 .experts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px 20px;overflow-y:auto;flex:1}
 .expert-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all 0.2s}
 .expert-item:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-1px)}
 .expert-item.selected{border-color:var(--gold)}
-.expert-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;margin-bottom:8px;font-family:'DM Mono',monospace}
-.expert-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
-.expert-role{font-size:10px;color:var(--text2);margin-bottom:3px;line-height:1.4}
-.expert-org{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px}
+.expert-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'DM Mono',monospace}
+.expert-name{font-size:0.85em;font-weight:500;color:var(--text);margin-bottom:2px}
+.expert-role{font-size:0.75em;color:var(--text2);margin-bottom:3px;line-height:1.4}
+.expert-org{font-family:'DM Mono',monospace;font-size:0.7em;color:var(--gold);margin-bottom:6px}
 
 /* ANALYSIS */
 .analysis-wrap{flex:1;overflow-y:auto;padding:16px 20px}
 .analysis-wrap::-webkit-scrollbar{width:4px}
 .analysis-wrap::-webkit-scrollbar-thumb{background:var(--border2)}
 .framework-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
-.framework-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
+.framework-title{font-family:'DM Mono',monospace;font-size:0.75em;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -250,7 +250,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div class="sidebar-item" onclick="setDomain('Policy')"><div class="sidebar-item-left"><span style="color:#e879f9">◆</span> Policy & Regulation</div><span class="sidebar-count">12</span></div>
     </div>
     <div style="margin-top:auto;padding:10px 16px;border-top:1px solid var(--border)">
-      <div id="bottom-status" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)">● System Ready</div>
+      <div id="bottom-status" style="font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text3)">● System Ready</div>
     </div>
   </div>
 
@@ -284,7 +284,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div class="feed" id="feedList">
         <div class="empty-state">
           <div class="empty-icon">◉</div>
-          <div class="empty-label">「FETCH TODAY」をクリックして記事を取得<br><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;opacity:0.5">POWERED BY CLAUDE AI</span></div>
+          <div class="empty-label">「FETCH TODAY」をクリックして記事を取得<br><span style="font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.08em;opacity:0.5">POWERED BY CLAUDE AI</span></div>
         </div>
       </div>
     </div>
@@ -305,7 +305,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
         <div class="panel-meta"><span>AI-Powered</span><span class="meta-arrow">→</span><span>On-Demand</span></div>
       </div>
       <div style="padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0">
-        <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.7">業務課題やビジネス相談を入力してください。世界のフレームワークと専門家の知見を基にAIが解決策を提示します。</div>
+        <div style="font-size:0.8em;color:var(--text2);margin-bottom:10px;line-height:1.7">業務課題やビジネス相談を入力してください。世界のフレームワークと専門家の知見を基にAIが解決策を提示します。</div>
         <textarea id="analysisQuery" class="consult-textarea" rows="3" placeholder="例: 新興市場への参入戦略、競合分析、DX推進の課題、M&A検討..."></textarea>
         <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
           <button class="consult-btn" id="analyzeBtn" onclick="runAnalysis()">◈ ANALYZE</button>
@@ -318,7 +318,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div class="analysis-wrap" id="analysisOutput">
         <div style="text-align:center;color:var(--text3);margin-top:50px">
           <div style="font-size:24px;opacity:0.2;margin-bottom:12px">◎</div>
-          <div style="font-size:11px">分析クエリを入力してANALYZEを実行してください</div>
+          <div style="font-size:0.8em">分析クエリを入力してANALYZEを実行してください</div>
         </div>
       </div>
     </div>
@@ -329,7 +329,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
   <div class="detail-panel">
     <div id="detail-empty" class="detail-empty" style="flex:1">
       <div class="detail-empty-icon">◫</div>
-      <div style="font-size:11px;text-align:center;line-height:1.9;color:var(--text3)">SELECT AN ARTICLE<br><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;opacity:0.5">OR CONSULT BELOW</span></div>
+      <div style="font-size:0.8em;text-align:center;line-height:1.9;color:var(--text3)">SELECT AN ARTICLE<br><span style="font-family:'DM Mono',monospace;font-size:0.7em;letter-spacing:0.08em;opacity:0.5">OR CONSULT BELOW</span></div>
     </div>
     <div id="detail-content" style="display:none;flex-direction:column;flex:1;overflow:hidden">
       <div class="detail-header">
@@ -481,7 +481,7 @@ async function fetchFeed(){
 
   const query=document.getElementById('searchQuery').value||'top global business leaders AI strategy 2026';
   const list=document.getElementById('feedList');
-  list.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:14px;color:var(--text3)"><div class="loading-spinner light" style="width:28px;height:28px;border-width:3px"></div><div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:0.08em">Generating expert intelligence...</div></div>`;
+  list.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:14px;color:var(--text3)"><div class="loading-spinner light" style="width:28px;height:28px;border-width:3px"></div><div style="font-size:0.8em;font-family:'DM Mono',monospace;letter-spacing:0.08em">Generating expert intelligence...</div></div>`;
 
   try{
     const sys=`You are an expert intelligence platform serving C-suite executives. Generate exactly 20 expert-grade intelligence articles. Return ONLY valid JSON array, no markdown, no code blocks, no preamble.
@@ -581,7 +581,7 @@ function showDetail(a){
     <span class="card-source ${a.source||'web'}">${(a.source||'WEB').toUpperCase()}</span>
     <span class="card-region">${a.region||''}</span>
     ${(a.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}
-    <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)">${a.time||''}</span>`;
+    <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:0.7em;color:var(--text3)">${a.time||''}</span>`;
   document.getElementById('detail-title').textContent=a.title||'';
   document.getElementById('detail-body').innerHTML=`
     <div><div class="detail-section-title">SUMMARY</div><div class="detail-text">${a.summary||''}</div></div>
@@ -621,7 +621,7 @@ async function runConsult(){
   const body=document.getElementById('detail-body');
   const div=document.createElement('div');
   div.style.cssText='border-top:1px solid var(--border);padding-top:14px;margin-top:4px';
-  div.innerHTML=`<div class="detail-section-title">AI EXPERT — ${consultMode.toUpperCase()}</div><div class="detail-text" id="consult-stream" style="white-space:pre-wrap;font-size:12px">分析中...</div>`;
+  div.innerHTML=`<div class="detail-section-title">AI EXPERT — ${consultMode.toUpperCase()}</div><div class="detail-text" id="consult-stream" style="white-space:pre-wrap;font-size:0.85em">分析中...</div>`;
   body.insertBefore(div,body.firstChild);
   body.scrollTop=0;
 
@@ -665,7 +665,7 @@ async function runAnalysis(){
   const btn=document.getElementById('analyzeBtn');
   btn.disabled=true; btn.textContent='Analyzing...';
   const out=document.getElementById('analysisOutput');
-  out.innerHTML=`<div style="display:flex;align-items:center;gap:12px;color:var(--text2);font-size:12px;padding:20px 0"><div class="loading-spinner light" style="width:18px;height:18px;border-width:2px"></div>AIが戦略分析を実行中...</div>`;
+  out.innerHTML=`<div style="display:flex;align-items:center;gap:12px;color:var(--text2);font-size:0.85em;padding:20px 0"><div class="loading-spinner light" style="width:18px;height:18px;border-width:2px"></div>AIが戦略分析を実行中...</div>`;
 
   const prompts={
     framework:`Provide a structured framework analysis using 2-3 established business frameworks (e.g., Porter's Five Forces, McKinsey 7S, BCG Matrix, Blue Ocean Strategy, PESTLE). For each framework, explain what it reveals about the challenge. Be specific to the query. Use Japanese if the question is in Japanese.`,
@@ -693,9 +693,9 @@ async function runAnalysis(){
       <div class="insight-box" style="margin-bottom:14px">
         <div class="insight-label">ANALYSIS MODE: ${analysisMode.toUpperCase()} · QUERY: ${q.slice(0,60)}${q.length>60?'...':''}</div>
       </div>
-      <div style="font-size:12px;line-height:1.9;color:var(--text2);white-space:pre-wrap">${text}</div>`;
+      <div style="font-size:0.85em;line-height:1.9;color:var(--text2);white-space:pre-wrap">${text}</div>`;
   }catch(e){
-    out.innerHTML=`<div style="color:var(--red);font-size:12px;padding:20px 0">エラー: ${e.message}</div>`;
+    out.innerHTML=`<div style="color:var(--red);font-size:0.85em;padding:20px 0">エラー: ${e.message}</div>`;
   }finally{
     isAnalyzing=false;
     btn.disabled=false; btn.textContent='◈ ANALYZE';
