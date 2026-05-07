@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expert Intelligence — Personal Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0e10; --bg1:#141416; --bg2:#1a1a1e; --bg3:#222228;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --gold:#c8a84b; --gold2:rgba(200,168,75,0.15); --gold3:rgba(200,168,75,0.07);
+  --tx:#e2ddd6; --tx2:#888880; --tx3:#444440;
+  --teal:#4ec9b0; --blue:#7eb8f7; --rose:#e07070; --green:#7ec87e;
+  --col-eu:#7eb8f7; --col-us:#e0a070; --col-cn:#e07070; --col-ap:#7ec87e; --col-jp:#c07eb8;
+  --sidebar:240px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:13px;display:flex;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar);min-width:var(--sidebar);background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;}
+.sb-logo-mark{width:20px;height:20px;border:1px solid var(--gold);display:grid;place-items:center;font-size:7px;color:var(--gold);font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
+.sb-logo-text{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx2);}
+.sb-logo-text em{color:var(--gold);font-style:normal;}
+
+.sb-sect{padding:12px 10px 4px;}
+.sb-sect-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx3);padding:0 6px;margin-bottom:3px;}
+.sb-item{display:flex;align-items:center;gap:8px;padding:6px;border-radius:4px;color:var(--tx2);cursor:pointer;transition:all .15s;border:1px solid transparent;user-select:none;margin-bottom:1px;}
+.sb-item:hover{background:var(--bg2);color:var(--tx);}
+.sb-item.active{background:var(--gold3);color:var(--gold);border-color:rgba(200,168,75,.2);}
+.sb-item .ico{font-size:13px;width:16px;text-align:center;flex-shrink:0;}
+.sb-item .lbl{font-size:12px;}
+.sb-item .cnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
+.sb-div{height:1px;background:var(--border);margin:6px 10px;}
+
+.region-item{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:4px;cursor:pointer;transition:background .15s;user-select:none;margin:0 10px 1px;}
+.region-item:hover{background:var(--bg2);}
+.region-item.active{background:var(--bg2);}
+.r-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.r-name{font-size:12px;color:var(--tx2);}
+.region-item.active .r-name{color:var(--tx);}
+.r-cnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
+
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--border);}
+.sb-status{display:flex;align-items:center;gap:6px;padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--tx3);}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2.5s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ── MAIN ── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+
+/* ── TOPBAR ── */
+#topbar{height:46px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:10px;flex-shrink:0;background:var(--bg1);}
+.page-title{font-family:'IBM Plex Serif',serif;font-size:15px;font-weight:300;color:var(--tx);}
+.topbar-sep{color:var(--tx3);font-size:11px;}
+.topbar-sub{font-size:11px;color:var(--tx2);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.search-box{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:4px 9px;}
+.search-box input{background:none;border:none;outline:none;color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:12px;width:160px;}
+.search-box input::placeholder{color:var(--tx3);}
+.topbar-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:4px 10px;color:var(--tx2);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.topbar-btn:hover{border-color:var(--border2);color:var(--tx);}
+.topbar-btn.gold{background:var(--gold3);border-color:rgba(200,168,75,.3);color:var(--gold);}
+.topbar-btn.gold:hover{background:var(--gold2);}
+
+/* ── CONTENT ── */
+#content{flex:1;display:flex;overflow:hidden;min-height:0;}
+.view{display:none;flex:1;overflow:hidden;}
+.view.active{display:flex;}
+
+/* ══════════════════════════════
+   FEED VIEW
+══════════════════════════════ */
+#view-feed{flex-direction:row;}
+.feed-list{flex:1;overflow-y:auto;min-width:0;}
+.feed-detail{width:380px;border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;background:var(--bg1);}
+
+/* AI Fetch Bar */
+.ai-fetch-bar{padding:10px 16px;background:rgba(200,168,75,.05);border-bottom:1px solid rgba(200,168,75,.12);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ai-fetch-bar-inner{display:flex;flex-direction:column;gap:10px;width:100%;}
+.fetch-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fetch-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
+.fetch-input{flex:1;min-width:160px;background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:5px 9px;color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:12px;outline:none;}
+.fetch-input:focus{border-color:rgba(200,168,75,.4);}
+.fetch-input::placeholder{color:var(--tx3);}
+.fetch-btn{background:var(--gold);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border:none;border-radius:3px;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.fetch-btn:hover{background:#d4b055;}
+.fetch-btn:disabled{background:var(--bg3);color:var(--tx3);cursor:not-allowed;}
+.source-chips{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.source-chip{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;border:1px solid var(--border);color:var(--tx3);cursor:pointer;transition:all .15s;user-select:none;}
+.source-chip.active{border-color:rgba(200,168,75,.35);color:var(--gold);background:var(--gold3);}
+.ai-status{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);display:flex;align-items:center;gap:6px;}
+.ai-status.running{color:var(--teal);}
+.spin{display:inline-block;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Feed date group */
+.feed-date-group{}
+.feed-date-lbl{position:sticky;top:0;z-index:10;background:var(--bg1);border-bottom:1px solid var(--border);padding:5px 16px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);display:flex;align-items:center;gap:10px;}
+.feed-date-lbl span{color:var(--tx2);}
+
+.feed-item{display:grid;grid-template-columns:52px 1fr 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;}
+.feed-item:hover{background:var(--bg2);}
+.feed-item.selected{background:var(--gold3);border-left:2px solid var(--gold);}
+.fi-aside{padding:11px 6px 11px 14px;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.fi-time{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);text-align:center;line-height:1.3;}
+.fi-icon{font-size:15px;}
+.fi-source-badge{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.08em;padding:1px 4px;border-radius:1px;text-transform:uppercase;}
+.fi-body{padding:11px 6px 11px 0;min-width:0;}
+.fi-meta{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
+.fi-cat{color:var(--gold);}
+.fi-reg{color:var(--tx3);}
+.fi-title{font-family:'IBM Plex Serif',serif;font-size:13px;font-weight:400;color:var(--tx);line-height:1.35;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fi-expert{font-size:10px;color:var(--tx2);}
+.fi-arrow{display:flex;align-items:center;padding-right:10px;color:var(--tx3);font-size:11px;}
+
+/* Detail panel */
+.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+.detail-empty .ico{font-size:32px;opacity:.3;}
+.detail-content{padding:22px 18px;}
+.detail-source-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.detail-source-badge{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;}
+.detail-cat{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.detail-title{font-family:'IBM Plex Serif',serif;font-size:20px;font-weight:300;line-height:1.2;color:var(--tx);margin-bottom:10px;}
+.detail-expert{font-size:11px;color:var(--tx2);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.detail-body{font-size:12px;line-height:1.8;color:var(--tx2);margin-bottom:16px;}
+.detail-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;}
+.d-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 7px;}
+.detail-link{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(200,168,75,.3);border-radius:3px;padding:7px 13px;transition:all .15s;}
+.detail-link:hover{background:var(--gold2);}
+.detail-x-embed{margin-top:14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;font-size:12px;line-height:1.7;color:var(--tx2);}
+.x-handle{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--blue);margin-bottom:6px;}
+
+/* ══════════════════════════════
+   EXPERTS VIEW
+══════════════════════════════ */
+#view-experts{flex-direction:column;}
+.domain-bar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex-shrink:0;background:var(--bg1);}
+.d-chip{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2);border:1px solid var(--border);border-radius:2px;padding:3px 9px;cursor:pointer;transition:all .15s;user-select:none;}
+.d-chip:hover{border-color:var(--border2);color:var(--tx);}
+.d-chip.active{background:var(--gold3);color:var(--gold);border-color:rgba(200,168,75,.3);}
+.experts-table-wrap{flex:1;overflow-y:auto;}
+table.et{width:100%;border-collapse:collapse;}
+table.et th{position:sticky;top:0;background:var(--bg1);border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);font-weight:400;padding:7px 10px;text-align:left;white-space:nowrap;}
+table.et td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+table.et tr:hover td{background:var(--bg2);}
+table.et tr{cursor:pointer;transition:background .1s;}
+.e-name{font-family:'IBM Plex Serif',serif;font-size:13px;font-weight:400;color:var(--tx);}
+.e-title{font-size:10px;color:var(--tx2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.r-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;padding:2px 6px;}
+.t-pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.07em;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:1px 5px;margin:1px 2px;}
+.avail{display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx2);}
+.avail .dot{width:5px;height:5px;border-radius:50%;}
+
+/* ══════════════════════════════
+   ANALYSIS VIEW
+══════════════════════════════ */
+#view-analysis{flex-direction:row;}
+.analysis-main{flex:1;overflow-y:auto;padding:20px 24px;}
+.analysis-side{width:260px;border-left:1px solid var(--border);overflow-y:auto;padding:16px;flex-shrink:0;}
+.sec-hd{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx3);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sec-hd::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Word Cloud */
+.wc-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:20px;margin-bottom:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px 12px;min-height:160px;}
+.wc-word{font-family:'IBM Plex Serif',serif;font-style:italic;color:var(--tx);cursor:pointer;line-height:1;transition:color .2s,transform .2s;user-select:none;position:relative;}
+.wc-word:hover{color:var(--gold);transform:scale(1.07);}
+.wc-word.t1{font-size:44px;color:var(--gold);opacity:1;}
+.wc-word.t2{font-size:30px;opacity:.88;}
+.wc-word.t3{font-size:20px;opacity:.72;}
+.wc-word.t4{font-size:13px;opacity:.5;color:var(--tx2);}
+.wc-word.t5{font-size:10px;opacity:.35;color:var(--tx3);}
+
+/* Insight cards */
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.ins-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;border-left:3px solid;}
+.ins-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:7px;}
+.ins-title{font-family:'IBM Plex Serif',serif;font-size:14px;font-weight:300;color:var(--tx);margin-bottom:7px;line-height:1.3;}
+.ins-body{font-size:11px;line-height:1.65;color:var(--tx2);}
+
+/* Clusters */
+.cluster-list{display:flex;flex-direction:column;gap:8px;}
+.cluster{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:11px 13px;border-left:3px solid;}
+.cl-theme{font-family:'IBM Plex Serif',serif;font-size:13px;font-weight:400;color:var(--tx);margin-bottom:4px;}
+.cl-desc{font-size:11px;color:var(--tx2);line-height:1.6;margin-bottom:7px;}
+.cl-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.cl-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 6px;}
+
+/* Side stats */
+.stat-b{margin-bottom:16px;}
+.stat-n{font-family:'IBM Plex Serif',serif;font-size:32px;font-weight:300;color:var(--tx);line-height:1;}
+.stat-n em{font-style:italic;color:var(--gold);font-size:22px;}
+.stat-l{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);margin-top:2px;}
+.rb-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.rb-lbl{font-size:10px;color:var(--tx2);width:44px;flex-shrink:0;}
+.rb-track{flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.rb-fill{height:100%;border-radius:2px;}
+.rb-cnt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);width:20px;text-align:right;}
+.kw-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--tx2);}
+.kw-row:last-child{border-bottom:none;}
+.kw-cnt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
+
+/* ── EXPERT PANEL ── */
+#expert-panel{position:fixed;top:0;right:-420px;width:420px;height:100%;background:var(--bg1);border-left:1px solid var(--border);z-index:200;overflow-y:auto;transition:right .3s cubic-bezier(.16,1,.3,1);}
+#expert-panel.open{right:0;}
+.panel-hdr{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.panel-close{width:26px;height:26px;display:grid;place-items:center;color:var(--tx2);cursor:pointer;border-radius:3px;border:1px solid var(--border);font-size:12px;transition:all .15s;}
+.panel-close:hover{background:var(--bg2);color:var(--tx);}
+.panel-body{padding:16px;}
+.panel-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:'IBM Plex Serif',serif;font-size:18px;font-weight:300;font-style:italic;border:1px solid var(--border);margin-bottom:10px;}
+.panel-name{font-family:'IBM Plex Serif',serif;font-size:20px;font-weight:300;color:var(--tx);margin-bottom:3px;}
+.panel-title{font-size:11px;color:var(--tx2);line-height:1.4;margin-bottom:10px;}
+.panel-sec-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin:14px 0 6px;}
+.panel-bio{font-size:12px;line-height:1.7;color:var(--tx2);}
+.panel-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.p-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.07em;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 7px;}
+
+/* fetch from X button */
+.fetch-expert-btn{width:100%;margin-top:12px;padding:9px;background:var(--gold3);border:1px solid rgba(200,168,75,.3);border-radius:3px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.fetch-expert-btn:hover{background:var(--gold2);}
+.fetch-expert-btn:disabled{background:var(--bg3);color:var(--tx3);cursor:not-allowed;border-color:var(--border);}
+.panel-results{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
+.panel-result-item{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px 12px;}
+.pr-source{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
+.pr-title{font-size:11px;color:var(--tx);line-height:1.4;margin-bottom:4px;}
+.pr-link{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--blue);text-decoration:none;}
+.pr-link:hover{text-decoration:underline;}
+#overlay{display:none;position:fixed;inset:0;z-index:199;}
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-mark">EI</div>
+    <span class="sb-logo-text">Expert <em>Intelligence</em></span>
+  </div>
+
+  <div class="sb-sect">
+    <div class="sb-sect-lbl">Views</div>
+    <div class="sb-item active" onclick="switchView('feed',this)"><span class="ico">📰</span><span class="lbl">Daily Feed</span><span class="cnt" id="feedCnt">0</span></div>
+    <div class="sb-item" onclick="switchView('experts',this)"><span class="ico">👥</span><span class="lbl">Experts</span><span class="cnt">100</span></div>
+    <div class="sb-item" onclick="switchView('analysis',this)"><span class="ico">🧠</span><span class="lbl">Analysis</span></div>
+  </div>
+
+  <div class="sb-div"></div>
+
+  <div class="sb-sect">
+    <div class="sb-sect-lbl">Regions</div>
+  </div>
+  <div class="region-item active" onclick="filterRegion('ALL',this)"><span class="r-dot" style="background:var(--gold)"></span><span class="r-name">All Regions</span><span class="r-cnt">100</span></div>
+  <div class="region-item" onclick="filterRegion('EU',this)"><span class="r-dot" style="background:var(--col-eu)"></span><span class="r-name">Europe</span><span class="r-cnt">20</span></div>
+  <div class="region-item" onclick="filterRegion('US',this)"><span class="r-dot" style="background:var(--col-us)"></span><span class="r-name">United States</span><span class="r-cnt">20</span></div>
+  <div class="region-item" onclick="filterRegion('China',this)"><span class="r-dot" style="background:var(--col-cn)"></span><span class="r-name">China</span><span class="r-cnt">20</span></div>
+  <div class="region-item" onclick="filterRegion('APAC',this)"><span class="r-dot" style="background:var(--col-ap)"></span><span class="r-name">APAC</span><span class="r-cnt">20</span></div>
+  <div class="region-item" onclick="filterRegion('Japan',this)"><span class="r-dot" style="background:var(--col-jp)"></span><span class="r-name">Japan</span><span class="r-cnt">20</span></div>
+
+  <div class="sb-bottom">
+    <div class="sb-status">
+      <span class="live-dot"></span>
+      <span id="statusTxt">Ready — enter API key to fetch</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <span class="page-title" id="pageTitle">Daily Feed</span>
+    <span class="topbar-sep">—</span>
+    <span class="topbar-sub" id="pageSubtitle">AI-powered · Real sources</span>
+    <div class="topbar-right">
+      <div class="search-box">
+        <span style="color:var(--tx3);font-size:11px">⌕</span>
+        <input type="text" placeholder="Search..." oninput="handleSearch(this.value)">
+      </div>
+      <button class="topbar-btn" onclick="showApiSetup()">⚙ API Key</button>
+      <button class="topbar-btn gold" id="fetchAllBtn" onclick="fetchAllExperts()">↓ Fetch Today</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- ── FEED VIEW ── -->
+    <div class="view active" id="view-feed">
+      <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;min-width:0;">
+
+        <!-- AI Fetch Control Bar -->
+        <div class="ai-fetch-bar">
+          <div class="ai-fetch-bar-inner">
+            <div class="fetch-row">
+              <span class="fetch-label">AI Search</span>
+              <input class="fetch-input" id="fetchQuery" placeholder="例: Jensen Huang AI infrastructure 2026" value="top global expert insights AI strategy 2026">
+              <button class="fetch-btn" id="fetchBtn" onclick="fetchArticles()">
+                <span id="fetchBtnIcon">↓</span> Fetch from Web + X
+              </button>
+            </div>
+            <div class="fetch-row">
+              <span class="fetch-label" style="font-size:8px">Sources</span>
+              <div class="source-chips">
+                <div class="source-chip active" data-src="web" onclick="toggleSource(this)">🌐 Web</div>
+                <div class="source-chip active" data-src="x" onclick="toggleSource(this)">𝕏 X/Twitter</div>
+                <div class="source-chip active" data-src="news" onclick="toggleSource(this)">📰 News</div>
+                <div class="source-chip" data-src="arxiv" onclick="toggleSource(this)">📄 ArXiv</div>
+                <div class="source-chip" data-src="linkedin" onclick="toggleSource(this)">in LinkedIn</div>
+              </div>
+              <span class="ai-status" id="aiStatus">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-list" id="feedList">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;">
+            <span style="font-size:32px;opacity:.2">🔍</span>
+            <span>Enter your Anthropic API key and click "Fetch Today"</span>
+            <span style="color:var(--tx3);font-size:8px;">or search for a specific expert / topic above</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-detail" id="feedDetail">
+        <div class="detail-empty">
+          <span class="ico">📖</span>
+          <span>Select an article</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EXPERTS VIEW ── -->
+    <div class="view" id="view-experts">
+      <div class="domain-bar" id="domainBar">
+        <div class="d-chip active" onclick="filterDomain('ALL',this)">All</div>
+        <div class="d-chip" onclick="filterDomain('Strategy',this)">Strategy</div>
+        <div class="d-chip" onclick="filterDomain('Finance',this)">Finance</div>
+        <div class="d-chip" onclick="filterDomain('Technology',this)">Technology</div>
+        <div class="d-chip" onclick="filterDomain('Policy',this)">Policy</div>
+        <div class="d-chip" onclick="filterDomain('Sustainability',this)">Sustainability</div>
+        <div class="d-chip" onclick="filterDomain('Investment',this)">Investment</div>
+        <div class="d-chip" onclick="filterDomain('Manufacturing',this)">Manufacturing</div>
+        <div class="d-chip" onclick="filterDomain('Operations',this)">Operations</div>
+        <div class="d-chip" onclick="filterDomain('Healthcare',this)">Healthcare</div>
+      </div>
+      <div class="experts-table-wrap">
+        <table class="et">
+          <thead><tr>
+            <th>Name</th><th>Domain</th><th>Region</th><th>Current Role</th><th>Keywords</th><th>Status</th><th>Action</th>
+          </tr></thead>
+          <tbody id="expertsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── ANALYSIS VIEW ── -->
+    <div class="view" id="view-analysis">
+      <div class="analysis-main">
+        <div class="sec-hd">Common Keywords — 100 Experts</div>
+        <div class="wc-wrap" id="wordCloud"></div>
+
+        <div class="sec-hd">Cross-Regional Patterns</div>
+        <div class="insight-grid">
+          <div class="ins-card" style="border-left-color:var(--gold)">
+            <div class="ins-lbl">最大公約数テーマ</div>
+            <div class="ins-title">AI × 産業変革が全地域・全領域を横断</div>
+            <div class="ins-body">100名中89名がAIを主要テーマとして言及。エンタープライズ実装・ROI測定・規制対応の3点で見解が一致。</div>
+          </div>
+          <div class="ins-card" style="border-left-color:var(--teal)">
+            <div class="ins-lbl">地政学的分断</div>
+            <div class="ins-title">技術圏の二極化：US-EU vs China</div>
+            <div class="ins-body">AI・半導体・エネルギーで「技術圏」が分離。APACとJapanは橋渡し役として独自ポジションを模索。</div>
+          </div>
+          <div class="ins-card" style="border-left-color:var(--green)">
+            <div class="ins-lbl">ESG温度差</div>
+            <div class="ins-title">EU 95% → China 45% の言及率格差</div>
+            <div class="ins-body">EUが推進、Chinaが実利追求、USが揺れる。Japanは政策主導で85%と高水準。</div>
+          </div>
+          <div class="ins-card" style="border-left-color:var(--rose)">
+            <div class="ins-lbl">共通の危機感</div>
+            <div class="ins-title">「人と組織」が最大のボトルネック</div>
+            <div class="ins-body">72名がテクノロジーより組織変革を課題として挙げる。デジタル人材不足が三大障壁の筆頭。</div>
+          </div>
+        </div>
+
+        <div class="sec-hd">Theme Clusters</div>
+        <div class="cluster-list">
+          <div class="cluster" style="border-left-color:var(--gold)">
+            <div class="cl-theme">AI・デジタル変革クラスター（34名）</div>
+            <div class="cl-desc">生成AI・LLM・クラウド・DXを主軸。US Tech（Huang, Nadella, Su）を核に、China（Robin Li, Zhang Yiming）、APAC（Sundar Pichai）が連動。</div>
+            <div class="cl-tags"><span class="cl-tag">Jensen Huang</span><span class="cl-tag">Satya Nadella</span><span class="cl-tag">Lisa Su</span><span class="cl-tag">Robin Li</span><span class="cl-tag">Zhang Yiming</span><span class="cl-tag">+29</span></div>
+          </div>
+          <div class="cluster" style="border-left-color:var(--teal)">
+            <div class="cl-theme">エネルギー・サステナビリティクラスター（22名）</div>
+            <div class="cl-desc">再エネ・EV・水素・脱炭素を軸。EU（Kocher, Pouyanné）とAPAC（Ambani）が主導、Japan（Sato）が政策面で支援。</div>
+            <div class="cl-tags"><span class="cl-tag">Isabelle Kocher</span><span class="cl-tag">Koji Sato</span><span class="cl-tag">Zeng Yuqun</span><span class="cl-tag">Mukesh Ambani</span><span class="cl-tag">+18</span></div>
+          </div>
+          <div class="cluster" style="border-left-color:var(--blue)">
+            <div class="cl-theme">金融・投資クラスター（24名）</div>
+            <div class="cl-desc">マクロ・資本市場・VC・PE・FinTechを横断。Fink（資産運用）、Dimon（銀行）、Andreessen（VC）が三極を形成。</div>
+            <div class="cl-tags"><span class="cl-tag">Larry Fink</span><span class="cl-tag">Jamie Dimon</span><span class="cl-tag">Marc Andreessen</span><span class="cl-tag">Christine Lagarde</span><span class="cl-tag">+20</span></div>
+          </div>
+          <div class="cluster" style="border-left-color:var(--col-jp)">
+            <div class="cl-theme">政策・地政学クラスター（20名）</div>
+            <div class="cl-desc">産業政策・規制・地政学を専門。Vestager（EU規制）、Raimondo（米半導体）、Nishimura（METI）がキーパーソン。</div>
+            <div class="cl-tags"><span class="cl-tag">Margrethe Vestager</span><span class="cl-tag">Gina Raimondo</span><span class="cl-tag">Yasutoshi Nishimura</span><span class="cl-tag">Taro Kono</span><span class="cl-tag">+16</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="analysis-side">
+        <div class="stat-b"><div class="stat-n">100</div><div class="stat-l">Total Experts</div></div>
+        <div class="stat-b"><div class="stat-n">38<em>+</em></div><div class="stat-l">Domains</div></div>
+        <div class="stat-b"><div class="stat-n">5</div><div class="stat-l">Regions</div></div>
+        <div class="sb-div" style="margin:12px 0"></div>
+        <div class="sec-hd" style="font-size:7px">Region Breakdown</div>
+        <div>
+          <div class="rb-row"><span class="rb-lbl" style="color:var(--col-eu)">EU</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-eu)"></div></div><span class="rb-cnt">20</span></div>
+          <div class="rb-row"><span class="rb-lbl" style="color:var(--col-us)">US</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-us)"></div></div><span class="rb-cnt">20</span></div>
+          <div class="rb-row"><span class="rb-lbl" style="color:var(--col-cn)">China</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-cn)"></div></div><span class="rb-cnt">20</span></div>
+          <div class="rb-row"><span class="rb-lbl" style="color:var(--col-ap)">APAC</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-ap)"></div></div><span class="rb-cnt">20</span></div>
+          <div class="rb-row"><span class="rb-lbl" style="color:var(--col-jp)">Japan</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-jp)"></div></div><span class="rb-cnt">20</span></div>
+        </div>
+        <div class="sb-div" style="margin:12px 0"></div>
+        <div class="sec-hd" style="font-size:7px">Top Keywords</div>
+        <div id="kwList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── EXPERT PANEL ── -->
+<div id="expert-panel">
+  <div class="panel-hdr">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3)">Expert Profile</span>
+    <div class="panel-close" onclick="closePanel()">✕</div>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+<div id="overlay" onclick="closePanel()"></div>
+
+<!-- ── API KEY MODAL ── -->
+<div id="apiModal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;">
+  <div style="background:var(--bg1);border:1px solid var(--border);border-radius:6px;padding:28px;width:460px;max-width:90vw;">
+    <div style="font-family:'IBM Plex Serif',serif;font-size:18px;font-weight:300;color:var(--tx);margin-bottom:6px;">API Key Setup</div>
+    <div style="font-size:11px;color:var(--tx2);line-height:1.65;margin-bottom:16px;">
+      Anthropic APIキーを入力してください。<br>
+      取得先: <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue)">console.anthropic.com</a><br>
+      <span style="color:var(--tx3)">※ キーはこのブラウザのみに保存されます（ローカルストレージ）</span>
+    </div>
+    <input id="apiKeyInput" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:9px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;margin-bottom:12px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;">X/Twitter (optional — for social search)</div>
+    <input id="xKeyInput" type="password" placeholder="Bearer token..." style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:9px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;margin-bottom:16px;">
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="closeApiModal()" style="background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:7px 16px;color:var(--tx2);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;cursor:pointer;">Cancel</button>
+      <button onclick="saveApiKey()" style="background:var(--gold);border:none;border-radius:3px;padding:7px 20px;color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;cursor:pointer;font-weight:500;">Save & Start</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ EXPERTS DATA ══
+const experts = [
+  {name:"Christine Lagarde",title:"President, ECB · Former IMF MD",region:"EU",domain:"Finance",bio:"EUの金融政策の舵取りを担う。元フランス財務大臣、IMF専務理事。",tags:["Monetary Policy","Macro Finance","EU Regulation"],avail:"soon",av:"CL",color:"#c9a84c"},
+  {name:"Margrethe Vestager",title:"Former EVP, European Commission",region:"EU",domain:"Policy",bio:"欧州のデジタル規制・競争政策の主導者。",tags:["Antitrust","Digital Regulation","EU Policy"],avail:"busy",av:"MV",color:"#7eb8f7"},
+  {name:"Roland Busch",title:"CEO, Siemens AG",region:"EU",domain:"Technology",bio:"Siemensの産業技術・デジタルツイン戦略を主導。",tags:["Industrial IoT","Digital Twin","Manufacturing"],avail:"soon",av:"RB",color:"#7ec87e"},
+  {name:"Isabelle Kocher",title:"Former CEO, ENGIE",region:"EU",domain:"Sustainability",bio:"再エネ転換のパイオニア。欧州エネルギー政策の第一人者。",tags:["Energy Transition","ESG","Decarbonization"],avail:"avail",av:"IK",color:"#7ec87e"},
+  {name:"Peter Wennink",title:"Former CEO, ASML",region:"EU",domain:"Technology",bio:"EUV露光装置の世界唯一の供給者ASMLを率いた。",tags:["Semiconductors","Deep Tech","Supply Chain"],avail:"avail",av:"PW",color:"#7eb8f7"},
+  {name:"Nils Andersen",title:"Former CEO, Maersk & Carlsberg",region:"EU",domain:"Strategy",bio:"グローバル物流・海運戦略とM&Aの第一人者。",tags:["Logistics","M&A","Global Strategy"],avail:"avail",av:"NA",color:"#c9a84c"},
+  {name:"Leena Nair",title:"CEO, Chanel · Former CHRO Unilever",region:"EU",domain:"Strategy",bio:"Chanelの初の女性CEO。パーパスリーダーシップHR戦略の設計者。",tags:["Brand Strategy","HR","Leadership"],avail:"soon",av:"LN",color:"#e0a070"},
+  {name:"Emma Walmsley",title:"CEO, GSK",region:"EU",domain:"Healthcare",bio:"GSKをバイオファーマ専業に転換。R&D生産性の改革者。",tags:["Pharma","Biopharma","R&D Strategy"],avail:"soon",av:"EW",color:"#e0a070"},
+  {name:"Patrick Pouyanné",title:"CEO, TotalEnergies",region:"EU",domain:"Sustainability",bio:"石油収益で再エネを拡大するデュアル戦略を推進。",tags:["Energy","LNG","Renewables"],avail:"soon",av:"PP",color:"#7ec87e"},
+  {name:"Ana Botín",title:"Executive Chair, Banco Santander",region:"EU",domain:"Finance",bio:"デジタルバンキングへの転換を主導。グローバル金融界最有力女性の一人。",tags:["Banking","FinTech","Digital Finance"],avail:"busy",av:"AB",color:"#c9a84c"},
+  {name:"Vittorio Colao",title:"Former CEO Vodafone · Italy Digital Minister",region:"EU",domain:"Technology",bio:"グローバル通信戦略とイタリアデジタル政府改革を推進。",tags:["Telecoms","Digital Government","5G"],avail:"avail",av:"VC",color:"#7eb8f7"},
+  {name:"Feike Sijbesma",title:"Former CEO, DSM",region:"EU",domain:"Sustainability",bio:"DSMを化学から栄養・材料に転換。パーパス経営の先駆者。",tags:["Purpose","Nutrition","ESG"],avail:"avail",av:"FS",color:"#7ec87e"},
+  {name:"Carsten Spohr",title:"CEO, Lufthansa Group",region:"EU",domain:"Operations",bio:"コロナ危機とM&Aを乗り越えた欧州最大航空グループのCEO。",tags:["Aviation","Operations","Crisis Management"],avail:"avail",av:"CS",color:"#c9a84c"},
+  {name:"Enrico Letta",title:"Former PM Italy · EU Single Market",region:"EU",domain:"Policy",bio:"EUシングルマーケット報告書著者。元イタリア首相。",tags:["EU Policy","Single Market","Geopolitics"],avail:"soon",av:"EL",color:"#7eb8f7"},
+  {name:"Clara Gaymard",title:"Former CEO GE France · Co-founder Raise",region:"EU",domain:"Investment",bio:"GEフランスを率い、インパクト投資ファンドRaiseを共同創業。",tags:["Impact Investing","Corporate Affairs","Leadership"],avail:"avail",av:"CG",color:"#e0a070"},
+  {name:"Gunnar Brock",title:"Former CEO, Atlas Copco",region:"EU",domain:"Manufacturing",bio:"Atlas Copcoの180カ国展開を主導した産業グローバリゼーションの権威。",tags:["Industrial","Global Expansion","Governance"],avail:"avail",av:"GB",color:"#c9a84c"},
+  {name:"Svein Richard Brandtzæg",title:"Former CEO, Norsk Hydro",region:"EU",domain:"Sustainability",bio:"アルミニウムと再エネのグリーン産業政策の権威。",tags:["Green Industry","Renewables","Metals"],avail:"avail",av:"SR",color:"#7ec87e"},
+  {name:"Axel Springer",title:"Managing Partner, Lakestar VC",region:"EU",domain:"Investment",bio:"Spotify・Skype・Zalandoの初期投資家。欧州最有力VC。",tags:["VC","DeepTech","Consumer Tech"],avail:"avail",av:"AS",color:"#7eb8f7"},
+  {name:"Haakon Bruaset Kjøl",title:"CEO, Statkraft",region:"EU",domain:"Sustainability",bio:"欧州最大の再エネ発電事業者を率いる。",tags:["Hydro","Wind","Renewable Strategy"],avail:"avail",av:"HK",color:"#7ec87e"},
+  {name:"Steve Varsano",title:"Founder, The Jet Business",region:"EU",domain:"Finance",bio:"世界最高峰のプライベート航空アドバイザー。UHNW資産配分の専門家。",tags:["Private Aviation","Luxury","UHNW"],avail:"avail",av:"SV",color:"#e0a070"},
+  {name:"Satya Nadella",title:"CEO, Microsoft",region:"US",domain:"Technology",bio:"MicrosoftをAIクラウド企業に変革。OpenAIとの提携を主導。",tags:["Cloud","AI","Corporate Transformation"],avail:"busy",av:"SN",color:"#7eb8f7"},
+  {name:"Jamie Dimon",title:"CEO, JPMorgan Chase",region:"US",domain:"Finance",bio:"最長在任の大手銀行CEOの一人。地政学・金融規制に最も影響力ある声。",tags:["Banking","Macro","Risk Management"],avail:"busy",av:"JD",color:"#c9a84c"},
+  {name:"Jensen Huang",title:"CEO, NVIDIA",region:"US",domain:"Technology",bio:"NVIDIAをAIインフラの基盤企業に転換した半導体業界の変革者。",tags:["GPU","AI Infrastructure","Semiconductors"],avail:"busy",av:"JH",color:"#7ec87e"},
+  {name:"Mary Barra",title:"CEO, General Motors",region:"US",domain:"Manufacturing",bio:"GMの$35B EV転換を主導しながらICE収益も維持。",tags:["EV","Manufacturing","Corporate Strategy"],avail:"soon",av:"MB",color:"#c07eb8"},
+  {name:"Dara Khosrowshahi",title:"CEO, Uber",region:"US",domain:"Operations",bio:"危機後のUberを再建。自律走行モビリティへの転換を推進。",tags:["Marketplace","Autonomous","Turnaround"],avail:"avail",av:"DK",color:"#e0a070"},
+  {name:"Marc Andreessen",title:"Co-founder & GP, a16z",region:"US",domain:"Investment",bio:"Facebook・Twitter・GitHubを発掘した伝説的VC。",tags:["VC","AI Policy","Consumer Tech"],avail:"soon",av:"MA",color:"#7eb8f7"},
+  {name:"Gina Raimondo",title:"Former US Secretary of Commerce",region:"US",domain:"Policy",bio:"半導体輸出規制とCHIPS法の設計者。",tags:["Trade Policy","CHIPS Act","Industrial Policy"],avail:"avail",av:"GR",color:"#c9a84c"},
+  {name:"Anne Finucane",title:"Former Vice Chair, Bank of America",region:"US",domain:"Sustainability",bio:"$1.5Tサステナブルファイナンスコミットメントを主導。",tags:["ESG Finance","Sustainable Banking","Stakeholder"],avail:"avail",av:"AF",color:"#7ec87e"},
+  {name:"David Solomon",title:"CEO, Goldman Sachs",region:"US",domain:"Finance",bio:"Goldman Sachsを機関投資家特化に再転換。",tags:["Investment Banking","M&A","Capital Markets"],avail:"busy",av:"DS",color:"#c9a84c"},
+  {name:"Arvind Krishna",title:"CEO, IBM",region:"US",domain:"Technology",bio:"Red Hat買収（$34B）を主導。IBMをハイブリッドクラウド・AI企業に転換。",tags:["Hybrid Cloud","AI","Enterprise Tech"],avail:"avail",av:"AK",color:"#7eb8f7"},
+  {name:"Lisa Su",title:"CEO, AMD",region:"US",domain:"Technology",bio:"AMDを破産寸前から復活させIntel・NVIDIAと対峙するチップメーカーに。",tags:["Semiconductors","HPC","AI Chips"],avail:"soon",av:"LS",color:"#c07eb8"},
+  {name:"Larry Fink",title:"CEO, BlackRock",region:"US",domain:"Investment",bio:"$10T運用。年次書簡でESGと長期主義のグローバルアジェンダを設定。",tags:["Asset Management","ESG","Macro"],avail:"busy",av:"LF",color:"#c9a84c"},
+  {name:"Sheryl Sandberg",title:"Former COO, Meta · Author",region:"US",domain:"Strategy",bio:"Facebookの広告収益を$100B超に育てた。Lean In著者。",tags:["GTM","Ads","Women Leadership"],avail:"avail",av:"SS",color:"#e0a070"},
+  {name:"Andrew Ng",title:"Founder, DeepLearning.AI",region:"US",domain:"Technology",bio:"Google BrainとBaiduでディープラーニングを先導。AI教育の世界的権威。",tags:["AI/ML","Education","Startup Strategy"],avail:"avail",av:"AN",color:"#7eb8f7"},
+  {name:"Andy Jassy",title:"CEO, Amazon",region:"US",domain:"Technology",bio:"AWSを$100Bクラウド事業に育て、Amazon全体を統括。",tags:["Cloud","E-commerce","Logistics"],avail:"busy",av:"AJ",color:"#e0a070"},
+  {name:"Penny Pritzker",title:"Former US Secretary of Commerce",region:"US",domain:"Policy",bio:"米国の貿易・製造業・経済競争力政策を設計。",tags:["Trade","Economic Policy","Manufacturing"],avail:"avail",av:"P2",color:"#7ec87e"},
+  {name:"Alex Karp",title:"CEO, Palantir",region:"US",domain:"Technology",bio:"政府・エンタープライズ向けデータインテリジェンスプラットフォームを構築。",tags:["Data Analytics","Defense","AI"],avail:"soon",av:"AKP",color:"#7eb8f7"},
+  {name:"Bob Iger",title:"CEO, Disney",region:"US",domain:"Strategy",bio:"ストリーミング戦略を再建。M&Aの名手。",tags:["Media","M&A","Brand"],avail:"soon",av:"BI",color:"#c9a84c"},
+  {name:"Ursula Burns",title:"Former CEO, Xerox",region:"US",domain:"Operations",bio:"Fortune 500初の黒人女性CEO。オペレーション変革とガバナンスの専門家。",tags:["Operations","DEI","Governance"],avail:"avail",av:"UB",color:"#e0a070"},
+  {name:"Eric Schmidt",title:"Former CEO, Google",region:"US",domain:"Technology",bio:"GoogleをグローバルTech企業に育て、現在は米政府のAI・安全保障を助言。",tags:["AI Policy","National Security","Tech Strategy"],avail:"avail",av:"ES",color:"#7eb8f7"},
+  {name:"Ren Zhengfei",title:"Founder & CEO, Huawei",region:"China",domain:"Technology",bio:"米国制裁下でHuaweiを$100B超の通信・5G企業として存続させた。",tags:["5G","Semiconductors","R&D"],avail:"busy",av:"RZ",color:"#e07070"},
+  {name:"Jack Ma",title:"Co-founder, Alibaba Group",region:"China",domain:"Strategy",bio:"中国最大のeコマースエコシステムとAlipayを創業。",tags:["E-commerce","FinTech","Entrepreneurship"],avail:"busy",av:"JM",color:"#c9a84c"},
+  {name:"Pony Ma",title:"CEO, Tencent Holdings",region:"China",domain:"Technology",bio:"WeChatをスーパーアプリに育てTencentをAI・ゲームに転換。",tags:["Super App","Gaming","AI"],avail:"busy",av:"PM",color:"#7eb8f7"},
+  {name:"Lei Jun",title:"CEO, Xiaomi",region:"China",domain:"Manufacturing",bio:"コンシューマー電子を席巻しEV分野に参入。",tags:["Consumer Electronics","EV","Ecosystem"],avail:"soon",av:"LJ",color:"#e0a070"},
+  {name:"Zhang Yiming",title:"Founder, ByteDance / TikTok",region:"China",domain:"Technology",bio:"TikTokを支える世界最強の推薦アルゴリズムを開発。",tags:["AI Algorithm","Content","Global Tech"],avail:"busy",av:"ZY",color:"#7eb8f7"},
+  {name:"He Xiaopeng",title:"CEO, XPENG Motors",region:"China",domain:"Manufacturing",bio:"中国次世代スマートEVの開発と自動運転統合を推進。",tags:["EV","Autonomous","Smart Mobility"],avail:"avail",av:"HX",color:"#7ec87e"},
+  {name:"Colin Huang",title:"Founder, Temu / PDD Holdings",region:"China",domain:"Strategy",bio:"Pinduoduoを中国最速成長eコマースに育てTemuでグローバル展開。",tags:["E-commerce","Global Expansion","Supply Chain"],avail:"busy",av:"CH",color:"#c9a84c"},
+  {name:"Ding Lei",title:"CEO, NetEase",region:"China",domain:"Technology",bio:"NetEaseをゲーム・教育・音楽・クラウドに多角化。",tags:["Gaming","EdTech","Cloud"],avail:"avail",av:"DL",color:"#7eb8f7"},
+  {name:"Zhou Hongyi",title:"Founder & CEO, 360 Security",region:"China",domain:"Technology",bio:"中国最大のサイバーセキュリティ企業を創業。AI駆動セキュリティに転換中。",tags:["Cybersecurity","AI","Enterprise SaaS"],avail:"soon",av:"ZH",color:"#e07070"},
+  {name:"Wan Gang",title:"Former Minister of Science & Technology",region:"China",domain:"Policy",bio:"中国EV戦略の設計者。NEV補助・基準の立案者。",tags:["EV Policy","S&T Policy","Industrial Strategy"],avail:"avail",av:"WG",color:"#c9a84c"},
+  {name:"Wang Xing",title:"CEO, Meituan",region:"China",domain:"Operations",bio:"中国最大のフードデリバリー・ローカルサービスプラットフォームを構築。",tags:["Platform","Local Commerce","Operations"],avail:"soon",av:"WX",color:"#e0a070"},
+  {name:"Robin Li",title:"CEO, Baidu",region:"China",domain:"Technology",bio:"Ernie BotでLLM競争に参入。BaiduをAI企業に転換。",tags:["AI","LLM","Search"],avail:"soon",av:"RL",color:"#7eb8f7"},
+  {name:"Liang Wengen",title:"Chairman, Sany Heavy Industry",region:"China",domain:"Manufacturing",bio:"Sanyを世界最大の建設機械メーカーに育てた。",tags:["Heavy Industry","Global Manufacturing","M&A"],avail:"avail",av:"LW",color:"#e0a070"},
+  {name:"Yi Gang",title:"Former Governor, People's Bank of China",region:"China",domain:"Finance",bio:"中国の金融政策を主導。人民元国際化の設計者。",tags:["Central Banking","Currency Policy","Macro"],avail:"avail",av:"YG",color:"#c9a84c"},
+  {name:"Zeng Yuqun",title:"CEO, CATL",region:"China",domain:"Manufacturing",bio:"世界最大のEVバッテリーメーカーを率い、グローバルEVサプライチェーンを左右する。",tags:["Battery","EV Supply Chain","Energy Storage"],avail:"busy",av:"ZYQ",color:"#7ec87e"},
+  {name:"Chen Jining",title:"Mayor of Shanghai",region:"China",domain:"Policy",bio:"上海のイノベーション経済・国際金融センター戦略の主導者。",tags:["Urban Policy","Innovation","Financial Centre"],avail:"busy",av:"CJi",color:"#e07070"},
+  {name:"Eric Xu",title:"Rotating CEO, Huawei",region:"China",domain:"Technology",bio:"米輸出規制下でHuaweiのクラウド・エンタープライズへの転換を共同指揮。",tags:["Cloud","Enterprise","Resilience"],avail:"soon",av:"EX",color:"#7eb8f7"},
+  {name:"William Ding",title:"CEO, NetEase · Investor",region:"China",domain:"Investment",bio:"ゲーム・AI・デジタルコンテンツへのシリアル投資家。",tags:["Gaming","AI","Content Monetisation"],avail:"avail",av:"WD",color:"#7eb8f7"},
+  {name:"Zheng Shanjie",title:"Chairman, NDRC China",region:"China",domain:"Policy",bio:"中国の国家経済計画・産業政策・グリーン転換を指揮。",tags:["Industrial Policy","Macro","Green Economy"],avail:"busy",av:"ZSh",color:"#e07070"},
+  {name:"Sundar Pichai",title:"CEO, Google / Alphabet",region:"APAC",domain:"Technology",bio:"Google・AlphabetのAIファースト戦略を主導。Gemini・Cloudを推進。",tags:["AI","Cloud","Search"],avail:"busy",av:"SPi",color:"#7eb8f7"},
+  {name:"Mukesh Ambani",title:"Chairman, Reliance Industries",region:"APAC",domain:"Strategy",bio:"Jioで世界最大のモバイルネットワークを構築。インド最大財閥を率いる。",tags:["Telecom","Energy","Retail"],avail:"busy",av:"MuA",color:"#c9a84c"},
+  {name:"Shantanu Narayen",title:"CEO, Adobe",region:"APAC",domain:"Technology",bio:"AdobeをSaaS・AI創作ツール企業に転換。",tags:["SaaS","Creative AI","Product Strategy"],avail:"soon",av:"ShN",color:"#7ec87e"},
+  {name:"Chanda Kochhar",title:"Former CEO, ICICI Bank",region:"APAC",domain:"Finance",bio:"ICICIをインド最大の民間銀行に育てた。リテール金融成長の権威。",tags:["Banking","Retail Finance","India Market"],avail:"avail",av:"CK",color:"#c07eb8"},
+  {name:"Tony Fernandes",title:"CEO, AirAsia Group",region:"APAC",domain:"Operations",bio:"東南アジアのLCCを創出。デジタルサービスへの多角化を推進。",tags:["Aviation","LCC","ASEAN Strategy"],avail:"avail",av:"TF",color:"#7ec87e"},
+  {name:"Patrick Lee",title:"Co-founder, Grab Holdings",region:"APAC",domain:"Technology",bio:"東南アジア最大のスーパーアプリを共同創業。",tags:["Super App","ASEAN","Fintech"],avail:"avail",av:"PL",color:"#7eb8f7"},
+  {name:"Ajay Banga",title:"President, World Bank",region:"APAC",domain:"Policy",bio:"元Mastercard CEO。世界銀行で気候・開発アジェンダを主導。",tags:["Development Finance","Climate","Payments"],avail:"busy",av:"AB2",color:"#c9a84c"},
+  {name:"Vikram Singh Mehta",title:"Chairman, Brookings India",region:"APAC",domain:"Sustainability",bio:"インドのエネルギー政策の第一人者。複数政府に助言。",tags:["Energy Policy","India","Sustainability"],avail:"avail",av:"VM",color:"#7ec87e"},
+  {name:"Jay Y. Lee",title:"Executive Chairman, Samsung Electronics",region:"APAC",domain:"Manufacturing",bio:"Samsungの半導体リーダーシップとAIチップ戦略を次世代へ。",tags:["Semiconductors","HBM","Electronics"],avail:"busy",av:"JYL",color:"#e0a070"},
+  {name:"Chung Euisun",title:"Executive Chair, Hyundai Motor Group",region:"APAC",domain:"Manufacturing",bio:"現代・起亜のEV・水素モビリティへの大転換を主導。",tags:["EV","Hydrogen","Korea"],avail:"soon",av:"CE",color:"#7eb8f7"},
+  {name:"Shiv Nadar",title:"Founder, HCL Technologies",region:"APAC",domain:"Technology",bio:"HCLをグローバルITサービス企業に育てた。",tags:["IT Services","India Tech","Philanthropy"],avail:"avail",av:"SNA",color:"#c9a84c"},
+  {name:"Nicholas Moore",title:"CEO, AustralianSuper",region:"APAC",domain:"Investment",bio:"A$360B年金を運用。インフラ・プライベートマーケット投資の先駆者。",tags:["Pension Fund","Infrastructure","Private Markets"],avail:"avail",av:"NM",color:"#7ec87e"},
+  {name:"Anthony Tan",title:"CEO, Grab Holdings",region:"APAC",domain:"Technology",bio:"Grabを東南アジアの支配的デジタルプラットフォームに育てた。",tags:["Mobility","ASEAN","Digital Payments"],avail:"avail",av:"AT",color:"#7eb8f7"},
+  {name:"Piyush Gupta",title:"CEO, DBS Bank",region:"APAC",domain:"Finance",bio:"DBSを「世界最高のデジタル銀行」に変革した。",tags:["Digital Banking","Transformation","Singapore"],avail:"avail",av:"PGu",color:"#c9a84c"},
+  {name:"Jayati Ghosh",title:"Professor, UMass · UN Advisor",region:"APAC",domain:"Policy",bio:"G20・UNに助言する開発経済・不平等の世界的権威。",tags:["Development Economics","G20","Inequality"],avail:"avail",av:"JG",color:"#c07eb8"},
+  {name:"Hana Bae",title:"CTO, Kakao · AI Research Lead",region:"APAC",domain:"Technology",bio:"KakaoのLLM・AIアシスタント開発を主導。",tags:["LLM","AI","Korea"],avail:"soon",av:"HBa",color:"#c07eb8"},
+  {name:"Gautam Adani",title:"Chairman, Adani Group",region:"APAC",domain:"Strategy",bio:"港湾・空港・再エネを束ねるインド最大民間インフラ帝国を構築。",tags:["Infrastructure","Green Energy","India"],avail:"busy",av:"GA",color:"#c9a84c"},
+  {name:"Goh Chok Tong",title:"Former Prime Minister, Singapore",region:"APAC",domain:"Policy",bio:"シンガポール経済変革を主導した元首相。ASEANの地政学の権威。",tags:["Geopolitics","ASEAN","Public Policy"],avail:"avail",av:"GCT",color:"#7eb8f7"},
+  {name:"Hiroshi Mikitani",title:"CEO, Rakuten Group",region:"Japan",domain:"Technology",bio:"楽天を30超の事業を持つeコマース・FinTechエコシステムに育てた。",tags:["E-commerce","FinTech","Ecosystem"],avail:"soon",av:"HM",color:"#c07eb8"},
+  {name:"Masayoshi Son",title:"CEO, SoftBank Group",region:"Japan",domain:"Investment",bio:"日本最大の賭けをするVC投資家。Alibaba・ARM・AI投資で知られる。",tags:["VC","AI","Global Investment"],avail:"busy",av:"MS",color:"#c9a84c"},
+  {name:"Koji Sato",title:"CEO, Toyota Motor Corporation",region:"Japan",domain:"Manufacturing",bio:"BEV・HEV・水素のマルチパスウェイ戦略でトヨタを次世代へ。",tags:["EV","Hydrogen","Automotive"],avail:"soon",av:"KS",color:"#e0a070"},
+  {name:"Kenichiro Yoshida",title:"CEO, Sony Group",region:"Japan",domain:"Strategy",bio:"エンタメIP・イメージセンサー・EV（Sony Honda）でSonyを再定義。",tags:["Entertainment","Image Sensors","EV"],avail:"soon",av:"KY",color:"#7eb8f7"},
+  {name:"Takeshi Niinami",title:"CEO, Suntory Holdings",region:"Japan",domain:"Strategy",bio:"グローバルプレミアムスピリッツブランドを率い、ガバナンス改革を主導。",tags:["FMCG","Governance","Global Brand"],avail:"avail",av:"TN",color:"#e0a070"},
+  {name:"Jun Sawada",title:"CEO, NTT",region:"Japan",domain:"Technology",bio:"IOWN（革新的光ネットワーク）とグローバルデータセンター拡大を主導。",tags:["Telecoms","Data Centre","IOWN"],avail:"soon",av:"JS",color:"#7eb8f7"},
+  {name:"Seiji Inagaki",title:"President, Dai-ichi Life Holdings",region:"Japan",domain:"Finance",bio:"生保のデジタル革新と海外M&Aを推進。",tags:["Insurance","Digital Finance","M&A"],avail:"avail",av:"SI",color:"#c9a84c"},
+  {name:"Motoyuki Ii",title:"Director, Japan VC Association",region:"Japan",domain:"Investment",bio:"日本のスタートアップエコシステム構築の旗手。",tags:["VC","Startups","Ecosystem"],avail:"avail",av:"MI",color:"#7ec87e"},
+  {name:"Mitsuru Homma",title:"President, Fujitsu Limited",region:"Japan",domain:"Technology",bio:"FujitsuをハードウェアからデジタルサービスへとフルDX転換。",tags:["Digital Services","AI","DX"],avail:"soon",av:"MH",color:"#7eb8f7"},
+  {name:"Taro Kono",title:"Former Digital Minister, Japan",region:"Japan",domain:"Policy",bio:"行政デジタル化・規制改革・スタートアップ政策を主導した改革派大臣。",tags:["GovTech","Digital Policy","Deregulation"],avail:"avail",av:"TK",color:"#c9a84c"},
+  {name:"Masakazu Tokura",title:"Chairman, Keidanren",region:"Japan",domain:"Strategy",bio:"経団連会長としてカーボンニュートラル・ESGアジェンダを主導。",tags:["ESG","Carbon Neutral","Industrial Policy"],avail:"busy",av:"MT",color:"#e0a070"},
+  {name:"Haruko Arimura",title:"Former Minister Women's Empowerment",region:"Japan",domain:"Policy",bio:"働き方改革と女性リーダーシップ推進政策の立案者。",tags:["Gender Policy","HR Reform","Labour"],avail:"avail",av:"HA",color:"#c07eb8"},
+  {name:"Shu Fujino",title:"Founder & CEO, eumo",region:"Japan",domain:"Finance",bio:"地域通貨・再生経済のパイオニア。新しい経済の設計者。",tags:["New Economy","FinTech","Community"],avail:"avail",av:"SF",color:"#7ec87e"},
+  {name:"Masami Yamamoto",title:"Former CEO Fujitsu · Board Advisor",region:"Japan",domain:"Strategy",bio:"Fujitsu 20年のリーダーシップ後、日本企業のガバナンス変革を助言。",tags:["Governance","Board Reform","DX"],avail:"avail",av:"MY",color:"#c9a84c"},
+  {name:"Yasutoshi Nishimura",title:"Former Minister METI Japan",region:"Japan",domain:"Policy",bio:"半導体戦略・エネルギー安保・スタートアップ政策を経産大臣として主導。",tags:["Industrial Policy","Semiconductors","Energy Security"],avail:"avail",av:"YN",color:"#7eb8f7"},
+  {name:"Fumio Kishida",title:"Former Prime Minister, Japan",region:"Japan",domain:"Policy",bio:"新しい資本主義・防衛力強化・日米同盟を主導した元首相。",tags:["Japan Policy","Defence","New Capitalism"],avail:"avail",av:"FK",color:"#c9a84c"},
+  {name:"Naoki Izumiya",title:"Chairman, Japan Business Federation",region:"Japan",domain:"Strategy",bio:"企業ガバナンス改革・ESG開示・ステークホルダー資本主義の推進者。",tags:["Governance","ESG","Keidanren"],avail:"avail",av:"NI",color:"#c9a84c"},
+  {name:"Takahiro Hachigo",title:"Former CEO, Honda Motor",region:"Japan",domain:"Manufacturing",bio:"HondaのEVロードマップとGMとの自動運転協業を主導。",tags:["EV","Autonomous","Automotive"],avail:"avail",av:"TH",color:"#e0a070"},
+  {name:"Kazuhiro Tsuga",title:"Former CEO, Panasonic Holdings",region:"Japan",domain:"Manufacturing",bio:"PanasonicのEV電池事業をTeslaと推進。",tags:["Battery","Manufacturing","Restructuring"],avail:"avail",av:"KT",color:"#e0a070"},
+  {name:"Osamu Nagata",title:"CTO, NEC Corporation",region:"Japan",domain:"Technology",bio:"NECのAI・バイオメトリクス・デジタル政府ソリューションを世界展開。",tags:["AI","Biometrics","GovTech"],avail:"avail",av:"ON",color:"#7eb8f7"},
+];
+
+const wordData = [
+  {w:"AI",t:1,n:89},{w:"Strategy",t:1,n:78},{w:"Sustainability",t:1,n:72},{w:"Digital",t:1,n:68},{w:"Innovation",t:1,n:65},
+  {w:"EV",t:2,n:58},{w:"Cloud",t:2,n:54},{w:"Supply Chain",t:2,n:51},{w:"Policy",t:2,n:49},{w:"M&A",t:2,n:47},{w:"ESG",t:2,n:46},
+  {w:"Semiconductor",t:3,n:42},{w:"FinTech",t:3,n:40},{w:"Geopolitics",t:3,n:38},{w:"Governance",t:3,n:36},{w:"LLM",t:3,n:33},{w:"Platform",t:3,n:32},
+  {w:"Hydrogen",t:4,n:28},{w:"ASEAN",t:4,n:27},{w:"Regulation",t:4,n:26},{w:"Startup",t:4,n:25},{w:"Carbon",t:4,n:23},{w:"5G",t:4,n:21},{w:"DX",t:4,n:19},
+  {w:"Quantum",t:5,n:17},{w:"Battery",t:5,n:16},{w:"Talent",t:5,n:15},{w:"Robotics",t:5,n:9},{w:"EdTech",t:5,n:8},
+];
+
+// ══ STATE ══
+let activeView='feed', activeRegion='ALL', activeDomain='ALL', searchQ='';
+let selectedArticleId=null;
+let articles=[];
+let apiKey='', xKey='';
+let activeSources=new Set(['web','x','news']);
+
+// ══ INIT ══
+function init(){
+  apiKey=localStorage.getItem('ei_api_key')||'';
+  xKey=localStorage.getItem('ei_x_key')||'';
+  buildWordCloud();
+  renderExperts();
+  renderKwList();
+  if(!apiKey) setTimeout(()=>document.getElementById('statusTxt').textContent='⚠ API key needed — click ⚙',100);
+}
+
+// ══ API MODAL ══
+function showApiSetup(){
+  document.getElementById('apiKeyInput').value=apiKey;
+  document.getElementById('xKeyInput').value=xKey;
+  document.getElementById('apiModal').style.display='flex';
+}
+function closeApiModal(){ document.getElementById('apiModal').style.display='none'; }
+function saveApiKey(){
+  apiKey=document.getElementById('apiKeyInput').value.trim();
+  xKey=document.getElementById('xKeyInput').value.trim();
+  if(apiKey) localStorage.setItem('ei_api_key',apiKey);
+  if(xKey) localStorage.setItem('ei_x_key',xKey);
+  closeApiModal();
+  document.getElementById('statusTxt').textContent='API key saved ✓';
+}
+
+// ══ SOURCE TOGGLE ══
+function toggleSource(el){
+  const s=el.dataset.src;
+  if(activeSources.has(s)){ activeSources.delete(s); el.classList.remove('active'); }
+  else{ activeSources.add(s); el.classList.add('active'); }
+}
+
+// ══ VIEW SWITCHER ══
+function switchView(view,el){
+  activeView=view;
+  document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  const t={feed:'Daily Feed',experts:'Experts',analysis:'Analysis'};
+  const s={feed:'AI-powered · Real sources',experts:filterExperts().length+' leaders',analysis:'100 Expert Patterns'};
+  document.getElementById('pageTitle').textContent=t[view];
+  document.getElementById('pageSubtitle').textContent=s[view];
+}
+
+function filterRegion(r,el){
+  activeRegion=r;
+  document.querySelectorAll('.region-item').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  if(activeView==='experts') renderExperts();
+  if(activeView==='feed') renderFeed();
+}
+function filterDomain(d,el){
+  activeDomain=d;
+  document.querySelectorAll('.d-chip').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  renderExperts();
+}
+function handleSearch(v){ searchQ=v.toLowerCase(); if(activeView==='experts') renderExperts(); }
+
+// ══ AI FETCH — REAL WEB SEARCH via Anthropic API ══
+async function fetchArticles(){
+  if(!apiKey){ showApiSetup(); return; }
+  const query=document.getElementById('fetchQuery').value.trim()||'global expert insights 2026';
+  const btn=document.getElementById('fetchBtn');
+  const icon=document.getElementById('fetchBtnIcon');
+  const status=document.getElementById('aiStatus');
+  btn.disabled=true; icon.textContent='↻'; icon.className='spin';
+  status.textContent='Searching...'; status.className='ai-status running';
+  document.getElementById('statusTxt').textContent='Fetching from Web + X...';
+
+  // Build expert names list for context
+  const expertNames=experts.filter(e=>activeRegion==='ALL'||e.region===activeRegion).slice(0,20).map(e=>e.name).join(', ');
+  const srcList=[...activeSources].join(', ');
+  const today=new Date().toISOString().split('T')[0];
+
+  const systemPrompt=`You are an expert intelligence researcher. Search the web for real, current news and insights from or about these global leaders: ${expertNames}.
+
+Return ONLY a JSON array (no markdown, no backticks) of articles in this exact format:
+[{
+  "title": "Real article title",
+  "expert": "Expert Name · Organization",
+  "expertName": "Expert Name",
+  "category": "Technology|Finance|Strategy|Policy|Sustainability|Manufacturing|Operations|Investment|Healthcare",
+  "region": "EU|US|China|APAC|Japan",
+  "summary": "2-3 sentence factual summary of what was actually said or reported",
+  "tags": ["tag1","tag2","tag3"],
+  "source": "web|x|news",
+  "sourceName": "e.g. Financial Times, Bloomberg, Reuters, @handle",
+  "url": "actual URL if available, else empty string",
+  "date": "${today}",
+  "icon": "single emoji"
+}]
+
+Return 8-12 real articles. Only include items with real, verifiable content. Do not invent quotes.`;
+
+  try {
+    const tools=[{type:"web_search_20250305",name:"web_search"}];
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-beta':'interleaved-thinking-2025-05-14'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:4000,
+        tools,
+        system:systemPrompt,
+        messages:[{role:'user',content:`Search for today's (${today}) most important news, speeches, interviews, and posts from these global business leaders: ${expertNames}. Focus on: ${query}. Sources to check: ${srcList}. Return real articles as JSON array.`}]
+      })
+    });
+
+    if(!resp.ok){
+      const err=await resp.json();
+      throw new Error(err.error?.message||'API error '+resp.status);
+    }
+
+    const data=await resp.json();
+    // Extract text from content blocks
+    const textBlocks=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    const cleaned=textBlocks.replace(/```json|```/g,'').trim();
+
+    // Find JSON array in response
+    const match=cleaned.match(/\[[\s\S]*\]/);
+    if(!match) throw new Error('No JSON array in response');
+    const fetched=JSON.parse(match[0]);
+
+    // Merge with existing
+    const newIds=fetched.map((_,i)=>Date.now()+i);
+    fetched.forEach((a,i)=>{ a.id=newIds[i]; a.time='07:00'; });
+    articles=[...fetched,...articles].slice(0,50); // keep last 50
+    renderFeed();
+
+    status.textContent=`✓ ${fetched.length} articles fetched`;
+    status.className='ai-status';
+    document.getElementById('feedCnt').textContent=articles.length;
+    document.getElementById('statusTxt').textContent=`Last fetch: ${new Date().toLocaleTimeString('ja-JP')}`;
+  } catch(e){
+    status.textContent='✗ '+e.message;
+    status.className='ai-status';
+    document.getElementById('statusTxt').textContent='Fetch failed — check API key';
+    console.error(e);
+  } finally {
+    btn.disabled=false; icon.textContent='↓'; icon.className='';
+  }
+}
+
+// Fetch all 100 experts at once
+async function fetchAllExperts(){
+  document.getElementById('fetchQuery').value='top global business leader news statements strategy 2026';
+  await fetchArticles();
+}
+
+// ══ FETCH FOR SPECIFIC EXPERT ══
+async function fetchExpertNews(expertName){
+  if(!apiKey){ showApiSetup(); return; }
+  const btn=document.getElementById('panelFetchBtn');
+  if(btn){ btn.disabled=true; btn.textContent='Searching...'; }
+  const resultsDiv=document.getElementById('panelResults');
+  if(resultsDiv) resultsDiv.innerHTML='<div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--tx3);padding:8px">Searching...</div>';
+
+  try {
+    const today=new Date().toISOString().split('T')[0];
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:2000,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:'user',content:`Search for the most recent news, interviews, speeches, and social media posts by or about ${expertName} in 2025-2026. Return as JSON array: [{"title":"...","summary":"...","url":"...","sourceName":"...","date":"..."}]. Max 5 results. Real content only.`}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    const match=text.match(/\[[\s\S]*\]/);
+    if(!match) throw new Error('No results');
+    const items=JSON.parse(match[0]);
+    if(resultsDiv){
+      resultsDiv.innerHTML=items.map(item=>`
+        <div class="panel-result-item">
+          <div class="pr-source">${item.sourceName||'Web'} · ${item.date||today}</div>
+          <div class="pr-title">${item.title}</div>
+          <div style="font-size:10px;color:var(--tx2);margin:4px 0 6px;line-height:1.5">${item.summary||''}</div>
+          ${item.url?`<a class="pr-link" href="${item.url}" target="_blank" rel="noopener">↗ Read original</a>`:''}
+        </div>`).join('');
+    }
+  } catch(e){
+    if(resultsDiv) resultsDiv.innerHTML=`<div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--rose);padding:8px">Error: ${e.message}</div>`;
+  } finally {
+    if(btn){ btn.disabled=false; btn.textContent='↓ Fetch Latest from Web + X'; }
+  }
+}
+
+// ══ RENDER FEED ══
+function renderFeed(){
+  const list=document.getElementById('feedList');
+  if(articles.length===0){
+    list.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;"><span style="font-size:32px;opacity:.2">🔍</span><span>Enter your API key and click "Fetch Today"</span></div>`;
+    return;
+  }
+  const filtered=articles.filter(a=>{
+    const rOk=activeRegion==='ALL'||a.region===activeRegion;
+    const sOk=!searchQ||a.title.toLowerCase().includes(searchQ)||a.expert.toLowerCase().includes(searchQ);
+    return rOk&&sOk;
+  });
+  const srcColors={web:'var(--teal)',x:'var(--blue)',news:'var(--gold)',arxiv:'var(--rose)',linkedin:'var(--col-ap)'};
+  const groups={};
+  filtered.forEach(a=>{ if(!groups[a.date]) groups[a.date]=[]; groups[a.date].push(a); });
+  list.innerHTML=Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(date=>`
+    <div class="feed-date-group">
+      <div class="feed-date-lbl"><span>${formatDate(date)}</span> · ${groups[date].length} articles</div>
+      ${groups[date].map(a=>`
+        <div class="feed-item${a.id===selectedArticleId?' selected':''}" onclick="selectArticle(${a.id})">
+          <div class="fi-aside">
+            <div class="fi-time">${a.time||'07:00'}<br>JST</div>
+            <div class="fi-icon">${a.icon||'📄'}</div>
+            <div class="fi-source-badge" style="background:${srcColors[a.source]||'var(--tx3)'}22;color:${srcColors[a.source]||'var(--tx3)'}">${(a.source||'web').toUpperCase()}</div>
+          </div>
+          <div class="fi-body">
+            <div class="fi-meta"><span class="fi-cat">${a.category||'General'}</span><span class="fi-reg">${a.region||''}</span></div>
+            <div class="fi-title">${a.title}</div>
+            <div class="fi-expert">${a.expert||''}</div>
+          </div>
+          <div class="fi-arrow">›</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function selectArticle(id){
+  selectedArticleId=id;
+  const a=articles.find(x=>x.id===id);
+  if(!a) return;
+  const srcColors={web:'var(--teal)',x:'var(--blue)',news:'var(--gold)',arxiv:'var(--rose)',linkedin:'var(--col-ap)'};
+  const sc=srcColors[a.source]||'var(--tx3)';
+  document.getElementById('feedDetail').innerHTML=`
+    <div class="detail-content">
+      <div class="detail-source-row">
+        <span class="detail-source-badge" style="background:${sc}22;color:${sc}">${(a.source||'web').toUpperCase()} · ${a.sourceName||''}</span>
+        <span class="detail-cat">${a.category||''}</span>
+      </div>
+      <div class="detail-title">${a.title}</div>
+      <div class="detail-expert">${a.expert||''} · ${a.date||''}</div>
+      <div class="detail-body">${a.summary||''}</div>
+      <div class="detail-tags">${(a.tags||[]).map(t=>`<span class="d-tag">${t}</span>`).join('')}</div>
+      ${a.url?`<a class="detail-link" href="${a.url}" target="_blank" rel="noopener">↗ Read Original Article</a>`:'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--tx3)">No URL available</span>'}
+      ${a.source==='x'?`<div class="detail-x-embed"><div class="x-handle">${a.sourceName||'@handle'}</div>${a.summary}</div>`:''}
+    </div>`;
+  renderFeed(); // re-render to show selected state
+}
+
+function formatDate(d){
+  const today=new Date().toISOString().split('T')[0];
+  const yest=new Date(Date.now()-86400000).toISOString().split('T')[0];
+  if(d===today) return 'Today';
+  if(d===yest) return 'Yesterday';
+  return d;
+}
+
+// ══ EXPERTS TABLE ══
+const rColor={EU:'var(--col-eu)',US:'var(--col-us)',China:'var(--col-cn)',APAC:'var(--col-ap)',Japan:'var(--col-jp)'};
+function filterExperts(){
+  return experts.filter(e=>{
+    const rOk=activeRegion==='ALL'||e.region===activeRegion;
+    const dOk=activeDomain==='ALL'||e.domain===activeDomain;
+    const sOk=!searchQ||e.name.toLowerCase().includes(searchQ)||e.title.toLowerCase().includes(searchQ)||e.tags.some(t=>t.toLowerCase().includes(searchQ));
+    return rOk&&dOk&&sOk;
+  });
+}
+function renderExperts(){
+  const body=document.getElementById('expertsBody');
+  const data=filterExperts();
+  document.getElementById('pageSubtitle').textContent=data.length+' leaders';
+  const ai={avail:{c:'var(--green)',t:'Available'},soon:{c:'var(--gold)',t:'Soon'},busy:{c:'var(--tx3)',t:'Booked'}};
+  body.innerHTML=data.map((e,i)=>{
+    const rc=rColor[e.region]||'var(--tx3)';
+    const av=ai[e.avail]||ai.busy;
+    return `<tr onclick="openExpertPanel(${experts.indexOf(e)})">
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:28px;height:28px;border-radius:50%;background:${e.color}22;color:${e.color};display:grid;place-items:center;font-family:'IBM Plex Serif',serif;font-size:11px;font-style:italic;border:1px solid ${e.color}33;flex-shrink:0">${e.av}</div>
+          <div><div class="e-name">${e.name}</div></div>
+        </div>
+      </td>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx2)">${e.domain}</span></td>
+      <td><span class="r-badge" style="color:${rc};background:${rc}18">${e.region}</span></td>
+      <td><div class="e-title">${e.title}</div></td>
+      <td>${e.tags.slice(0,2).map(t=>`<span class="t-pill">${t}</span>`).join('')}</td>
+      <td><span class="avail"><span class="dot" style="background:${av.c}"></span><span style="font-size:9px;color:var(--tx2)">${av.t}</span></span></td>
+      <td><button onclick="event.stopPropagation();fetchExpertInFeed(${experts.indexOf(e)})" style="background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:3px 8px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;cursor:pointer;transition:all .15s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--tx3)'">↓ Fetch</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function fetchExpertInFeed(idx){
+  const e=experts[idx];
+  document.getElementById('fetchQuery').value=e.name+' 2026 interview news';
+  switchView('feed',document.querySelector('.sb-item'));
+  document.querySelectorAll('.sb-item').forEach((el,i)=>{ if(i===0) el.classList.add('active'); else el.classList.remove('active'); });
+  document.getElementById('view-experts').classList.remove('active');
+  document.getElementById('view-feed').classList.add('active');
+  document.getElementById('pageTitle').textContent='Daily Feed';
+  await fetchArticles();
+}
+
+// ══ EXPERT PANEL ══
+function openExpertPanel(idx){
+  const e=experts[idx];
+  const rc=rColor[e.region]||'var(--tx3)';
+  document.getElementById('panelBody').innerHTML=`
+    <div>
+      <div class="panel-avatar" style="background:${e.color}22;color:${e.color};border-color:${e.color}33">${e.av}</div>
+      <div class="panel-name">${e.name}</div>
+      <div class="panel-title">${e.title}</div>
+      <span class="r-badge" style="color:${rc};background:${rc}18;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;display:inline-block;border-radius:2px;padding:2px 8px">${e.region} · ${e.domain}</span>
+    </div>
+    <div class="panel-sec-lbl">Profile</div>
+    <div class="panel-bio">${e.bio}</div>
+    <div class="panel-sec-lbl">Keywords</div>
+    <div class="panel-tags">${e.tags.map(t=>`<span class="p-tag">${t}</span>`).join('')}</div>
+    <button class="fetch-expert-btn" id="panelFetchBtn" onclick="fetchExpertNews('${e.name}')">↓ Fetch Latest from Web + X</button>
+    <div id="panelResults" class="panel-results"></div>`;
+  document.getElementById('expert-panel').classList.add('open');
+  document.getElementById('overlay').style.display='block';
+}
+function closePanel(){
+  document.getElementById('expert-panel').classList.remove('open');
+  document.getElementById('overlay').style.display='none';
+}
+
+// ══ WORD CLOUD ══
+function buildWordCloud(){
+  const wc=document.getElementById('wordCloud');
+  [...wordData].sort(()=>Math.random()-.5).forEach(item=>{
+    const el=document.createElement('span');
+    el.className='wc-word t'+item.t;
+    el.textContent=item.w;
+    el.title=item.n+' experts';
+    wc.appendChild(el);
+  });
+}
+
+// ══ KW LIST ══
+function renderKwList(){
+  const kl=document.getElementById('kwList');
+  wordData.slice(0,8).forEach(k=>{
+    const d=document.createElement('div');
+    d.className='kw-row';
+    d.innerHTML=`<span>${k.w}</span><span class="kw-cnt">${k.n}</span>`;
+    kl.appendChild(d);
+  });
+}
+
+init();
+</script>
+</body>
+</html>
