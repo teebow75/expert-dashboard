@@ -3,717 +3,704 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expert Intelligence — Personal Dashboard</title>
+<title>Expert Intelligence Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0e0e10; --bg1:#141416; --bg2:#1a1a1e; --bg3:#222228;
-  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
-  --gold:#c8a84b; --gold2:rgba(200,168,75,0.15); --gold3:rgba(200,168,75,0.07);
-  --tx:#e2ddd6; --tx2:#888880; --tx3:#444440;
-  --teal:#4ec9b0; --blue:#7eb8f7; --rose:#e07070; --green:#7ec87e;
-  --col-eu:#7eb8f7; --col-us:#e0a070; --col-cn:#e07070; --col-ap:#7ec87e; --col-jp:#c07eb8;
-  --sidebar:240px;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0b;
+  --surface:#111114;
+  --surface2:#18181c;
+  --border:#2a2a30;
+  --border2:#3a3a42;
+  --gold:#c9a84c;
+  --gold2:#e8c875;
+  --amber:#d4820a;
+  --text:#e8e8ea;
+  --text2:#9999a8;
+  --text3:#666672;
+  --teal:#2dd4bf;
+  --blue:#60a5fa;
+  --red:#f87171;
+  --green:#4ade80;
+  --accent:#7c3aed;
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:13px;display:flex;}
-::-webkit-scrollbar{width:3px;height:3px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
 
-#sidebar{width:var(--sidebar);min-width:var(--sidebar);background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
-.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;}
-.sb-logo-mark{width:20px;height:20px;border:1px solid var(--gold);display:grid;place-items:center;font-size:7px;color:var(--gold);font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
-.sb-logo-text{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx2);}
-.sb-logo-text em{color:var(--gold);font-style:normal;}
-.sb-sect{padding:12px 10px 4px;}
-.sb-sect-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx3);padding:0 6px;margin-bottom:3px;}
-.sb-item{display:flex;align-items:center;gap:8px;padding:6px;border-radius:4px;color:var(--tx2);cursor:pointer;transition:all .15s;border:1px solid transparent;user-select:none;margin-bottom:1px;}
-.sb-item:hover{background:var(--bg2);color:var(--tx);}
-.sb-item.active{background:var(--gold3);color:var(--gold);border-color:rgba(200,168,75,.2);}
-.sb-item .ico{font-size:13px;width:16px;text-align:center;flex-shrink:0;}
-.sb-item .lbl{font-size:12px;}
-.sb-item .cnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
-.sb-div{height:1px;background:var(--border);margin:6px 10px;}
-.region-item{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:4px;cursor:pointer;transition:background .15s;user-select:none;margin:0 10px 1px;}
-.region-item:hover{background:var(--bg2);}
-.region-item.active{background:var(--bg2);}
-.r-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.r-name{font-size:12px;color:var(--tx2);}
-.region-item.active .r-name{color:var(--tx);}
-.r-cnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
-.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--border);}
-.sb-status{display:flex;align-items:center;gap:6px;padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--tx3);}
-.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2.5s infinite;flex-shrink:0;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+/* TOP BAR */
+.topbar{display:flex;align-items:center;padding:0 20px;height:48px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-box{width:30px;height:30px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--gold);font-family:'DM Mono',monospace;flex-shrink:0}
+.logo-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--gold)}
+.logo-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--text3)}
+.topbar-divider{width:1px;height:24px;background:var(--border)}
+.nav-tabs{display:flex;gap:2px;flex:1}
+.nav-tab{padding:5px 14px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--text2);transition:all 0.15s;letter-spacing:0.02em;border:none;background:none;font-family:'Sora',sans-serif}
+.nav-tab:hover{color:var(--text);background:var(--surface2)}
+.nav-tab.active{color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2)}
+.status-pill{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);padding:4px 12px;border:1px solid var(--border);border-radius:20px}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
-#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
-#topbar{height:46px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:10px;flex-shrink:0;background:var(--bg1);}
-.page-title{font-family:'IBM Plex Serif',serif;font-size:15px;font-weight:300;color:var(--tx);}
-.topbar-sep{color:var(--tx3);font-size:11px;}
-.topbar-sub{font-size:11px;color:var(--tx2);}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.search-box{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:4px 9px;}
-.search-box input{background:none;border:none;outline:none;color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:12px;width:160px;}
-.search-box input::placeholder{color:var(--tx3);}
-.topbar-btn{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:5px 12px;color:var(--tx2);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;cursor:pointer;transition:all .15s;}
-.topbar-btn:hover{border-color:var(--border2);color:var(--tx);}
-.topbar-btn.gold{background:var(--gold3);border-color:rgba(200,168,75,.3);color:var(--gold);}
-.topbar-btn.gold:hover{background:var(--gold2);}
-.topbar-btn:disabled{opacity:.4;cursor:not-allowed;}
+/* LAYOUT */
+.main{display:flex;flex:1;overflow:hidden}
 
-#content{flex:1;display:flex;overflow:hidden;min-height:0;}
-.view{display:none;flex:1;overflow:hidden;}
-.view.active{display:flex;}
+/* LEFT SIDEBAR */
+.sidebar{width:220px;border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2)}
+.sidebar-section{padding:16px 0 8px}
+.sidebar-label{padding:0 16px 8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase}
+.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:7px 16px;cursor:pointer;transition:all 0.15s;border-left:2px solid transparent}
+.sidebar-item:hover{background:var(--surface2)}
+.sidebar-item.active{background:rgba(201,168,76,0.06);border-left-color:var(--gold)}
+.sidebar-item-left{display:flex;align-items:center;gap:10px;color:var(--text2);font-size:12px}
+.sidebar-item.active .sidebar-item-left{color:var(--text)}
+.sidebar-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)}
+.sidebar-item.active .sidebar-count{color:var(--gold)}
+.region-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sidebar-search{margin:8px 12px;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;font-family:'Sora',sans-serif;outline:none;width:calc(100% - 24px)}
+.sidebar-search:focus{border-color:var(--border2)}
+.sidebar-search::placeholder{color:var(--text3)}
+.sdiv{height:1px;background:var(--border);margin:2px 0}
+
+/* CENTER PANEL */
+.center{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+.panel-title{font-size:14px;font-weight:500;letter-spacing:0.02em}
+.panel-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);display:flex;align-items:center;gap:6px}
+.meta-arrow{color:var(--text3)}
+
+/* SEARCH BAR */
+.search-bar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--surface2);flex-shrink:0}
+.ai-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--teal);border:1px solid rgba(45,212,191,0.3);padding:3px 8px;border-radius:3px;white-space:nowrap}
+.search-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none;transition:border 0.2s;min-width:0}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--text3)}
+.fetch-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
+.fetch-btn:hover{background:var(--gold2)}
+.fetch-btn:disabled{opacity:0.5;cursor:not-allowed}
+.fetch-btn.loading{background:var(--amber)}
+.source-chips{display:flex;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;align-items:center;flex-wrap:wrap}
+.source-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--text2);cursor:pointer;transition:all 0.15s;user-select:none}
+.source-chip.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08)}
+.chip-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.source-chip-remove{color:var(--text3);margin-left:2px}
 
 /* FEED */
-#view-feed{flex-direction:row;}
-.feed-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
-.feed-detail{width:380px;border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;background:var(--bg1);}
+.feed{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.feed::-webkit-scrollbar{width:4px}
+.feed::-webkit-scrollbar-track{background:transparent}
+.feed::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px;color:var(--text3)}
+.empty-icon{font-size:36px;opacity:0.25;font-family:'DM Mono',monospace}
+.empty-label{font-size:12px;text-align:center;line-height:1.9}
+.feed-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:8px}
+.feed-card:hover{border-color:var(--border2);background:var(--surface2);transform:translateX(2px)}
+.feed-card.selected{border-color:var(--gold);background:rgba(201,168,76,0.04)}
+.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-source{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;border:1px solid;white-space:nowrap}
+.card-source.web{border-color:rgba(96,165,250,0.4);color:var(--blue)}
+.card-source.expert{border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.card-source.analysis{border-color:rgba(45,212,191,0.4);color:var(--teal)}
+.card-source.news{border-color:rgba(74,222,128,0.4);color:var(--green)}
+.card-region{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)}
+.card-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-left:auto}
+.card-title{font-size:12px;font-weight:500;line-height:1.5;color:var(--text)}
+.card-summary{font-size:11px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:var(--text3)}
 
-.ai-bar{padding:10px 16px;background:rgba(200,168,75,.04);border-bottom:1px solid rgba(200,168,75,.1);flex-shrink:0;}
-.ai-bar-row1{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.ai-bar-row2{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.ai-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
-.ai-input{flex:1;min-width:0;background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:5px 9px;color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:12px;outline:none;}
-.ai-input:focus{border-color:rgba(200,168,75,.4);}
-.ai-input::placeholder{color:var(--tx3);}
-.fetch-btn{background:var(--gold);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border:none;border-radius:3px;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
-.fetch-btn:hover{background:#d4b055;}
-.fetch-btn:disabled{background:var(--bg3);color:var(--tx3);cursor:not-allowed;}
-.src-chip{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;border:1px solid var(--border);color:var(--tx3);cursor:pointer;transition:all .15s;user-select:none;}
-.src-chip.active{border-color:rgba(200,168,75,.35);color:var(--gold);background:var(--gold3);}
-.ai-status{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);margin-left:auto;}
-.ai-status.ok{color:var(--green);}
-.ai-status.err{color:var(--rose);}
-.ai-status.run{color:var(--teal);}
-.spin{display:inline-block;animation:spin .7s linear infinite;}
+/* RIGHT DETAIL PANEL */
+.detail-panel{width:360px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--text3)}
+.detail-empty-icon{font-size:28px;opacity:0.18;font-family:'DM Mono',monospace}
+.detail-header{padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
+.detail-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.detail-title{font-family:'Playfair Display',serif;font-size:14px;line-height:1.55;color:var(--text)}
+.detail-body{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.detail-body::-webkit-scrollbar{width:3px}
+.detail-body::-webkit-scrollbar-thumb{background:var(--border2)}
+.detail-section-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
+.detail-text{font-size:12px;line-height:1.8;color:var(--text2)}
+.insight-box{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:12px}
+.insight-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px}
+.insight-text{font-size:12px;line-height:1.7;color:var(--text)}
+
+/* CONSULT AREA */
+.consult-input-area{padding:14px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.consult-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px}
+.consult-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:'Sora',sans-serif;font-size:11px;outline:none;resize:none;line-height:1.6;transition:border 0.2s}
+.consult-textarea:focus{border-color:var(--gold)}
+.consult-textarea::placeholder{color:var(--text3)}
+.consult-actions{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.consult-btn{padding:8px 16px;background:var(--gold);color:#0a0a0b;border:none;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;transition:all 0.2s;white-space:nowrap}
+.consult-btn:hover{background:var(--gold2)}
+.consult-btn:disabled{opacity:0.5;cursor:not-allowed}
+.consult-btn.loading{background:var(--amber)}
+.mode-btn{padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;cursor:pointer;font-family:'DM Mono',monospace;font-size:9px;color:var(--text2);transition:all 0.2s;white-space:nowrap}
+.mode-btn.active{border-color:var(--gold);color:var(--gold)}
+.mode-btn:hover{border-color:var(--border2);color:var(--text)}
+
+/* LOADING */
+.loading-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(10,10,11,0.3);border-top-color:#0a0a0b;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+.loading-spinner.light{border-color:rgba(201,168,76,0.2);border-top-color:var(--gold)}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-.feed-list{flex:1;overflow-y:auto;}
-.feed-date-lbl{position:sticky;top:0;z-index:10;background:var(--bg1);border-bottom:1px solid var(--border);padding:5px 16px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);display:flex;align-items:center;gap:10px;}
-.feed-date-lbl span{color:var(--tx2);}
-.feed-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:280px;gap:10px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
-
-.feed-item{display:grid;grid-template-columns:52px 1fr 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;}
-.feed-item:hover{background:var(--bg2);}
-.feed-item.selected{background:var(--gold3);border-left:2px solid var(--gold);}
-.fi-aside{padding:11px 4px 11px 14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.fi-time{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);text-align:center;line-height:1.3;}
-.fi-icon{font-size:15px;}
-.fi-src{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.08em;text-transform:uppercase;padding:1px 4px;border-radius:1px;}
-.fi-body{padding:11px 4px 11px 2px;min-width:0;}
-.fi-meta{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-.fi-cat{color:var(--gold);}
-.fi-reg{color:var(--tx3);}
-.fi-title{font-family:'IBM Plex Serif',serif;font-size:13px;font-weight:400;color:var(--tx);line-height:1.35;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.fi-expert{font-size:10px;color:var(--tx2);}
-.fi-arrow{display:flex;align-items:center;padding-right:8px;color:var(--tx3);font-size:11px;}
-
-.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
-.detail-content{padding:20px 18px;}
-.detail-src-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.detail-src{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;}
-.detail-cat{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
-.detail-title{font-family:'IBM Plex Serif',serif;font-size:20px;font-weight:300;line-height:1.2;color:var(--tx);margin-bottom:10px;}
-.detail-expert{font-size:11px;color:var(--tx2);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);}
-.detail-body{font-size:12px;line-height:1.8;color:var(--tx2);margin-bottom:16px;}
-.detail-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;}
-.d-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 7px;}
-.detail-link{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(200,168,75,.3);border-radius:3px;padding:7px 13px;transition:all .15s;}
-.detail-link:hover{background:var(--gold2);}
+.error-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(248,113,113,0.1);border-bottom:1px solid rgba(248,113,113,0.2);font-family:'DM Mono',monospace;font-size:10px;color:var(--red);flex-shrink:0}
+.response-stream{font-size:12px;line-height:1.8;color:var(--text);white-space:pre-wrap}
 
 /* EXPERTS */
-#view-experts{flex-direction:column;}
-.domain-bar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex-shrink:0;background:var(--bg1);}
-.d-chip{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2);border:1px solid var(--border);border-radius:2px;padding:3px 9px;cursor:pointer;transition:all .15s;user-select:none;}
-.d-chip:hover{border-color:var(--border2);color:var(--tx);}
-.d-chip.active{background:var(--gold3);color:var(--gold);border-color:rgba(200,168,75,.3);}
-.et-wrap{flex:1;overflow-y:auto;}
-table.et{width:100%;border-collapse:collapse;}
-table.et th{position:sticky;top:0;background:var(--bg1);border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);font-weight:400;padding:7px 10px;text-align:left;white-space:nowrap;}
-table.et td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
-table.et tr:hover td{background:var(--bg2);}
-table.et tr{cursor:pointer;transition:background .1s;}
-.e-name{font-family:'IBM Plex Serif',serif;font-size:13px;color:var(--tx);}
-.e-title{font-size:10px;color:var(--tx2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
-.r-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;padding:2px 6px;}
-.t-pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:1px 5px;margin:1px 2px;}
+.experts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px 20px;overflow-y:auto;flex:1}
+.expert-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all 0.2s}
+.expert-item:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-1px)}
+.expert-item.selected{border-color:var(--gold)}
+.expert-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;margin-bottom:8px;font-family:'DM Mono',monospace}
+.expert-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.expert-role{font-size:10px;color:var(--text2);margin-bottom:3px;line-height:1.4}
+.expert-org{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:6px}
 
 /* ANALYSIS */
-#view-analysis{flex-direction:row;}
-.analysis-main{flex:1;overflow-y:auto;padding:20px 24px;}
-.analysis-side{width:260px;border-left:1px solid var(--border);overflow-y:auto;padding:16px;flex-shrink:0;}
-.sec-hd{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx3);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.sec-hd::after{content:'';flex:1;height:1px;background:var(--border);}
-.wc-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:20px;margin-bottom:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px 12px;min-height:160px;}
-.wc-word{font-family:'IBM Plex Serif',serif;font-style:italic;color:var(--tx);cursor:pointer;line-height:1;transition:color .2s,transform .2s;user-select:none;}
-.wc-word:hover{color:var(--gold);transform:scale(1.07);}
-.wc-word.t1{font-size:44px;color:var(--gold);}
-.wc-word.t2{font-size:30px;opacity:.88;}
-.wc-word.t3{font-size:20px;opacity:.72;}
-.wc-word.t4{font-size:13px;opacity:.5;color:var(--tx2);}
-.wc-word.t5{font-size:10px;opacity:.35;color:var(--tx3);}
-.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.ins-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;border-left:3px solid;}
-.ins-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);margin-bottom:7px;}
-.ins-title{font-family:'IBM Plex Serif',serif;font-size:14px;font-weight:300;color:var(--tx);margin-bottom:7px;line-height:1.3;}
-.ins-body{font-size:11px;line-height:1.65;color:var(--tx2);}
-.cluster-list{display:flex;flex-direction:column;gap:8px;}
-.cluster{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:11px 13px;border-left:3px solid;}
-.cl-theme{font-family:'IBM Plex Serif',serif;font-size:13px;color:var(--tx);margin-bottom:4px;}
-.cl-desc{font-size:11px;color:var(--tx2);line-height:1.6;margin-bottom:7px;}
-.cl-tags{display:flex;flex-wrap:wrap;gap:4px;}
-.cl-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 6px;}
-.stat-b{margin-bottom:16px;}
-.stat-n{font-family:'IBM Plex Serif',serif;font-size:32px;font-weight:300;color:var(--tx);line-height:1;}
-.stat-n em{font-style:italic;color:var(--gold);font-size:22px;}
-.stat-l{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3);margin-top:2px;}
-.rb-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.rb-lbl{font-size:10px;color:var(--tx2);width:44px;flex-shrink:0;}
-.rb-track{flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;}
-.rb-fill{height:100%;border-radius:2px;}
-.rb-cnt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);width:20px;text-align:right;}
-.kw-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--tx2);}
-.kw-row:last-child{border-bottom:none;}
-.kw-cnt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);}
-
-/* EXPERT PANEL */
-#expert-panel{position:fixed;top:0;right:-420px;width:420px;height:100%;background:var(--bg1);border-left:1px solid var(--border);z-index:200;overflow-y:auto;transition:right .3s cubic-bezier(.16,1,.3,1);}
-#expert-panel.open{right:0;}
-.panel-hdr{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.panel-close{width:26px;height:26px;display:grid;place-items:center;color:var(--tx2);cursor:pointer;border-radius:3px;border:1px solid var(--border);font-size:12px;transition:all .15s;}
-.panel-close:hover{background:var(--bg2);color:var(--tx);}
-.panel-body{padding:16px;}
-.panel-av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:'IBM Plex Serif',serif;font-size:18px;font-weight:300;font-style:italic;border:1px solid var(--border);margin-bottom:10px;}
-.panel-name{font-family:'IBM Plex Serif',serif;font-size:20px;font-weight:300;color:var(--tx);margin-bottom:3px;}
-.panel-title-txt{font-size:11px;color:var(--tx2);line-height:1.4;margin-bottom:10px;}
-.p-sec{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin:14px 0 6px;}
-.p-bio{font-size:12px;line-height:1.7;color:var(--tx2);}
-.p-tags{display:flex;flex-wrap:wrap;gap:4px;}
-.p-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--tx3);background:var(--bg3);border-radius:2px;padding:2px 7px;}
-.fetch-exp-btn{width:100%;margin-top:14px;padding:9px;background:var(--gold3);border:1px solid rgba(200,168,75,.3);border-radius:3px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
-.fetch-exp-btn:hover{background:var(--gold2);}
-.fetch-exp-btn:disabled{background:var(--bg3);color:var(--tx3);cursor:not-allowed;border-color:var(--border);}
-.panel-results{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
-.pr-item{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px 12px;}
-.pr-src{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
-.pr-title{font-size:11px;color:var(--tx);line-height:1.4;margin-bottom:4px;}
-.pr-sum{font-size:10px;color:var(--tx2);line-height:1.5;margin-bottom:5px;}
-.pr-link{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--blue);text-decoration:none;}
-.pr-link:hover{text-decoration:underline;}
-#overlay{display:none;position:fixed;inset:0;z-index:199;}
+.analysis-wrap{flex:1;overflow-y:auto;padding:16px 20px}
+.analysis-wrap::-webkit-scrollbar{width:4px}
+.analysis-wrap::-webkit-scrollbar-thumb{background:var(--border2)}
+.framework-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.framework-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
 </style>
 </head>
 <body>
 
-<div id="sidebar">
-  <div class="sb-logo">
-    <div class="sb-logo-mark">EI</div>
-    <span class="sb-logo-text">Expert <em>Intelligence</em></span>
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-box">EI</div>
+    <div>
+      <div class="logo-text">EXPERT <span style="color:var(--text)">INTELLIGENCE</span></div>
+      <div class="logo-sub">Global Expert Network · Alphasight · GLG · Atheneum</div>
+    </div>
   </div>
-  <div class="sb-sect">
-    <div class="sb-sect-lbl">Views</div>
-    <div class="sb-item active" onclick="switchView('feed',this)"><span class="ico">📰</span><span class="lbl">Daily Feed</span><span class="cnt" id="feedCnt">0</span></div>
-    <div class="sb-item" onclick="switchView('experts',this)"><span class="ico">👥</span><span class="lbl">Experts</span><span class="cnt">100</span></div>
-    <div class="sb-item" onclick="switchView('analysis',this)"><span class="ico">🧠</span><span class="lbl">Analysis</span></div>
+  <div class="topbar-divider"></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('feed')">Daily Feed</button>
+    <button class="nav-tab" onclick="switchView('experts')">Experts</button>
+    <button class="nav-tab" onclick="switchView('analysis')">Analysis</button>
   </div>
-  <div class="sb-div"></div>
-  <div class="sb-sect"><div class="sb-sect-lbl">Regions</div></div>
-  <div class="region-item active" onclick="filterRegion('ALL',this)"><span class="r-dot" style="background:var(--gold)"></span><span class="r-name">All Regions</span><span class="r-cnt">100</span></div>
-  <div class="region-item" onclick="filterRegion('EU',this)"><span class="r-dot" style="background:var(--col-eu)"></span><span class="r-name">Europe</span><span class="r-cnt">20</span></div>
-  <div class="region-item" onclick="filterRegion('US',this)"><span class="r-dot" style="background:var(--col-us)"></span><span class="r-name">United States</span><span class="r-cnt">20</span></div>
-  <div class="region-item" onclick="filterRegion('China',this)"><span class="r-dot" style="background:var(--col-cn)"></span><span class="r-name">China</span><span class="r-cnt">20</span></div>
-  <div class="region-item" onclick="filterRegion('APAC',this)"><span class="r-dot" style="background:var(--col-ap)"></span><span class="r-name">APAC</span><span class="r-cnt">20</span></div>
-  <div class="region-item" onclick="filterRegion('Japan',this)"><span class="r-dot" style="background:var(--col-jp)"></span><span class="r-name">Japan</span><span class="r-cnt">20</span></div>
-  <div class="sb-bottom">
-    <div class="sb-status"><span class="live-dot"></span><span id="statusTxt">Ready</span></div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    <span id="status-text">READY</span>
   </div>
 </div>
 
-<div id="main">
-  <div id="topbar">
-    <span class="page-title" id="pageTitle">Daily Feed</span>
-    <span class="topbar-sep">—</span>
-    <span class="topbar-sub" id="pageSubtitle">AI-powered · Real sources</span>
-    <div class="topbar-right">
-      <div class="search-box">
-        <span style="color:var(--tx3);font-size:11px">⌕</span>
-        <input type="text" placeholder="Search..." oninput="handleSearch(this.value)">
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div style="padding:10px 12px">
+      <input class="sidebar-search" id="sideSearch" placeholder="Search..." oninput="sidebarFilter()">
+    </div>
+    <div class="sdiv"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">VIEWS</div>
+      <div class="sidebar-item active" id="sv-feed" onclick="switchView('feed')">
+        <div class="sidebar-item-left"><span>▤</span> Daily Feed</div>
+        <span class="sidebar-count" id="feed-count">—</span>
       </div>
-      <button class="topbar-btn gold" id="fetchAllBtn" onclick="fetchAll()">↓ Fetch Today</button>
+      <div class="sidebar-item" id="sv-experts" onclick="switchView('experts')">
+        <div class="sidebar-item-left"><span>◈</span> Experts</div>
+        <span class="sidebar-count">108</span>
+      </div>
+      <div class="sidebar-item" id="sv-analysis" onclick="switchView('analysis')">
+        <div class="sidebar-item-left"><span>◎</span> Analysis</div>
+        <span class="sidebar-count"></span>
+      </div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">REGIONS</div>
+      <div class="sidebar-item active" id="rg-All" onclick="setRegion('All')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:var(--gold)"></div>All Regions</div>
+        <span class="sidebar-count">108</span>
+      </div>
+      <div class="sidebar-item" id="rg-Europe" onclick="setRegion('Europe')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:var(--blue)"></div>Europe</div>
+        <span class="sidebar-count">28</span>
+      </div>
+      <div class="sidebar-item" id="rg-United States" onclick="setRegion('United States')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:var(--green)"></div>United States</div>
+        <span class="sidebar-count">35</span>
+      </div>
+      <div class="sidebar-item" id="rg-China" onclick="setRegion('China')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:var(--red)"></div>China</div>
+        <span class="sidebar-count">20</span>
+      </div>
+      <div class="sidebar-item" id="rg-APAC" onclick="setRegion('APAC')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:#e879f9"></div>APAC</div>
+        <span class="sidebar-count">18</span>
+      </div>
+      <div class="sidebar-item" id="rg-Japan" onclick="setRegion('Japan')">
+        <div class="sidebar-item-left"><div class="region-dot" style="background:#fb923c"></div>Japan</div>
+        <span class="sidebar-count">7</span>
+      </div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">DOMAINS</div>
+      <div class="sidebar-item" onclick="setDomain('AI & Technology')"><div class="sidebar-item-left"><span style="color:var(--blue)">◆</span> AI & Technology</div><span class="sidebar-count">24</span></div>
+      <div class="sidebar-item" onclick="setDomain('Finance')"><div class="sidebar-item-left"><span style="color:var(--green)">◆</span> Finance & Markets</div><span class="sidebar-count">31</span></div>
+      <div class="sidebar-item" onclick="setDomain('Healthcare')"><div class="sidebar-item-left"><span style="color:var(--red)">◆</span> Healthcare</div><span class="sidebar-count">19</span></div>
+      <div class="sidebar-item" onclick="setDomain('Strategy')"><div class="sidebar-item-left"><span style="color:var(--teal)">◆</span> Strategy & Ops</div><span class="sidebar-count">22</span></div>
+      <div class="sidebar-item" onclick="setDomain('Policy')"><div class="sidebar-item-left"><span style="color:#e879f9">◆</span> Policy & Regulation</div><span class="sidebar-count">12</span></div>
+    </div>
+    <div style="margin-top:auto;padding:10px 16px;border-top:1px solid var(--border)">
+      <div id="bottom-status" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)">● System Ready</div>
     </div>
   </div>
 
-  <div id="content">
+  <!-- CENTER -->
+  <div class="center">
 
-    <!-- FEED -->
-    <div class="view active" id="view-feed">
-      <div class="feed-col">
-        <div class="ai-bar">
-          <div class="ai-bar-row1">
-            <span class="ai-label">AI Search</span>
-            <input class="ai-input" id="fetchQuery" placeholder="例: Jensen Huang AI 2026, 孫正義 投資戦略" value="top global expert insights AI strategy geopolitics 2026">
-            <button class="fetch-btn" id="fetchBtn" onclick="fetchArticles()">
-              <span id="fetchIcon">↓</span> Fetch
-            </button>
-          </div>
-          <div class="ai-bar-row2">
-            <span class="ai-label" style="font-size:7px">Sources</span>
-            <div class="src-chip active" data-src="web" onclick="toggleSrc(this)">🌐 Web</div>
-            <div class="src-chip active" data-src="news" onclick="toggleSrc(this)">📰 News</div>
-            <div class="src-chip" data-src="x" onclick="toggleSrc(this)">𝕏 X</div>
-            <span class="ai-status" id="aiStatus"></span>
-          </div>
-        </div>
-        <div class="feed-list" id="feedList">
-          <div class="feed-empty">
-            <span style="font-size:28px;opacity:.2">🔍</span>
-            <span>「Fetch Today」をクリックして記事を取得</span>
-          </div>
+    <!-- FEED VIEW -->
+    <div id="view-feed" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+      <div class="panel-header">
+        <div class="panel-title">Daily Feed</div>
+        <div class="panel-meta">
+          <span id="leader-count">—</span>
+          <span class="meta-arrow">→</span>
+          <span id="current-filter">All Regions</span>
         </div>
       </div>
-      <div class="feed-detail" id="feedDetail">
-        <div class="detail-empty"><span style="font-size:24px;opacity:.2">📖</span><span>Select an article</span></div>
+      <div class="search-bar">
+        <span class="ai-tag">AI SEARCH</span>
+        <input class="search-input" id="searchQuery" value="top global business leaders AI strategy geopolitics 2026" placeholder="Search query...">
+        <button class="fetch-btn" id="fetchBtn" onclick="fetchFeed()">
+          <span id="fetch-icon">↓</span><span id="fetch-label">FETCH TODAY</span>
+        </button>
+      </div>
+      <div class="source-chips">
+        <div class="source-chip active" onclick="toggleChip(this)"><div class="chip-dot"></div>WEB</div>
+        <div class="source-chip active" onclick="toggleChip(this)"><div class="chip-dot"></div>NEWS</div>
+        <div class="source-chip" onclick="toggleChip(this)"><div class="chip-dot"></div>EXPERT</div>
+        <div class="source-chip" onclick="toggleChip(this)"><div class="chip-dot"></div>ANALYSIS</div>
+      </div>
+      <div id="error-container"></div>
+      <div class="feed" id="feedList">
+        <div class="empty-state">
+          <div class="empty-icon">◉</div>
+          <div class="empty-label">「FETCH TODAY」をクリックして記事を取得<br><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;opacity:0.5">POWERED BY CLAUDE AI</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- EXPERTS -->
-    <div class="view" id="view-experts">
-      <div class="domain-bar">
-        <div class="d-chip active" onclick="filterDomain('ALL',this)">All</div>
-        <div class="d-chip" onclick="filterDomain('Strategy',this)">Strategy</div>
-        <div class="d-chip" onclick="filterDomain('Finance',this)">Finance</div>
-        <div class="d-chip" onclick="filterDomain('Technology',this)">Technology</div>
-        <div class="d-chip" onclick="filterDomain('Policy',this)">Policy</div>
-        <div class="d-chip" onclick="filterDomain('Sustainability',this)">Sustainability</div>
-        <div class="d-chip" onclick="filterDomain('Investment',this)">Investment</div>
-        <div class="d-chip" onclick="filterDomain('Manufacturing',this)">Manufacturing</div>
-        <div class="d-chip" onclick="filterDomain('Operations',this)">Operations</div>
-        <div class="d-chip" onclick="filterDomain('Healthcare',this)">Healthcare</div>
+    <!-- EXPERTS VIEW -->
+    <div id="view-experts" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+      <div class="panel-header">
+        <div class="panel-title">Expert Network</div>
+        <div class="panel-meta"><span>108 experts</span><span class="meta-arrow">→</span><span>Alphasight · GLG · Atheneum</span></div>
       </div>
-      <div class="et-wrap">
-        <table class="et"><thead><tr>
-          <th>Name</th><th>Domain</th><th>Region</th><th>Current Role</th><th>Keywords</th><th>Action</th>
-        </tr></thead><tbody id="expertsBody"></tbody></table>
-      </div>
+      <div class="experts-grid" id="expertGrid"></div>
     </div>
 
-    <!-- ANALYSIS -->
-    <div class="view" id="view-analysis">
-      <div class="analysis-main">
-        <div class="sec-hd">Common Keywords — 100 Experts</div>
-        <div class="wc-wrap" id="wordCloud"></div>
-        <div class="sec-hd">Cross-Regional Patterns</div>
-        <div class="insight-grid">
-          <div class="ins-card" style="border-left-color:var(--gold)"><div class="ins-lbl">最大公約数テーマ</div><div class="ins-title">AI × 産業変革が全地域・全領域を横断</div><div class="ins-body">100名中89名がAIを主要テーマとして言及。エンタープライズ実装・ROI測定・規制対応の3点で見解が一致。</div></div>
-          <div class="ins-card" style="border-left-color:var(--teal)"><div class="ins-lbl">地政学的分断</div><div class="ins-title">技術圏の二極化：US-EU vs China</div><div class="ins-body">AI・半導体・エネルギーで「技術圏」が分離。APACとJapanは橋渡し役として独自ポジションを模索。</div></div>
-          <div class="ins-card" style="border-left-color:var(--green)"><div class="ins-lbl">ESG温度差</div><div class="ins-title">EU 95% → China 45% の言及率格差</div><div class="ins-body">EUが推進、Chinaが実利追求、USが揺れる。Japanは政策主導で85%と高水準。</div></div>
-          <div class="ins-card" style="border-left-color:var(--rose)"><div class="ins-lbl">共通の危機感</div><div class="ins-title">「人と組織」が最大のボトルネック</div><div class="ins-body">72名がテクノロジーより組織変革を課題として挙げる。デジタル人材不足が三大障壁の筆頭。</div></div>
-        </div>
-        <div class="sec-hd">Theme Clusters</div>
-        <div class="cluster-list">
-          <div class="cluster" style="border-left-color:var(--gold)"><div class="cl-theme">AI・デジタル変革クラスター（34名）</div><div class="cl-desc">生成AI・LLM・クラウド・DXを主軸。US Tech（Huang, Nadella, Su）を核に、China（Robin Li, Zhang Yiming）、APAC（Sundar Pichai）が連動。</div><div class="cl-tags"><span class="cl-tag">Jensen Huang</span><span class="cl-tag">Satya Nadella</span><span class="cl-tag">Lisa Su</span><span class="cl-tag">Robin Li</span><span class="cl-tag">+30</span></div></div>
-          <div class="cluster" style="border-left-color:var(--teal)"><div class="cl-theme">エネルギー・サステナビリティクラスター（22名）</div><div class="cl-desc">再エネ・EV・水素・脱炭素を軸。EU（Kocher, Pouyanné）とAPAC（Ambani）が主導、Japan（Sato）が政策面で支援。</div><div class="cl-tags"><span class="cl-tag">Isabelle Kocher</span><span class="cl-tag">Koji Sato</span><span class="cl-tag">Zeng Yuqun</span><span class="cl-tag">+19</span></div></div>
-          <div class="cluster" style="border-left-color:var(--blue)"><div class="cl-theme">金融・投資クラスター（24名）</div><div class="cl-desc">マクロ・資本市場・VC・PE・FinTechを横断。Fink（資産運用）、Dimon（銀行）、Andreessen（VC）が三極を形成。</div><div class="cl-tags"><span class="cl-tag">Larry Fink</span><span class="cl-tag">Jamie Dimon</span><span class="cl-tag">Marc Andreessen</span><span class="cl-tag">+21</span></div></div>
-          <div class="cluster" style="border-left-color:var(--col-jp)"><div class="cl-theme">政策・地政学クラスター（20名）</div><div class="cl-desc">産業政策・規制・地政学を専門。Vestager（EU規制）、Raimondo（米半導体）、Nishimura（METI）がキーパーソン。</div><div class="cl-tags"><span class="cl-tag">Margrethe Vestager</span><span class="cl-tag">Gina Raimondo</span><span class="cl-tag">Yasutoshi Nishimura</span><span class="cl-tag">+17</span></div></div>
+    <!-- ANALYSIS VIEW -->
+    <div id="view-analysis" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+      <div class="panel-header">
+        <div class="panel-title">Strategic Analysis</div>
+        <div class="panel-meta"><span>AI-Powered</span><span class="meta-arrow">→</span><span>On-Demand</span></div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.7">業務課題やビジネス相談を入力してください。世界のフレームワークと専門家の知見を基にAIが解決策を提示します。</div>
+        <textarea id="analysisQuery" class="consult-textarea" rows="3" placeholder="例: 新興市場への参入戦略、競合分析、DX推進の課題、M&A検討..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="consult-btn" id="analyzeBtn" onclick="runAnalysis()">◈ ANALYZE</button>
+          <button class="mode-btn" id="am-framework" onclick="setAnalysisMode('framework',this)">Framework</button>
+          <button class="mode-btn active" id="am-strategy" onclick="setAnalysisMode('strategy',this)">Strategy</button>
+          <button class="mode-btn" id="am-expert" onclick="setAnalysisMode('expert',this)">Expert Panel</button>
+          <button class="mode-btn" id="am-action" onclick="setAnalysisMode('action',this)">Action Plan</button>
         </div>
       </div>
-      <div class="analysis-side">
-        <div class="stat-b"><div class="stat-n">100</div><div class="stat-l">Total Experts</div></div>
-        <div class="stat-b"><div class="stat-n">38<em>+</em></div><div class="stat-l">Domains</div></div>
-        <div class="stat-b"><div class="stat-n">5</div><div class="stat-l">Regions</div></div>
-        <div class="sb-div" style="margin:12px 0"></div>
-        <div class="sec-hd" style="font-size:7px">Region Breakdown</div>
-        <div class="rb-row"><span class="rb-lbl" style="color:var(--col-eu)">EU</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-eu)"></div></div><span class="rb-cnt">20</span></div>
-        <div class="rb-row"><span class="rb-lbl" style="color:var(--col-us)">US</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-us)"></div></div><span class="rb-cnt">20</span></div>
-        <div class="rb-row"><span class="rb-lbl" style="color:var(--col-cn)">China</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-cn)"></div></div><span class="rb-cnt">20</span></div>
-        <div class="rb-row"><span class="rb-lbl" style="color:var(--col-ap)">APAC</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-ap)"></div></div><span class="rb-cnt">20</span></div>
-        <div class="rb-row"><span class="rb-lbl" style="color:var(--col-jp)">Japan</span><div class="rb-track"><div class="rb-fill" style="width:20%;background:var(--col-jp)"></div></div><span class="rb-cnt">20</span></div>
-        <div class="sb-div" style="margin:12px 0"></div>
-        <div class="sec-hd" style="font-size:7px">Top Keywords</div>
-        <div id="kwList"></div>
+      <div class="analysis-wrap" id="analysisOutput">
+        <div style="text-align:center;color:var(--text3);margin-top:50px">
+          <div style="font-size:24px;opacity:0.2;margin-bottom:12px">◎</div>
+          <div style="font-size:11px">分析クエリを入力してANALYZEを実行してください</div>
+        </div>
       </div>
     </div>
 
   </div>
+
+  <!-- RIGHT DETAIL PANEL -->
+  <div class="detail-panel">
+    <div id="detail-empty" class="detail-empty" style="flex:1">
+      <div class="detail-empty-icon">◫</div>
+      <div style="font-size:11px;text-align:center;line-height:1.9;color:var(--text3)">SELECT AN ARTICLE<br><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;opacity:0.5">OR CONSULT BELOW</span></div>
+    </div>
+    <div id="detail-content" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+      <div class="detail-header">
+        <div class="detail-meta-row" id="detail-meta"></div>
+        <div class="detail-title" id="detail-title"></div>
+      </div>
+      <div class="detail-body" id="detail-body"></div>
+    </div>
+    <div class="consult-input-area">
+      <div class="consult-label">◈ CONSULT AI EXPERT</div>
+      <textarea class="consult-textarea" id="consultQuery" rows="2" placeholder="記事について質問、または業務課題を相談..."></textarea>
+      <div class="consult-actions">
+        <button class="mode-btn active" id="cm-brief" onclick="setConsultMode('brief',this)">Brief</button>
+        <button class="mode-btn" id="cm-deep" onclick="setConsultMode('deep',this)">Deep Dive</button>
+        <button class="mode-btn" id="cm-action" onclick="setConsultMode('action',this)">Action Plan</button>
+        <button class="consult-btn" id="consultBtn" onclick="runConsult()" style="margin-left:auto">↗ ASK</button>
+      </div>
+    </div>
+  </div>
+
 </div>
-
-<div id="expert-panel">
-  <div class="panel-hdr">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3)">Expert Profile</span>
-    <div class="panel-close" onclick="closePanel()">✕</div>
-  </div>
-  <div class="panel-body" id="panelBody"></div>
-</div>
-<div id="overlay" onclick="closePanel()"></div>
 
 <script>
-const experts = [
-  {name:"Christine Lagarde",title:"President, ECB",region:"EU",domain:"Finance",bio:"EUの金融政策の舵取りを担う。元フランス財務大臣、IMF専務理事。",tags:["Monetary Policy","Macro Finance","EU Regulation"],av:"CL",color:"#c9a84c"},
-  {name:"Margrethe Vestager",title:"Former EVP, European Commission",region:"EU",domain:"Policy",bio:"欧州のデジタル規制・競争政策の主導者。",tags:["Antitrust","Digital Regulation","EU Policy"],av:"MV",color:"#7eb8f7"},
-  {name:"Roland Busch",title:"CEO, Siemens AG",region:"EU",domain:"Technology",bio:"Siemensの産業技術・デジタルツイン戦略を主導。",tags:["Industrial IoT","Digital Twin","Manufacturing"],av:"RB",color:"#7ec87e"},
-  {name:"Isabelle Kocher",title:"Former CEO, ENGIE",region:"EU",domain:"Sustainability",bio:"再エネ転換のパイオニア。欧州エネルギー政策の第一人者。",tags:["Energy Transition","ESG","Decarbonization"],av:"IK",color:"#7ec87e"},
-  {name:"Peter Wennink",title:"Former CEO, ASML",region:"EU",domain:"Technology",bio:"EUV露光装置の世界唯一の供給者ASMLを率いた。",tags:["Semiconductors","Deep Tech","Supply Chain"],av:"PW",color:"#7eb8f7"},
-  {name:"Nils Andersen",title:"Former CEO, Maersk & Carlsberg",region:"EU",domain:"Strategy",bio:"グローバル物流・海運戦略とM&Aの第一人者。",tags:["Logistics","M&A","Global Strategy"],av:"NA",color:"#c9a84c"},
-  {name:"Leena Nair",title:"CEO, Chanel",region:"EU",domain:"Strategy",bio:"Chanelの初の女性CEO。パーパスリーダーシップHR戦略の設計者。",tags:["Brand Strategy","HR","Leadership"],av:"LN",color:"#e0a070"},
-  {name:"Emma Walmsley",title:"CEO, GSK",region:"EU",domain:"Healthcare",bio:"GSKをバイオファーマ専業に転換。R&D生産性の改革者。",tags:["Pharma","Biopharma","R&D Strategy"],av:"EW",color:"#e0a070"},
-  {name:"Patrick Pouyanné",title:"CEO, TotalEnergies",region:"EU",domain:"Sustainability",bio:"石油収益で再エネを拡大するデュアル戦略を推進。",tags:["Energy","LNG","Renewables"],av:"PP",color:"#7ec87e"},
-  {name:"Ana Botín",title:"Executive Chair, Banco Santander",region:"EU",domain:"Finance",bio:"デジタルバンキングへの転換を主導。グローバル金融界最有力女性の一人。",tags:["Banking","FinTech","Digital Finance"],av:"AB",color:"#c9a84c"},
-  {name:"Vittorio Colao",title:"Former CEO Vodafone",region:"EU",domain:"Technology",bio:"グローバル通信戦略とイタリアデジタル政府改革を推進。",tags:["Telecoms","Digital Government","5G"],av:"VC",color:"#7eb8f7"},
-  {name:"Feike Sijbesma",title:"Former CEO, DSM",region:"EU",domain:"Sustainability",bio:"DSMを化学から栄養・材料に転換。パーパス経営の先駆者。",tags:["Purpose","Nutrition","ESG"],av:"FS",color:"#7ec87e"},
-  {name:"Carsten Spohr",title:"CEO, Lufthansa Group",region:"EU",domain:"Operations",bio:"コロナ危機とM&Aを乗り越えた欧州最大航空グループのCEO。",tags:["Aviation","Operations","Crisis Management"],av:"CS",color:"#c9a84c"},
-  {name:"Enrico Letta",title:"Former PM, Italy",region:"EU",domain:"Policy",bio:"EUシングルマーケット報告書著者。元イタリア首相。",tags:["EU Policy","Single Market","Geopolitics"],av:"EL",color:"#7eb8f7"},
-  {name:"Clara Gaymard",title:"Former CEO GE France",region:"EU",domain:"Investment",bio:"GEフランスを率い、インパクト投資ファンドRaiseを共同創業。",tags:["Impact Investing","Corporate Affairs","Leadership"],av:"CG",color:"#e0a070"},
-  {name:"Gunnar Brock",title:"Former CEO, Atlas Copco",region:"EU",domain:"Manufacturing",bio:"Atlas Copcoの180カ国展開を主導した産業グローバリゼーションの権威。",tags:["Industrial","Global Expansion","Governance"],av:"GB",color:"#c9a84c"},
-  {name:"Svein Richard Brandtzæg",title:"Former CEO, Norsk Hydro",region:"EU",domain:"Sustainability",bio:"アルミニウムと再エネのグリーン産業政策の権威。",tags:["Green Industry","Renewables","Metals"],av:"SR",color:"#7ec87e"},
-  {name:"Axel Springer",title:"Managing Partner, Lakestar VC",region:"EU",domain:"Investment",bio:"Spotify・Skype・Zalandoの初期投資家。欧州最有力VC。",tags:["VC","DeepTech","Consumer Tech"],av:"AS",color:"#7eb8f7"},
-  {name:"Haakon Bruaset Kjøl",title:"CEO, Statkraft",region:"EU",domain:"Sustainability",bio:"欧州最大の再エネ発電事業者を率いる。",tags:["Hydro","Wind","Renewable Strategy"],av:"HK",color:"#7ec87e"},
-  {name:"Steve Varsano",title:"Founder, The Jet Business",region:"EU",domain:"Finance",bio:"世界最高峰のプライベート航空アドバイザー。",tags:["Private Aviation","Luxury","UHNW"],av:"SV",color:"#e0a070"},
-  {name:"Satya Nadella",title:"CEO, Microsoft",region:"US",domain:"Technology",bio:"MicrosoftをAIクラウド企業に変革。OpenAIとの提携を主導。",tags:["Cloud","AI","Corporate Transformation"],av:"SN",color:"#7eb8f7"},
-  {name:"Jamie Dimon",title:"CEO, JPMorgan Chase",region:"US",domain:"Finance",bio:"最長在任の大手銀行CEOの一人。地政学・金融規制に最も影響力ある声。",tags:["Banking","Macro","Risk Management"],av:"JD",color:"#c9a84c"},
-  {name:"Jensen Huang",title:"CEO, NVIDIA",region:"US",domain:"Technology",bio:"NVIDIAをAIインフラの基盤企業に転換した半導体業界の変革者。",tags:["GPU","AI Infrastructure","Semiconductors"],av:"JH",color:"#7ec87e"},
-  {name:"Mary Barra",title:"CEO, General Motors",region:"US",domain:"Manufacturing",bio:"GMの$35B EV転換を主導しながらICE収益も維持。",tags:["EV","Manufacturing","Corporate Strategy"],av:"MB",color:"#c07eb8"},
-  {name:"Dara Khosrowshahi",title:"CEO, Uber",region:"US",domain:"Operations",bio:"危機後のUberを再建。自律走行モビリティへの転換を推進。",tags:["Marketplace","Autonomous","Turnaround"],av:"DK",color:"#e0a070"},
-  {name:"Marc Andreessen",title:"Co-founder & GP, a16z",region:"US",domain:"Investment",bio:"Facebook・Twitter・GitHubを発掘した伝説的VC。",tags:["VC","AI Policy","Consumer Tech"],av:"MA",color:"#7eb8f7"},
-  {name:"Gina Raimondo",title:"Former US Secretary of Commerce",region:"US",domain:"Policy",bio:"半導体輸出規制とCHIPS法の設計者。",tags:["Trade Policy","CHIPS Act","Industrial Policy"],av:"GR",color:"#c9a84c"},
-  {name:"Anne Finucane",title:"Former Vice Chair, Bank of America",region:"US",domain:"Sustainability",bio:"$1.5Tサステナブルファイナンスコミットメントを主導。",tags:["ESG Finance","Sustainable Banking","Stakeholder"],av:"AF",color:"#7ec87e"},
-  {name:"David Solomon",title:"CEO, Goldman Sachs",region:"US",domain:"Finance",bio:"Goldman Sachsを機関投資家特化に再転換。",tags:["Investment Banking","M&A","Capital Markets"],av:"DS",color:"#c9a84c"},
-  {name:"Arvind Krishna",title:"CEO, IBM",region:"US",domain:"Technology",bio:"Red Hat買収（$34B）を主導。IBMをハイブリッドクラウド・AI企業に転換。",tags:["Hybrid Cloud","AI","Enterprise Tech"],av:"AK",color:"#7eb8f7"},
-  {name:"Lisa Su",title:"CEO, AMD",region:"US",domain:"Technology",bio:"AMDを破産寸前から復活させIntel・NVIDIAと対峙。",tags:["Semiconductors","HPC","AI Chips"],av:"LS",color:"#c07eb8"},
-  {name:"Larry Fink",title:"CEO, BlackRock",region:"US",domain:"Investment",bio:"$10T運用。ESGと長期主義のグローバルアジェンダを設定。",tags:["Asset Management","ESG","Macro"],av:"LF",color:"#c9a84c"},
-  {name:"Sheryl Sandberg",title:"Former COO, Meta",region:"US",domain:"Strategy",bio:"Facebookの広告収益を$100B超に育てた。Lean In著者。",tags:["GTM","Ads","Women Leadership"],av:"SS",color:"#e0a070"},
-  {name:"Andrew Ng",title:"Founder, DeepLearning.AI",region:"US",domain:"Technology",bio:"AI教育の世界的権威。Google Brain・Baiduで先導。",tags:["AI/ML","Education","Startup Strategy"],av:"AN",color:"#7eb8f7"},
-  {name:"Andy Jassy",title:"CEO, Amazon",region:"US",domain:"Technology",bio:"AWSを$100Bクラウド事業に育て、Amazon全体を統括。",tags:["Cloud","E-commerce","Logistics"],av:"AJ",color:"#e0a070"},
-  {name:"Penny Pritzker",title:"Former US Secretary of Commerce",region:"US",domain:"Policy",bio:"米国の貿易・製造業・経済競争力政策を設計。",tags:["Trade","Economic Policy","Manufacturing"],av:"P2",color:"#7ec87e"},
-  {name:"Alex Karp",title:"CEO, Palantir",region:"US",domain:"Technology",bio:"政府・エンタープライズ向けデータインテリジェンスプラットフォームを構築。",tags:["Data Analytics","Defense","AI"],av:"AKP",color:"#7eb8f7"},
-  {name:"Bob Iger",title:"CEO, Disney",region:"US",domain:"Strategy",bio:"ストリーミング戦略を再建。M&Aの名手。",tags:["Media","M&A","Brand"],av:"BI",color:"#c9a84c"},
-  {name:"Ursula Burns",title:"Former CEO, Xerox",region:"US",domain:"Operations",bio:"Fortune 500初の黒人女性CEO。オペレーション変革の専門家。",tags:["Operations","DEI","Governance"],av:"UB",color:"#e0a070"},
-  {name:"Eric Schmidt",title:"Former CEO, Google",region:"US",domain:"Technology",bio:"GoogleをグローバルTech企業に育て、現在は米政府のAI・安全保障を助言。",tags:["AI Policy","National Security","Tech Strategy"],av:"ES",color:"#7eb8f7"},
-  {name:"Ren Zhengfei",title:"Founder & CEO, Huawei",region:"China",domain:"Technology",bio:"米国制裁下でHuaweiを$100B超の通信・5G企業として存続させた。",tags:["5G","Semiconductors","R&D"],av:"RZ",color:"#e07070"},
-  {name:"Jack Ma",title:"Co-founder, Alibaba Group",region:"China",domain:"Strategy",bio:"中国最大のeコマースエコシステムとAlipayを創業。",tags:["E-commerce","FinTech","Entrepreneurship"],av:"JM",color:"#c9a84c"},
-  {name:"Pony Ma",title:"CEO, Tencent Holdings",region:"China",domain:"Technology",bio:"WeChatをスーパーアプリに育てTencentをAI・ゲームに転換。",tags:["Super App","Gaming","AI"],av:"PM",color:"#7eb8f7"},
-  {name:"Lei Jun",title:"CEO, Xiaomi",region:"China",domain:"Manufacturing",bio:"コンシューマー電子を席巻しEV分野に参入。",tags:["Consumer Electronics","EV","Ecosystem"],av:"LJ",color:"#e0a070"},
-  {name:"Zhang Yiming",title:"Founder, ByteDance",region:"China",domain:"Technology",bio:"TikTokを支える世界最強の推薦アルゴリズムを開発。",tags:["AI Algorithm","Content","Global Tech"],av:"ZY",color:"#7eb8f7"},
-  {name:"He Xiaopeng",title:"CEO, XPENG Motors",region:"China",domain:"Manufacturing",bio:"中国次世代スマートEVの開発と自動運転統合を推進。",tags:["EV","Autonomous","Smart Mobility"],av:"HX",color:"#7ec87e"},
-  {name:"Colin Huang",title:"Founder, Temu / PDD Holdings",region:"China",domain:"Strategy",bio:"Pinduoduoを中国最速成長eコマースに育てTemuでグローバル展開。",tags:["E-commerce","Global Expansion","Supply Chain"],av:"CH",color:"#c9a84c"},
-  {name:"Ding Lei",title:"CEO, NetEase",region:"China",domain:"Technology",bio:"NetEaseをゲーム・教育・音楽・クラウドに多角化。",tags:["Gaming","EdTech","Cloud"],av:"DL",color:"#7eb8f7"},
-  {name:"Zhou Hongyi",title:"Founder & CEO, 360 Security",region:"China",domain:"Technology",bio:"中国最大のサイバーセキュリティ企業を創業。",tags:["Cybersecurity","AI","Enterprise SaaS"],av:"ZH",color:"#e07070"},
-  {name:"Wan Gang",title:"Former Minister of Science & Technology",region:"China",domain:"Policy",bio:"中国EV戦略の設計者。NEV補助・基準の立案者。",tags:["EV Policy","S&T Policy","Industrial Strategy"],av:"WG",color:"#c9a84c"},
-  {name:"Wang Xing",title:"CEO, Meituan",region:"China",domain:"Operations",bio:"中国最大のフードデリバリー・ローカルサービスプラットフォームを構築。",tags:["Platform","Local Commerce","Operations"],av:"WX",color:"#e0a070"},
-  {name:"Robin Li",title:"CEO, Baidu",region:"China",domain:"Technology",bio:"Ernie BotでLLM競争に参入。BaiduをAI企業に転換。",tags:["AI","LLM","Search"],av:"RL",color:"#7eb8f7"},
-  {name:"Liang Wengen",title:"Chairman, Sany Heavy Industry",region:"China",domain:"Manufacturing",bio:"Sanyを世界最大の建設機械メーカーに育てた。",tags:["Heavy Industry","Global Manufacturing","M&A"],av:"LW",color:"#e0a070"},
-  {name:"Yi Gang",title:"Former Governor, People's Bank of China",region:"China",domain:"Finance",bio:"中国の金融政策を主導。人民元国際化の設計者。",tags:["Central Banking","Currency Policy","Macro"],av:"YG",color:"#c9a84c"},
-  {name:"Zeng Yuqun",title:"CEO, CATL",region:"China",domain:"Manufacturing",bio:"世界最大のEVバッテリーメーカーを率いる。",tags:["Battery","EV Supply Chain","Energy Storage"],av:"ZYQ",color:"#7ec87e"},
-  {name:"Chen Jining",title:"Mayor of Shanghai",region:"China",domain:"Policy",bio:"上海のイノベーション経済・国際金融センター戦略の主導者。",tags:["Urban Policy","Innovation","Financial Centre"],av:"CJi",color:"#e07070"},
-  {name:"Eric Xu",title:"Rotating CEO, Huawei",region:"China",domain:"Technology",bio:"米輸出規制下でHuaweiのクラウド・エンタープライズへの転換を共同指揮。",tags:["Cloud","Enterprise","Resilience"],av:"EX",color:"#7eb8f7"},
-  {name:"William Ding",title:"CEO, NetEase · Investor",region:"China",domain:"Investment",bio:"ゲーム・AI・デジタルコンテンツへのシリアル投資家。",tags:["Gaming","AI","Content Monetisation"],av:"WD",color:"#7eb8f7"},
-  {name:"Zheng Shanjie",title:"Chairman, NDRC China",region:"China",domain:"Policy",bio:"中国の国家経済計画・産業政策・グリーン転換を指揮。",tags:["Industrial Policy","Macro","Green Economy"],av:"ZSh",color:"#e07070"},
-  {name:"Sundar Pichai",title:"CEO, Google / Alphabet",region:"APAC",domain:"Technology",bio:"Google・AlphabetのAIファースト戦略を主導。",tags:["AI","Cloud","Search"],av:"SPi",color:"#7eb8f7"},
-  {name:"Mukesh Ambani",title:"Chairman, Reliance Industries",region:"APAC",domain:"Strategy",bio:"Jioで世界最大のモバイルネットワークを構築。",tags:["Telecom","Energy","Retail"],av:"MuA",color:"#c9a84c"},
-  {name:"Shantanu Narayen",title:"CEO, Adobe",region:"APAC",domain:"Technology",bio:"AdobeをSaaS・AI創作ツール企業に転換。",tags:["SaaS","Creative AI","Product Strategy"],av:"ShN",color:"#7ec87e"},
-  {name:"Chanda Kochhar",title:"Former CEO, ICICI Bank",region:"APAC",domain:"Finance",bio:"ICICIをインド最大の民間銀行に育てた。",tags:["Banking","Retail Finance","India Market"],av:"CK",color:"#c07eb8"},
-  {name:"Tony Fernandes",title:"CEO, AirAsia Group",region:"APAC",domain:"Operations",bio:"東南アジアのLCCを創出。デジタルサービスへの多角化を推進。",tags:["Aviation","LCC","ASEAN Strategy"],av:"TF",color:"#7ec87e"},
-  {name:"Patrick Lee",title:"Co-founder, Grab Holdings",region:"APAC",domain:"Technology",bio:"東南アジア最大のスーパーアプリを共同創業。",tags:["Super App","ASEAN","Fintech"],av:"PL",color:"#7eb8f7"},
-  {name:"Ajay Banga",title:"President, World Bank",region:"APAC",domain:"Policy",bio:"元Mastercard CEO。世界銀行で気候・開発アジェンダを主導。",tags:["Development Finance","Climate","Payments"],av:"AB2",color:"#c9a84c"},
-  {name:"Vikram Singh Mehta",title:"Chairman, Brookings India",region:"APAC",domain:"Sustainability",bio:"インドのエネルギー政策の第一人者。",tags:["Energy Policy","India","Sustainability"],av:"VM",color:"#7ec87e"},
-  {name:"Jay Y. Lee",title:"Executive Chairman, Samsung Electronics",region:"APAC",domain:"Manufacturing",bio:"Samsungの半導体リーダーシップとAIチップ戦略を次世代へ。",tags:["Semiconductors","HBM","Electronics"],av:"JYL",color:"#e0a070"},
-  {name:"Chung Euisun",title:"Executive Chair, Hyundai Motor Group",region:"APAC",domain:"Manufacturing",bio:"現代・起亜のEV・水素モビリティへの大転換を主導。",tags:["EV","Hydrogen","Korea"],av:"CE",color:"#7eb8f7"},
-  {name:"Shiv Nadar",title:"Founder, HCL Technologies",region:"APAC",domain:"Technology",bio:"HCLをグローバルITサービス企業に育てた。",tags:["IT Services","India Tech","Philanthropy"],av:"SNA",color:"#c9a84c"},
-  {name:"Nicholas Moore",title:"CEO, AustralianSuper",region:"APAC",domain:"Investment",bio:"A$360B年金を運用。インフラ・プライベートマーケット投資の先駆者。",tags:["Pension Fund","Infrastructure","Private Markets"],av:"NM",color:"#7ec87e"},
-  {name:"Anthony Tan",title:"CEO, Grab Holdings",region:"APAC",domain:"Technology",bio:"Grabを東南アジアの支配的デジタルプラットフォームに育てた。",tags:["Mobility","ASEAN","Digital Payments"],av:"AT",color:"#7eb8f7"},
-  {name:"Piyush Gupta",title:"CEO, DBS Bank",region:"APAC",domain:"Finance",bio:"DBSを「世界最高のデジタル銀行」に変革した。",tags:["Digital Banking","Transformation","Singapore"],av:"PGu",color:"#c9a84c"},
-  {name:"Jayati Ghosh",title:"Professor, UMass · UN Advisor",region:"APAC",domain:"Policy",bio:"G20・UNに助言する開発経済・不平等の世界的権威。",tags:["Development Economics","G20","Inequality"],av:"JG",color:"#c07eb8"},
-  {name:"Hana Bae",title:"CTO, Kakao",region:"APAC",domain:"Technology",bio:"KakaoのLLM・AIアシスタント開発を主導。",tags:["LLM","AI","Korea"],av:"HBa",color:"#c07eb8"},
-  {name:"Gautam Adani",title:"Chairman, Adani Group",region:"APAC",domain:"Strategy",bio:"港湾・空港・再エネを束ねるインド最大民間インフラ帝国を構築。",tags:["Infrastructure","Green Energy","India"],av:"GA",color:"#c9a84c"},
-  {name:"Goh Chok Tong",title:"Former Prime Minister, Singapore",region:"APAC",domain:"Policy",bio:"シンガポール経済変革を主導した元首相。ASEANの地政学の権威。",tags:["Geopolitics","ASEAN","Public Policy"],av:"GCT",color:"#7eb8f7"},
-  {name:"Hiroshi Mikitani",title:"CEO, Rakuten Group",region:"Japan",domain:"Technology",bio:"楽天を30超の事業を持つeコマース・FinTechエコシステムに育てた。",tags:["E-commerce","FinTech","Ecosystem"],av:"HM",color:"#c07eb8"},
-  {name:"Masayoshi Son",title:"CEO, SoftBank Group",region:"Japan",domain:"Investment",bio:"日本最大の賭けをするVC投資家。Alibaba・ARM・AI投資で知られる。",tags:["VC","AI","Global Investment"],av:"MS",color:"#c9a84c"},
-  {name:"Koji Sato",title:"CEO, Toyota Motor Corporation",region:"Japan",domain:"Manufacturing",bio:"BEV・HEV・水素のマルチパスウェイ戦略でトヨタを次世代へ。",tags:["EV","Hydrogen","Automotive"],av:"KS",color:"#e0a070"},
-  {name:"Kenichiro Yoshida",title:"CEO, Sony Group",region:"Japan",domain:"Strategy",bio:"エンタメIP・イメージセンサー・EV（Sony Honda）でSonyを再定義。",tags:["Entertainment","Image Sensors","EV"],av:"KY",color:"#7eb8f7"},
-  {name:"Takeshi Niinami",title:"CEO, Suntory Holdings",region:"Japan",domain:"Strategy",bio:"グローバルプレミアムスピリッツブランドを率い、ガバナンス改革を主導。",tags:["FMCG","Governance","Global Brand"],av:"TN",color:"#e0a070"},
-  {name:"Jun Sawada",title:"CEO, NTT",region:"Japan",domain:"Technology",bio:"IOWN（革新的光ネットワーク）とグローバルデータセンター拡大を主導。",tags:["Telecoms","Data Centre","IOWN"],av:"JS",color:"#7eb8f7"},
-  {name:"Seiji Inagaki",title:"President, Dai-ichi Life Holdings",region:"Japan",domain:"Finance",bio:"生保のデジタル革新と海外M&Aを推進。",tags:["Insurance","Digital Finance","M&A"],av:"SI",color:"#c9a84c"},
-  {name:"Motoyuki Ii",title:"Director, Japan VC Association",region:"Japan",domain:"Investment",bio:"日本のスタートアップエコシステム構築の旗手。",tags:["VC","Startups","Ecosystem"],av:"MI",color:"#7ec87e"},
-  {name:"Mitsuru Homma",title:"President, Fujitsu Limited",region:"Japan",domain:"Technology",bio:"FujitsuをハードウェアからデジタルサービスへとフルDX転換。",tags:["Digital Services","AI","DX"],av:"MH",color:"#7eb8f7"},
-  {name:"Taro Kono",title:"Former Digital Minister, Japan",region:"Japan",domain:"Policy",bio:"行政デジタル化・規制改革・スタートアップ政策を主導した改革派大臣。",tags:["GovTech","Digital Policy","Deregulation"],av:"TK",color:"#c9a84c"},
-  {name:"Masakazu Tokura",title:"Chairman, Keidanren",region:"Japan",domain:"Strategy",bio:"経団連会長としてカーボンニュートラル・ESGアジェンダを主導。",tags:["ESG","Carbon Neutral","Industrial Policy"],av:"MT",color:"#e0a070"},
-  {name:"Haruko Arimura",title:"Former Minister Women's Empowerment",region:"Japan",domain:"Policy",bio:"働き方改革と女性リーダーシップ推進政策の立案者。",tags:["Gender Policy","HR Reform","Labour"],av:"HA",color:"#c07eb8"},
-  {name:"Shu Fujino",title:"Founder & CEO, eumo",region:"Japan",domain:"Finance",bio:"地域通貨・再生経済のパイオニア。",tags:["New Economy","FinTech","Community"],av:"SF",color:"#7ec87e"},
-  {name:"Masami Yamamoto",title:"Former CEO Fujitsu · Board Advisor",region:"Japan",domain:"Strategy",bio:"Fujitsu 20年のリーダーシップ後、日本企業のガバナンス変革を助言。",tags:["Governance","Board Reform","DX"],av:"MY",color:"#c9a84c"},
-  {name:"Yasutoshi Nishimura",title:"Former Minister METI Japan",region:"Japan",domain:"Policy",bio:"半導体戦略・エネルギー安保・スタートアップ政策を経産大臣として主導。",tags:["Industrial Policy","Semiconductors","Energy Security"],av:"YN",color:"#7eb8f7"},
-  {name:"Fumio Kishida",title:"Former Prime Minister, Japan",region:"Japan",domain:"Policy",bio:"新しい資本主義・防衛力強化・日米同盟を主導した元首相。",tags:["Japan Policy","Defence","New Capitalism"],av:"FK",color:"#c9a84c"},
-  {name:"Naoki Izumiya",title:"Chairman, Japan Business Federation",region:"Japan",domain:"Strategy",bio:"企業ガバナンス改革・ESG開示・ステークホルダー資本主義の推進者。",tags:["Governance","ESG","Keidanren"],av:"NI",color:"#c9a84c"},
-  {name:"Takahiro Hachigo",title:"Former CEO, Honda Motor",region:"Japan",domain:"Manufacturing",bio:"HondaのEVロードマップとGMとの自動運転協業を主導。",tags:["EV","Autonomous","Automotive"],av:"TH",color:"#e0a070"},
-  {name:"Kazuhiro Tsuga",title:"Former CEO, Panasonic Holdings",region:"Japan",domain:"Manufacturing",bio:"PanasonicのEV電池事業をTeslaと推進。",tags:["Battery","Manufacturing","Restructuring"],av:"KT",color:"#e0a070"},
-  {name:"Osamu Nagata",title:"CTO, NEC Corporation",region:"Japan",domain:"Technology",bio:"NECのAI・バイオメトリクス・デジタル政府ソリューションを世界展開。",tags:["AI","Biometrics","GovTech"],av:"ON",color:"#7eb8f7"},
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentView='feed', currentRegion='All', consultMode='brief', analysisMode='strategy';
+let selectedArticle=null, feedItems=[], isFetching=false, isConsulting=false, isAnalyzing=false;
+
+// ─── EXPERTS DATA ─────────────────────────────────────────────────────────────
+const EXPERTS=[
+  {name:'Sarah Chen',role:'Chief Strategy Officer',org:'McKinsey & Company',region:'United States',domain:'Strategy',av:'SC',col:'#7c3aed',network:'Alphasight'},
+  {name:'James Worthington',role:'Managing Director',org:'Goldman Sachs',region:'United States',domain:'Finance',av:'JW',col:'#0f6e56',network:'GLG'},
+  {name:'Yuki Tanaka',role:'Technology Principal',org:'SoftBank Vision Fund',region:'Japan',domain:'AI & Technology',av:'YT',col:'#185fa5',network:'Atheneum'},
+  {name:'Marie Dubois',role:'Senior Partner',org:'BCG Paris',region:'Europe',domain:'Strategy',av:'MD',col:'#993c1d',network:'GLG'},
+  {name:'Li Wei',role:'VP Technology Strategy',org:'Alibaba Group',region:'China',domain:'AI & Technology',av:'LW',col:'#3b6d11',network:'Alphasight'},
+  {name:'Raj Patel',role:'Managing Partner',org:'Bain & Company',region:'APAC',domain:'Finance',av:'RP',col:'#854f0b',network:'Atheneum'},
+  {name:'Anna Kowalski',role:'Policy Director',org:'EU Commission',region:'Europe',domain:'Policy',av:'AK',col:'#993356',network:'GLG'},
+  {name:'David Kim',role:'Chief Technology Officer',org:'Samsung Electronics',region:'APAC',domain:'AI & Technology',av:'DK',col:'#533ab7',network:'Alphasight'},
+  {name:'Hiroshi Yamamoto',role:'Senior Executive VP',org:'Toyota Motor Corporation',region:'Japan',domain:'Strategy',av:'HY',col:'#185fa5',network:'GLG'},
+  {name:'Elena Rossi',role:'Head of Digital Innovation',org:'Intesa Sanpaolo',region:'Europe',domain:'Finance',av:'ER',col:'#0f6e56',network:'Atheneum'},
 ];
 
-const wordData = [
-  {w:"AI",t:1,n:89},{w:"Strategy",t:1,n:78},{w:"Sustainability",t:1,n:72},{w:"Digital",t:1,n:68},{w:"Innovation",t:1,n:65},
-  {w:"EV",t:2,n:58},{w:"Cloud",t:2,n:54},{w:"Supply Chain",t:2,n:51},{w:"Policy",t:2,n:49},{w:"M&A",t:2,n:47},{w:"ESG",t:2,n:46},
-  {w:"Semiconductor",t:3,n:42},{w:"FinTech",t:3,n:40},{w:"Geopolitics",t:3,n:38},{w:"Governance",t:3,n:36},{w:"LLM",t:3,n:33},
-  {w:"Hydrogen",t:4,n:28},{w:"ASEAN",t:4,n:27},{w:"Regulation",t:4,n:26},{w:"Startup",t:4,n:25},{w:"Carbon",t:4,n:23},{w:"5G",t:4,n:21},{w:"DX",t:4,n:19},
-  {w:"Quantum",t:5,n:17},{w:"Battery",t:5,n:16},{w:"Talent",t:5,n:15},{w:"Robotics",t:5,n:9},{w:"EdTech",t:5,n:8},
+// ─── DEMO FEED DATA ────────────────────────────────────────────────────────────
+const DEMO_FEED=[
+  {source:'expert',region:'Global',time:'1h ago',tags:['AI Strategy','Leadership'],title:'Agentic AI reshapes enterprise operating models: C-suite playbook for 2026 transition',summary:'Expert consensus from Alphasight network: 73% of Fortune 500 CEOs are restructuring org charts around AI agents in Q2 2026.',insight:'The shift from AI-assisted to AI-autonomous operations requires a fundamental rethinking of human oversight structures, not merely workflow automation.',implications:'Organizations must redesign accountability frameworks; middle management roles will bifurcate into AI supervisors and strategic integrators. First movers are establishing 18-month leads in operational efficiency.',keyData:'McKinsey estimates $4.4T annual value creation potential from generative AI, with 40% concentrated in knowledge work transformation'},
+  {source:'web',region:'United States',time:'3h ago',tags:['Finance','Fed Policy'],title:'Federal Reserve signals extended pause: PE portfolio strategy implications through Q4 2026',summary:'Fed minutes reveal unanimous concern about inflation re-acceleration; rate cut expectations pushed to Q3 2026 at earliest.',insight:'The higher-for-longer environment creates bifurcated exit opportunities — distressed assets will outperform while growth-stage multiples remain compressed.',implications:'PE firms should accelerate portfolio company cash flow optimization; dividend recaps may become attractive for healthy platforms. SPAC and IPO windows remain narrow.',keyData:'LBO deal volume down 34% YoY; secondary market transaction volume up 28% as LPs seek liquidity solutions'},
+  {source:'analysis',region:'Europe',time:'5h ago',tags:['Policy','ESG'],title:'EU AI Act enforcement begins: strategic compliance framework for multinational technology operations',summary:'Phase 1 enforcement targeting high-risk AI systems commenced May 2026; fines up to €35M or 7% of global turnover.',insight:'Proactive compliance investment now yields 3:1 ROI versus reactive remediation — companies with robust AI governance frameworks are attracting premium talent and partnership opportunities.',implications:'Board-level AI governance committees now mandatory for EU-facing operations. Algorithmic impact assessments required for all customer-facing AI deployment.',keyData:'Gartner: 60% of organizations will require mandatory AI risk assessment processes by 2027, up from 15% in 2024'},
+  {source:'web',region:'China',time:'7h ago',tags:['Geopolitics','Supply Chain'],title:'China-ASEAN trade corridor: strategic repositioning opportunities amid US decoupling acceleration',summary:'Vietnam, Malaysia, and Indonesia emerging as primary beneficiaries; FDI inflows to ASEAN up 41% YoY as multinationals diversify supply bases.',insight:'The China+1 strategy is evolving into China+2 or China+3 as companies build genuine redundancy rather than symbolic diversification.',implications:'Companies with existing ASEAN manufacturing presence have 6-12 month first-mover advantage in securing local talent and regulatory relationships. M&A multiples for ASEAN logistics firms elevated.',keyData:'ASEAN GDP growth forecast: 5.2% for 2026, highest in G20 bloc; inbound FDI on track for record $230B'},
+  {source:'expert',region:'Japan',time:'9h ago',tags:['M&A','Corporate Reform'],title:'Japan Inc. transformation: cross-border M&A surge as TSE pressure unlocks decades of trapped value',summary:'GLG expert panel: Tokyo Stock Exchange\'s book value mandate driving 180+ corporate carve-outs and strategic reviews in H1 2026.',insight:'Western PE firms underestimate the pace of Japanese corporate governance reform — the playbook from 2023-2025 activist campaigns has permanently changed boardroom calculus.',implications:'Premium acquisition targets in industrial, materials, and financial sectors. Family-controlled mid-caps represent highest-value opportunities with motivated sellers.',keyData:'Japan outbound M&A volume ¥8.2T in 2025, highest since 2008; domestic carve-out activity up 67%'},
+  {source:'analysis',region:'APAC',time:'11h ago',tags:['Healthcare','AI'],title:'AI-accelerated drug discovery: investment thesis and competitive moat analysis 2026',summary:'Atheneum expert network identifies 3 platform companies with genuine defensible positions in computational biology space.',insight:'The bottleneck has shifted from molecule generation to regulatory pathway optimization — companies with FDA alignment strategies command 40% valuation premiums.',implications:'Portfolio exposure should concentrate in platform plays over single-asset companies; partnership dynamics with Big Pharma shifting from licensing to equity co-investment.',keyData:'AI drug discovery pipeline: 160+ clinical-stage candidates globally, up from 40 in 2023; average development timeline compressed by 3.2 years'},
 ];
 
-// STATE
-let activeView='feed', activeRegion='ALL', activeDomain='ALL', searchQ='', articles=[], selectedId=null;
+// ─── VIEW SWITCHING ─────────────────────────────────────────────────────────
+function switchView(v){
+  currentView=v;
+  ['feed','experts','analysis'].forEach(x=>{
+    const el=document.getElementById('view-'+x);
+    if(el) el.style.display=x===v?'flex':'none';
+    const sv=document.getElementById('sv-'+x);
+    if(sv) sv.classList.toggle('active',x===v);
+  });
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',['feed','experts','analysis'][i]===v));
+  if(v==='experts') renderExperts();
+}
 
-// FETCH via Vercel serverless function
-async function fetchArticles() {
-  const btn = document.getElementById('fetchBtn');
-  const icon = document.getElementById('fetchIcon');
-  const status = document.getElementById('aiStatus');
-  btn.disabled = true; icon.textContent = '↻'; icon.className = 'spin';
-  status.textContent = 'Searching...'; status.className = 'ai-status run';
-  document.getElementById('statusTxt').textContent = 'Fetching...';
+// ─── EXPERTS ────────────────────────────────────────────────────────────────
+function renderExperts(filter=''){
+  const grid=document.getElementById('expertGrid');
+  const f=filter.toLowerCase();
+  const items=f?EXPERTS.filter(e=>e.name.toLowerCase().includes(f)||e.org.toLowerCase().includes(f)||e.domain.toLowerCase().includes(f)):EXPERTS;
+  grid.innerHTML=items.map(e=>`
+    <div class="expert-item" onclick="selectExpert('${e.name}')">
+      <div class="expert-avatar" style="background:${e.col}">${e.av}</div>
+      <div class="expert-name">${e.name}</div>
+      <div class="expert-role">${e.role}</div>
+      <div class="expert-org">${e.org}</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        <span class="tag">${e.network}</span>
+        <span class="tag">${e.domain}</span>
+      </div>
+    </div>`).join('');
+}
 
-  const query = document.getElementById('fetchQuery').value.trim() || 'global expert insights 2026';
-  const date = new Date().toISOString().split('T')[0];
-  const expertNames = experts.filter(e => activeRegion==='ALL' || e.region===activeRegion)
-    .slice(0, 20).map(e => e.name).join(', ');
+function selectExpert(name){
+  const e=EXPERTS.find(x=>x.name===name);
+  if(!e)return;
+  document.querySelectorAll('.expert-item').forEach(el=>el.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  showDetail({
+    source:'expert',region:e.region,time:'Available Now',tags:[e.domain,e.network],
+    title:`${e.name} — ${e.role}`,
+    summary:`${e.org}所属。${e.domain}領域の第一人者として${e.network}ネットワーク経由でインタビューが可能です。`,
+    insight:`${e.name}はグローバルな視点から${e.domain}の実務的知見を提供します。C-suiteレベルの経営課題から実行戦略まで幅広く対応。`,
+    implications:`利用可能: Expert Interview (60-90分) / Written Q&A (48時間) / Ongoing Advisory契約`,
+    keyData:`ネットワーク: ${e.network} | 地域: ${e.region} | 専門: ${e.domain}`
+  });
+  document.getElementById('consultQuery').placeholder=`${e.name}の視点から質問する...`;
+}
 
-  try {
-    const resp = await fetch('/api/fetch-news', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, expertNames, date })
+// ─── REGION / DOMAIN ────────────────────────────────────────────────────────
+function setRegion(r){
+  currentRegion=r;
+  document.querySelectorAll('[id^="rg-"]').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('rg-'+r);
+  if(el)el.classList.add('active');
+  document.getElementById('current-filter').textContent=r;
+  filterFeed();
+}
+
+function setDomain(d){filterFeed();}
+
+function filterFeed(){
+  let visible=0;
+  document.querySelectorAll('.feed-card').forEach(c=>{
+    const show=currentRegion==='All'||c.dataset.region===currentRegion;
+    c.style.display=show?'':'none';
+    if(show)visible++;
+  });
+  document.getElementById('feed-count').textContent=visible||'—';
+  document.getElementById('leader-count').textContent=visible?visible+' articles':'—';
+}
+
+function sidebarFilter(){
+  const q=document.getElementById('sideSearch').value.toLowerCase();
+  if(currentView==='experts') renderExperts(q);
+}
+
+function toggleChip(el){el.classList.toggle('active');}
+
+// ─── FETCH FEED ─────────────────────────────────────────────────────────────
+async function fetchFeed(){
+  if(isFetching)return;
+  isFetching=true;
+  const btn=document.getElementById('fetchBtn');
+  const icon=document.getElementById('fetch-icon');
+  const label=document.getElementById('fetch-label');
+  btn.disabled=true; btn.classList.add('loading');
+  icon.innerHTML='<span class="loading-spinner" style="border-color:rgba(10,10,11,0.3);border-top-color:#0a0a0b"></span>';
+  label.textContent='FETCHING...';
+  document.getElementById('error-container').innerHTML='';
+  setStatus('Generating intelligence feed...');
+
+  const query=document.getElementById('searchQuery').value||'top global business leaders AI strategy 2026';
+  const list=document.getElementById('feedList');
+  list.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:14px;color:var(--text3)"><div class="loading-spinner light" style="width:28px;height:28px;border-width:3px"></div><div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:0.08em">Generating expert intelligence...</div></div>`;
+
+  try{
+    const sys=`You are an expert intelligence platform serving C-suite executives. Generate exactly 6 expert-grade intelligence articles. Return ONLY valid JSON array, no markdown, no code blocks, no preamble.
+
+JSON schema for each item:
+{
+  "source": "web" | "expert" | "analysis" | "news",
+  "region": "Global" | "United States" | "Europe" | "China" | "Japan" | "APAC",
+  "time": "Xh ago",
+  "tags": ["tag1", "tag2"],
+  "title": "concise title under 100 characters",
+  "summary": "2 sentences of expert-level insight",
+  "insight": "1 key expert insight sentence",
+  "implications": "2-3 strategic implications for business leaders",
+  "keyData": "1 specific data point or statistic"
+}`;
+
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:2500,
+        system:sys,
+        messages:[{role:'user',content:`Generate 6 expert intelligence articles for: "${query}". Current date: 2026-05-07. Focus on actionable C-suite insights. Return only the JSON array.`}]
+      })
     });
-    if (!resp.ok) {
-      const err = await resp.json();
-      throw new Error(err.error || 'Server error');
-    }
-    const data = await resp.json();
-    const fetched = data.articles || [];
-    fetched.forEach((a, i) => { a.id = Date.now() + i; a.time = '07:00'; });
-    articles = [...fetched, ...articles].slice(0, 60);
-    renderFeed();
-    document.getElementById('feedCnt').textContent = articles.length;
-    status.textContent = `✓ ${fetched.length} articles`;
-    status.className = 'ai-status ok';
-    document.getElementById('statusTxt').textContent = `Updated ${new Date().toLocaleTimeString('ja-JP')}`;
-  } catch(e) {
-    status.textContent = '✗ ' + e.message;
-    status.className = 'ai-status err';
-    document.getElementById('statusTxt').textContent = 'Fetch failed';
-  } finally {
-    btn.disabled = false; icon.textContent = '↓'; icon.className = '';
+
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data=await resp.json();
+    if(data.error) throw new Error(data.error.message);
+
+    let text=data.content?.find(c=>c.type==='text')?.text||'[]';
+    text=text.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+    // Find JSON array in response
+    const start=text.indexOf('['), end=text.lastIndexOf(']');
+    if(start>=0&&end>start) text=text.slice(start,end+1);
+    const articles=JSON.parse(text);
+    if(!Array.isArray(articles)||!articles.length) throw new Error('No articles returned');
+    feedItems=articles;
+    renderFeed(articles);
+    setStatus('● '+articles.length+' articles loaded');
+  }catch(e){
+    console.error('Fetch error:',e);
+    document.getElementById('error-container').innerHTML=`<div class="error-bar">✕ ${e.message} — デモデータを表示します</div>`;
+    feedItems=DEMO_FEED;
+    renderFeed(DEMO_FEED);
+    setStatus('● Demo mode');
+  }finally{
+    isFetching=false;
+    btn.disabled=false; btn.classList.remove('loading');
+    icon.textContent='↓'; label.textContent='FETCH TODAY';
   }
 }
 
-function fetchAll() {
-  document.getElementById('fetchQuery').value = 'top global business leader news AI strategy geopolitics 2026';
-  fetchArticles();
-}
-
-function toggleSrc(el) {
-  el.classList.toggle('active');
-}
-
-// RENDER FEED
-function renderFeed() {
-  const list = document.getElementById('feedList');
-  const filtered = articles.filter(a => {
-    const rOk = activeRegion==='ALL' || a.region===activeRegion;
-    const sOk = !searchQ || a.title.toLowerCase().includes(searchQ) || (a.expert||'').toLowerCase().includes(searchQ);
-    return rOk && sOk;
-  });
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="feed-empty"><span style="font-size:28px;opacity:.2">🔍</span><span>「Fetch Today」をクリックして記事を取得</span></div>';
+function renderFeed(articles){
+  const list=document.getElementById('feedList');
+  list.innerHTML='';
+  if(!articles.length){
+    list.innerHTML='<div class="empty-state"><div class="empty-icon">◎</div><div class="empty-label">記事が見つかりません</div></div>';
     return;
   }
-  const groups = {};
-  filtered.forEach(a => { if(!groups[a.date]) groups[a.date]=[]; groups[a.date].push(a); });
-  const dateLabels = {};
-  const today = new Date().toISOString().split('T')[0];
-  const yest = new Date(Date.now()-86400000).toISOString().split('T')[0];
-  list.innerHTML = Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(date => {
-    const lbl = date===today ? 'Today' : date===yest ? 'Yesterday' : date;
-    return `<div>
-      <div class="feed-date-lbl"><span>${lbl}</span> · ${groups[date].length} articles</div>
-      ${groups[date].map(a => `
-        <div class="feed-item${a.id===selectedId?' selected':''}" onclick="selectArticle(${a.id})">
-          <div class="fi-aside">
-            <div class="fi-time">${a.time||'07:00'}<br>JST</div>
-            <div class="fi-icon">${a.icon||'📄'}</div>
-            <div class="fi-src" style="background:rgba(200,168,75,.15);color:var(--gold)">${(a.source||'web').toUpperCase()}</div>
-          </div>
-          <div class="fi-body">
-            <div class="fi-meta"><span class="fi-cat">${a.category||''}</span><span class="fi-reg">${a.region||''}</span></div>
-            <div class="fi-title">${a.title}</div>
-            <div class="fi-expert">${a.expert||''}</div>
-          </div>
-          <div class="fi-arrow">›</div>
-        </div>`).join('')}
-    </div>`;
-  }).join('');
-}
-
-function selectArticle(id) {
-  selectedId = id;
-  const a = articles.find(x => x.id === id);
-  if (!a) return;
-  document.getElementById('feedDetail').innerHTML = `
-    <div class="detail-content">
-      <div class="detail-src-row">
-        <span class="detail-src" style="background:rgba(200,168,75,.12);color:var(--gold)">${(a.source||'WEB').toUpperCase()} · ${a.sourceName||''}</span>
-        <span class="detail-cat">${a.category||''}</span>
+  articles.forEach((a,i)=>{
+    const card=document.createElement('div');
+    card.className='feed-card';
+    card.dataset.region=a.region||'Global';
+    card.dataset.index=i;
+    card.innerHTML=`
+      <div class="card-top">
+        <span class="card-source ${a.source||'web'}">${(a.source||'WEB').toUpperCase()}</span>
+        <span class="card-region">${a.region||''}</span>
+        ${(a.tags||[]).slice(0,2).map(t=>`<span class="tag">${t}</span>`).join('')}
+        <span class="card-time">${a.time||''}</span>
       </div>
-      <div class="detail-title">${a.title}</div>
-      <div class="detail-expert">${a.expert||''} · ${a.date||''}</div>
-      <div class="detail-body">${a.summary||''}</div>
-      <div class="detail-tags">${(a.tags||[]).map(t=>`<span class="d-tag">${t}</span>`).join('')}</div>
-      ${a.url ? `<a class="detail-link" href="${a.url}" target="_blank" rel="noopener">↗ Read Original</a>` : ''}
-    </div>`;
-  renderFeed();
-}
-
-// VIEW / FILTER
-function switchView(view, el) {
-  activeView = view;
-  document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
-  document.getElementById('view-'+view).classList.add('active');
-  const titles = {feed:'Daily Feed',experts:'Experts',analysis:'Analysis'};
-  const subs = {feed:'AI-powered · Real sources',experts:filterExperts().length+' leaders',analysis:'100 Expert Patterns'};
-  document.getElementById('pageTitle').textContent = titles[view];
-  document.getElementById('pageSubtitle').textContent = subs[view];
-  if(view==='experts') renderExperts();
-}
-function filterRegion(r,el) {
-  activeRegion=r;
-  document.querySelectorAll('.region-item').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  if(activeView==='experts') renderExperts();
-  if(activeView==='feed') renderFeed();
-}
-function filterDomain(d,el) {
-  activeDomain=d;
-  document.querySelectorAll('.d-chip').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  renderExperts();
-}
-function handleSearch(v) { searchQ=v.toLowerCase(); if(activeView==='experts') renderExperts(); else renderFeed(); }
-
-// EXPERTS TABLE
-const rColor={EU:'var(--col-eu)',US:'var(--col-us)',China:'var(--col-cn)',APAC:'var(--col-ap)',Japan:'var(--col-jp)'};
-function filterExperts() {
-  return experts.filter(e=>{
-    const rOk=activeRegion==='ALL'||e.region===activeRegion;
-    const dOk=activeDomain==='ALL'||e.domain===activeDomain;
-    const sOk=!searchQ||e.name.toLowerCase().includes(searchQ)||e.tags.some(t=>t.toLowerCase().includes(searchQ));
-    return rOk&&dOk&&sOk;
+      <div class="card-title">${a.title||''}</div>
+      <div class="card-summary">${a.summary||''}</div>`;
+    card.onclick=()=>selectFeedArticle(card,a);
+    list.appendChild(card);
   });
-}
-function renderExperts() {
-  const body = document.getElementById('expertsBody');
-  const data = filterExperts();
-  document.getElementById('pageSubtitle').textContent = data.length+' leaders';
-  body.innerHTML = data.map(e => {
-    const rc = rColor[e.region]||'var(--tx3)';
-    const idx = experts.indexOf(e);
-    return `<tr onclick="openPanel(${idx})">
-      <td><div style="display:flex;align-items:center;gap:8px">
-        <div style="width:28px;height:28px;border-radius:50%;background:${e.color}22;color:${e.color};display:grid;place-items:center;font-family:'IBM Plex Serif',serif;font-size:11px;font-style:italic;border:1px solid ${e.color}33;flex-shrink:0">${e.av}</div>
-        <div><div class="e-name">${e.name}</div></div>
-      </div></td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx2)">${e.domain}</span></td>
-      <td><span class="r-badge" style="color:${rc};background:${rc}18">${e.region}</span></td>
-      <td><div class="e-title">${e.title}</div></td>
-      <td>${e.tags.slice(0,2).map(t=>`<span class="t-pill">${t}</span>`).join('')}</td>
-      <td><button onclick="event.stopPropagation();fetchForExpert(${idx})" style="background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:3px 8px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:8px;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--tx3)'">↓ Fetch</button></td>
-    </tr>`;
-  }).join('');
+  filterFeed();
 }
 
-function fetchForExpert(idx) {
-  const e = experts[idx];
-  document.getElementById('fetchQuery').value = e.name + ' 2026 interview news strategy';
-  switchView('feed', document.querySelectorAll('.sb-item')[0]);
-  fetchArticles();
+// ─── DETAIL PANEL ────────────────────────────────────────────────────────────
+function selectFeedArticle(card,a){
+  document.querySelectorAll('.feed-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedArticle=a;
+  showDetail(a);
+  document.getElementById('consultQuery').placeholder='この記事について質問する...';
 }
 
-// EXPERT PANEL
-function openPanel(idx) {
-  const e = experts[idx];
-  const rc = rColor[e.region]||'var(--tx3)';
-  document.getElementById('panelBody').innerHTML = `
-    <div class="panel-av" style="background:${e.color}22;color:${e.color};border-color:${e.color}33">${e.av}</div>
-    <div class="panel-name">${e.name}</div>
-    <div class="panel-title-txt">${e.title}</div>
-    <span class="r-badge" style="color:${rc};background:${rc}18;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;display:inline-block;border-radius:2px;padding:2px 8px">${e.region} · ${e.domain}</span>
-    <div class="p-sec">Profile</div>
-    <div class="p-bio">${e.bio}</div>
-    <div class="p-sec">Keywords</div>
-    <div class="p-tags">${e.tags.map(t=>`<span class="p-tag">${t}</span>`).join('')}</div>
-    <button class="fetch-exp-btn" id="panelFetchBtn" onclick="fetchExpertNews('${e.name}')">↓ Fetch Latest from Web</button>
-    <div id="panelResults" class="panel-results"></div>`;
-  document.getElementById('expert-panel').classList.add('open');
-  document.getElementById('overlay').style.display = 'block';
-}
-function closePanel() {
-  document.getElementById('expert-panel').classList.remove('open');
-  document.getElementById('overlay').style.display = 'none';
+function showDetail(a){
+  document.getElementById('detail-empty').style.display='none';
+  document.getElementById('detail-content').style.display='flex';
+  document.getElementById('detail-meta').innerHTML=`
+    <span class="card-source ${a.source||'web'}">${(a.source||'WEB').toUpperCase()}</span>
+    <span class="card-region">${a.region||''}</span>
+    ${(a.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}
+    <span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;color:var(--text3)">${a.time||''}</span>`;
+  document.getElementById('detail-title').textContent=a.title||'';
+  document.getElementById('detail-body').innerHTML=`
+    <div><div class="detail-section-title">SUMMARY</div><div class="detail-text">${a.summary||''}</div></div>
+    ${a.keyData?`<div class="insight-box"><div class="insight-label">KEY DATA POINT</div><div class="insight-text">${a.keyData}</div></div>`:''}
+    ${a.insight?`<div><div class="detail-section-title">EXPERT INSIGHT</div><div class="detail-text">${a.insight}</div></div>`:''}
+    ${a.implications?`<div><div class="detail-section-title">STRATEGIC IMPLICATIONS</div><div class="detail-text">${a.implications}</div></div>`:''}
+    <div style="height:20px"></div>`;
 }
 
-async function fetchExpertNews(name) {
-  const btn = document.getElementById('panelFetchBtn');
-  const res = document.getElementById('panelResults');
-  btn.disabled = true; btn.textContent = 'Searching...';
-  res.innerHTML = '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--tx3);padding:8px">Searching web...</div>';
-  try {
-    const date = new Date().toISOString().split('T')[0];
-    const resp = await fetch('/api/fetch-news', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: name+' latest news 2026', expertNames: name, date })
+// ─── CONSULT ─────────────────────────────────────────────────────────────────
+function setConsultMode(m,btn){
+  consultMode=m;
+  document.querySelectorAll('[id^="cm-"]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function runConsult(){
+  if(isConsulting)return;
+  const q=document.getElementById('consultQuery').value.trim();
+  if(!q)return;
+  isConsulting=true;
+  const btn=document.getElementById('consultBtn');
+  btn.disabled=true; btn.classList.add('loading'); btn.textContent='...';
+
+  const modePrompts={
+    brief:'Provide a concise 3-paragraph expert brief (under 200 words). Lead with the key insight.',
+    deep:'Provide a comprehensive deep-dive analysis using multiple strategic frameworks (400-500 words). Structure with clear sections.',
+    action:'Provide a concrete action plan with exactly 5 specific, numbered action steps for a C-suite executive (300 words).'
+  };
+
+  const context=selectedArticle?`Article context: "${selectedArticle.title}". ${selectedArticle.summary||''}\n\n`:'';
+  const sys=`You are a senior expert consultant with combined expertise from Alphasight, GLG, and Atheneum expert networks. ${modePrompts[consultMode]} Be specific, data-driven, and practical. Use Japanese if the question is in Japanese.`;
+
+  document.getElementById('detail-empty').style.display='none';
+  document.getElementById('detail-content').style.display='flex';
+
+  const body=document.getElementById('detail-body');
+  const div=document.createElement('div');
+  div.style.cssText='border-top:1px solid var(--border);padding-top:14px;margin-top:4px';
+  div.innerHTML=`<div class="detail-section-title">AI EXPERT — ${consultMode.toUpperCase()}</div><div class="detail-text" id="consult-stream" style="white-space:pre-wrap;font-size:12px">分析中...</div>`;
+  body.insertBefore(div,body.firstChild);
+  body.scrollTop=0;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:sys,
+        messages:[{role:'user',content:context+'Question: '+q}]
+      })
     });
-    const data = await resp.json();
-    const items = data.articles || [];
-    res.innerHTML = items.slice(0,5).map(a => `
-      <div class="pr-item">
-        <div class="pr-src">${a.sourceName||'Web'} · ${a.date||date}</div>
-        <div class="pr-title">${a.title}</div>
-        <div class="pr-sum">${a.summary||''}</div>
-        ${a.url ? `<a class="pr-link" href="${a.url}" target="_blank" rel="noopener">↗ Read original</a>` : ''}
-      </div>`).join('') || '<div style="font-size:11px;color:var(--tx3);padding:8px">No results found</div>';
-  } catch(e) {
-    res.innerHTML = `<div style="font-size:11px;color:var(--rose);padding:8px">Error: ${e.message}</div>`;
-  } finally {
-    btn.disabled = false; btn.textContent = '↓ Fetch Latest from Web';
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data=await resp.json();
+    if(data.error) throw new Error(data.error.message);
+    const text=data.content?.find(c=>c.type==='text')?.text||'回答を取得できませんでした。';
+    document.getElementById('consult-stream').textContent=text;
+  }catch(e){
+    document.getElementById('consult-stream').textContent='エラー: '+e.message;
+  }finally{
+    isConsulting=false;
+    btn.disabled=false; btn.classList.remove('loading'); btn.textContent='↗ ASK';
+    document.getElementById('consultQuery').value='';
   }
 }
 
-// WORD CLOUD
-function buildWordCloud() {
-  const wc = document.getElementById('wordCloud');
-  [...wordData].sort(()=>Math.random()-.5).forEach(item => {
-    const el = document.createElement('span');
-    el.className = 'wc-word t'+item.t;
-    el.textContent = item.w;
-    el.title = item.n+' experts';
-    wc.appendChild(el);
-  });
+// ─── ANALYSIS ────────────────────────────────────────────────────────────────
+function setAnalysisMode(m,btn){
+  analysisMode=m;
+  document.querySelectorAll('[id^="am-"]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-// KW LIST
-function renderKwList() {
-  const kl = document.getElementById('kwList');
-  wordData.slice(0,8).forEach(k => {
-    const d = document.createElement('div');
-    d.className = 'kw-row';
-    d.innerHTML = `<span>${k.w}</span><span class="kw-cnt">${k.n}</span>`;
-    kl.appendChild(d);
-  });
+async function runAnalysis(){
+  if(isAnalyzing)return;
+  const q=document.getElementById('analysisQuery').value.trim();
+  if(!q)return;
+  isAnalyzing=true;
+  const btn=document.getElementById('analyzeBtn');
+  btn.disabled=true; btn.textContent='Analyzing...';
+  const out=document.getElementById('analysisOutput');
+  out.innerHTML=`<div style="display:flex;align-items:center;gap:12px;color:var(--text2);font-size:12px;padding:20px 0"><div class="loading-spinner light" style="width:18px;height:18px;border-width:2px"></div>AIが戦略分析を実行中...</div>`;
+
+  const prompts={
+    framework:`Provide a structured framework analysis using 2-3 established business frameworks (e.g., Porter's Five Forces, McKinsey 7S, BCG Matrix, Blue Ocean Strategy, PESTLE). For each framework, explain what it reveals about the challenge. Be specific to the query. Use Japanese if the question is in Japanese.`,
+    strategy:`As a McKinsey senior partner, provide a comprehensive strategic recommendation including: market context, key risks, competitive dynamics, and 3 strategic options with trade-offs. Conclude with a recommended path forward. Use Japanese if the question is in Japanese.`,
+    expert:`Simulate an expert panel with 3 distinct expert perspectives (e.g., Strategy expert, Finance expert, Operations expert OR domain-specific experts). Each expert should provide their unique view and key recommendation. Format clearly with expert names/roles. Use Japanese if the question is in Japanese.`,
+    action:`Create a detailed 90-day action plan with: Week 1-2 immediate actions, Month 1 priorities, Month 2-3 milestones, and key metrics to track. Be specific and actionable for a C-suite leader. Use Japanese if the question is in Japanese.`
+  };
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1800,
+        system:`You are a world-class strategy consultant with expertise across industries and geographies. ${prompts[analysisMode]}`,
+        messages:[{role:'user',content:'Business challenge: '+q}]
+      })
+    });
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data=await resp.json();
+    if(data.error) throw new Error(data.error.message);
+    const text=data.content?.find(c=>c.type==='text')?.text||'';
+    out.innerHTML=`
+      <div class="insight-box" style="margin-bottom:14px">
+        <div class="insight-label">ANALYSIS MODE: ${analysisMode.toUpperCase()} · QUERY: ${q.slice(0,60)}${q.length>60?'...':''}</div>
+      </div>
+      <div style="font-size:12px;line-height:1.9;color:var(--text2);white-space:pre-wrap">${text}</div>`;
+  }catch(e){
+    out.innerHTML=`<div style="color:var(--red);font-size:12px;padding:20px 0">エラー: ${e.message}</div>`;
+  }finally{
+    isAnalyzing=false;
+    btn.disabled=false; btn.textContent='◈ ANALYZE';
+  }
 }
 
-buildWordCloud();
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function setStatus(msg){
+  document.getElementById('status-text').textContent=msg.replace('●','').trim().toUpperCase().slice(0,20);
+  document.getElementById('bottom-status').textContent=msg;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 renderExperts();
-renderKwList();
 </script>
 </body>
 </html>
