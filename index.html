@@ -165,6 +165,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .analysis-wrap::-webkit-scrollbar-thumb{background:var(--border2)}
 .framework-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
 .framework-title{font-family:'DM Mono',monospace;font-size:16px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
+
+/* RESIZABLE DIVIDER */
+.resize-handle{width:4px;background:var(--border);cursor:col-resize;flex-shrink:0;transition:background 0.15s;position:relative;z-index:10}
+.resize-handle:hover,.resize-handle.dragging{background:var(--gold)}
 </style>
 </head>
 <body>
@@ -217,7 +221,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div class="sidebar-label">REGIONS</div>
       <div class="sidebar-item active" id="rg-All" onclick="setRegion('All')">
         <div class="sidebar-item-left"><div class="region-dot" style="background:var(--gold)"></div>All Regions</div>
-        <span class="sidebar-count">108</span>
+        <span class="sidebar-count" id="rg-All-count">—</span>
       </div>
       <div class="sidebar-item" id="rg-Europe" onclick="setRegion('Europe')">
         <div class="sidebar-item-left"><div class="region-dot" style="background:var(--blue)"></div>Europe</div>
@@ -293,7 +297,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     <div id="view-experts" style="display:none;flex-direction:column;flex:1;overflow:hidden">
       <div class="panel-header">
         <div class="panel-title">Expert Network</div>
-        <div class="panel-meta"><span>108 experts</span><span class="meta-arrow">→</span><span>Alphasight · GLG · Atheneum</span></div>
+        <div class="panel-meta"><span>Expert Network</span><span class="meta-arrow">→</span><span>Alphasight · GLG · Atheneum</span></div>
       </div>
       <div class="experts-grid" id="expertGrid"></div>
     </div>
@@ -325,6 +329,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 
   </div>
 
+  <div class="resize-handle" id="resizeHandle"></div>
   <!-- RIGHT DETAIL PANEL -->
   <div class="detail-panel">
     <div id="detail-empty" class="detail-empty" style="flex:1">
@@ -710,6 +715,33 @@ function setStatus(msg){
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 renderExperts();
+
+// RESIZABLE PANEL
+(function(){
+  const handle = document.getElementById('resizeHandle');
+  const panel = document.querySelector('.detail-panel');
+  let dragging = false, startX = 0, startW = 0;
+  handle.addEventListener('mousedown', e => {
+    dragging = true;
+    startX = e.clientX;
+    startW = panel.offsetWidth;
+    handle.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if(!dragging) return;
+    const diff = startX - e.clientX;
+    const newW = Math.min(600, Math.max(200, startW + diff));
+    panel.style.width = newW + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    dragging = false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+})();
 </script>
 </body>
 </html>
