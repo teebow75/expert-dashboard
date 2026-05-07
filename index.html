@@ -113,7 +113,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .tag{font-family:'DM Mono',monospace;font-size:16px;padding:2px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:var(--text3)}
 
 /* RIGHT DETAIL PANEL */
-.detail-panel{width:360px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;min-height:0}
+.detail-panel{width:450px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;min-height:0}
 .detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--text3)}
 .detail-empty-icon{font-size:28px;opacity:0.18;font-family:'DM Mono',monospace}
 .detail-header{padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -166,6 +166,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .analysis-wrap::-webkit-scrollbar-thumb{background:var(--border2)}
 .framework-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
 .framework-title{font-family:'DM Mono',monospace;font-size:16px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
+
+/* RESIZE HANDLES */
+.resize-handle{width:5px;cursor:col-resize;flex-shrink:0;background:transparent;position:relative;z-index:20;transition:background 0.2s}
+.resize-handle::after{content:"";position:absolute;top:0;left:1px;width:3px;height:100%;background:var(--border);transition:background 0.2s}
+.resize-handle:hover::after,.resize-handle.active::after{background:var(--gold)}
 </style>
 </head>
 <body>
@@ -255,6 +260,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     </div>
   </div>
 
+  <div class="resize-handle" id="rh-left"></div>
   <!-- CENTER -->
   <div class="center">
 
@@ -326,6 +332,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 
   </div>
 
+  <div class="resize-handle" id="rh-right"></div>
   <!-- RIGHT DETAIL PANEL -->
   <div class="detail-panel">
     <div id="detail-empty" class="detail-empty" style="flex:1">
@@ -419,11 +426,10 @@ function selectExpert(name){
   document.querySelectorAll('.expert-item').forEach(el=>el.classList.remove('selected'));
   event.currentTarget.classList.add('selected');
   showDetail({
-    source:'expert',region:e.region,time:'Available Now',tags:[e.domain,e.network],
+    source:'expert',region:e.region,time:e.network,tags:[e.domain,e.region],
     title:`${e.name} — ${e.role}`,
-    summary:`${e.org}所属。${e.domain}領域の第一人者として${e.network}ネットワーク経由でインタビューが可能です。`,
+    summary:`${e.org}所属。${e.domain}分野の第一人者。`,
     insight:`${e.name}はグローバルな視点から${e.domain}の実務的知見を提供します。C-suiteレベルの経営課題から実行戦略まで幅広く対応。`,
-
     keyData:`ネットワーク: ${e.network} | 地域: ${e.region} | 専門: ${e.domain}`
   });
   document.getElementById('consultQuery').placeholder=`${e.name}の視点から質問する...`;
@@ -712,6 +718,42 @@ function setStatus(msg){
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 renderExperts();
 
+
+
+// ─── PANEL RESIZE ────────────────────────────────────────────────────────────
+(function(){
+  function initResize(handleId, getPanelFn, getDirection){
+    const handle = document.getElementById(handleId);
+    if(!handle) return;
+    let active=false, startX=0, startW=0;
+    handle.addEventListener('mousedown', function(e){
+      e.preventDefault();
+      active=true; startX=e.clientX; startW=getPanelFn().offsetWidth;
+      handle.classList.add('active');
+      document.body.style.cursor='col-resize';
+      document.body.style.userSelect='none';
+    });
+    window.addEventListener('mousemove', function(e){
+      if(!active) return;
+      const panel=getPanelFn();
+      const delta = getDirection()==='right' ? startX-e.clientX : e.clientX-startX;
+      const w=Math.max(160, Math.min(800, startW+delta));
+      panel.style.width=w+'px';
+      panel.style.minWidth=w+'px';
+      panel.style.maxWidth=w+'px';
+      panel.style.flexShrink='0';
+    });
+    window.addEventListener('mouseup', function(){
+      if(!active) return;
+      active=false;
+      handle.classList.remove('active');
+      document.body.style.cursor='';
+      document.body.style.userSelect='';
+    });
+  }
+  initResize('rh-left',  ()=>document.querySelector('.sidebar'),       ()=>'left');
+  initResize('rh-right', ()=>document.querySelector('.detail-panel'),  ()=>'right');
+})();
 
 </script>
 </body>
