@@ -1,3 +1,4 @@
+<!-- EI v3 -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -26,7 +27,7 @@
   --green:#4ade80;
   --accent:#7c3aed;
 }
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:16px}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:18px}
 
 /* TOP BAR */
 .topbar{display:flex;align-items:center;padding:0 20px;height:48px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px}
@@ -165,10 +166,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .analysis-wrap::-webkit-scrollbar-thumb{background:var(--border2)}
 .framework-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
 .framework-title{font-family:'DM Mono',monospace;font-size:16px;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px}
-
-/* RESIZABLE DIVIDER */
-.resize-handle{width:4px;background:var(--border);cursor:col-resize;flex-shrink:0;transition:background 0.15s;position:relative;z-index:10}
-.resize-handle:hover,.resize-handle.dragging{background:var(--gold)}
 </style>
 </head>
 <body>
@@ -258,7 +255,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     </div>
   </div>
 
-  <div class="resize-handle" id="resizeLeft"></div>
   <!-- CENTER -->
   <div class="center">
 
@@ -330,7 +326,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 
   </div>
 
-  <div class="resize-handle" id="resizeHandle"></div>
   <!-- RIGHT DETAIL PANEL -->
   <div class="detail-panel">
     <div id="detail-empty" class="detail-empty" style="flex:1">
@@ -717,39 +712,7 @@ function setStatus(msg){
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 renderExperts();
 
-// RESIZABLE PANELS
-(function(){
-  function makeResizable(handleId, targetEl, direction){
-    const handle = document.getElementById(handleId);
-    if(!handle) return;
-    let dragging = false, startX = 0, startW = 0;
-    handle.addEventListener('mousedown', e => {
-      dragging = true;
-      startX = e.clientX;
-      startW = targetEl.offsetWidth;
-      handle.classList.add('dragging');
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', e => {
-      if(!dragging) return;
-      const diff = direction === 'right' ? startX - e.clientX : e.clientX - startX;
-      const newW = Math.min(600, Math.max(150, startW + diff));
-      targetEl.style.width = newW + 'px';
-      targetEl.style.flexShrink = '0';
-    });
-    document.addEventListener('mouseup', () => {
-      if(!dragging) return;
-      dragging = false;
-      handle.classList.remove('dragging');
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    });
-  }
-  makeResizable('resizeLeft', document.querySelector('.sidebar'), 'left');
-  makeResizable('resizeHandle', document.querySelector('.detail-panel'), 'right');
-})();
+
 </script>
 </body>
 </html>
