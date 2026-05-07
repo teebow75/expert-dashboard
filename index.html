@@ -223,6 +223,93 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     flex-shrink:0}
 }
 @media (min-width:769px){.mobile-back{display:none}}
+
+/* ── MOBILE RESPONSIVE ────────────────────────────────────────────────────── */
+@media (max-width: 768px){
+  body{font-size:15px;overflow:hidden}
+  
+  /* TOP BAR */
+  .topbar{padding:0 12px;height:48px;gap:8px}
+  .logo-sub{display:none}
+  .topbar-divider{display:none}
+  .status-pill{display:none}
+  .nav-tab{padding:5px 10px;font-size:13px}
+  
+  /* HIDE RESIZE HANDLES */
+  .resize-handle{display:none!important}
+  
+  /* LAYOUT: vertical stack */
+  .main{flex-direction:column;height:calc(100vh - 48px);overflow:hidden}
+  
+  /* SIDEBAR: compact horizontal scroll */
+  .sidebar{
+    width:100%!important;min-width:0!important;max-width:100%!important;
+    flex-direction:row;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;
+    border-right:none;border-bottom:1px solid var(--border);
+    padding:6px 12px;gap:6px;height:auto;flex-shrink:0
+  }
+  .sidebar::-webkit-scrollbar{height:3px}
+  .sidebar-section{
+    display:flex;flex-direction:row;flex-wrap:nowrap;
+    gap:5px;align-items:center;padding:0;flex-shrink:0
+  }
+  .sidebar-label{
+    font-size:10px;padding:0 4px 0 0;writing-mode:horizontal-tb;
+    white-space:nowrap;flex-shrink:0
+  }
+  .sidebar-item{
+    padding:4px 10px;border-left:none;border:1px solid var(--border);
+    border-radius:20px;white-space:nowrap;flex-shrink:0;
+    justify-content:center;gap:4px
+  }
+  .sidebar-item.active{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+  .sidebar-count{font-size:11px}
+  .sidebar-search{margin:0;width:120px;padding:5px 8px;font-size:12px}
+  .sdiv{width:1px;height:24px;background:var(--border);margin:0 4px;flex-shrink:0}
+  .region-dot{width:6px;height:6px}
+  
+  /* CENTER: takes remaining space */
+  .center{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+  
+  /* DETAIL PANEL: hidden by default, slides up when article selected */
+  .detail-panel{
+    width:100%!important;min-width:0!important;max-width:100%!important;
+    border-left:none;border-top:1px solid var(--border);
+    position:fixed;bottom:0;left:0;right:0;
+    height:70vh;transform:translateY(100%);
+    transition:transform 0.3s ease;z-index:50;
+    background:var(--surface)
+  }
+  .detail-panel.mobile-open{transform:translateY(0)}
+  
+  /* FEED */
+  .panel-header{padding:8px 14px}
+  .panel-title{font-size:15px}
+  .panel-meta{font-size:11px}
+  .search-bar{padding:8px 12px;gap:6px}
+  .fetch-btn{padding:7px 12px;font-size:11px}
+  .source-chips{padding:6px 12px;gap:4px;overflow-x:auto;flex-wrap:nowrap}
+  .source-chip{font-size:11px;padding:3px 8px;white-space:nowrap}
+  .feed{padding:8px 12px;gap:8px}
+  .feed-card{padding:10px 12px}
+  .card-title{font-size:14px}
+  .card-summary{font-size:13px}
+  
+  /* EXPERTS */
+  .experts-grid{grid-template-columns:1fr 1fr;padding:8px 12px;gap:8px}
+  .expert-name{font-size:13px}
+  .expert-role{font-size:12px}
+  
+  /* CONSULT */
+  .consult-input-area{padding:10px 12px}
+  .mode-btn{font-size:11px;padding:5px 8px}
+  .consult-btn{padding:7px 14px;font-size:11px}
+}
+@media (max-width: 400px){
+  .experts-grid{grid-template-columns:1fr}
+}
+/* ── END MOBILE ─────────────────────────────────────────────────────────────── */
+
 </style>
 </head>
 <body>
@@ -1009,6 +1096,39 @@ showDetail = function(a){
 const _origSelectExpert = selectExpert;
 // Override expert click for mobile
 document.addEventListener('DOMContentLoaded', function(){});
+
+
+// ─── PANEL RESIZE (Desktop only) ─────────────────────────────────────────────
+(function(){
+  if(window.innerWidth <= 768) return;
+  function initResize(handleId, getTarget, dir){
+    const h = document.getElementById(handleId);
+    if(!h) return;
+    let on=false, x0=0, w0=0;
+    h.addEventListener('mousedown', function(e){
+      on=true; x0=e.clientX; w0=getTarget().offsetWidth;
+      h.classList.add('active');
+      document.body.style.cssText+='cursor:col-resize;user-select:none';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e){
+      if(!on) return;
+      const t=getTarget();
+      const d=dir==='right'?x0-e.clientX:e.clientX-x0;
+      const w=Math.max(150,Math.min(700,w0+d));
+      t.style.width=w+'px'; t.style.minWidth=w+'px'; t.style.maxWidth=w+'px'; t.style.flexShrink='0';
+    });
+    window.addEventListener('mouseup', function(){
+      if(!on) return; on=false;
+      h.classList.remove('active');
+      document.body.style.cursor=''; document.body.style.userSelect='';
+    });
+  }
+  window.addEventListener('load', function(){
+    initResize('rh-left',  function(){return document.querySelector('.sidebar');},       'left');
+    initResize('rh-right', function(){return document.querySelector('.detail-panel');},  'right');
+  });
+})();
 
 </script>
 </body>
