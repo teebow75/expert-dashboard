@@ -422,7 +422,7 @@ function selectExpert(name){
     title:`${e.name} — ${e.role}`,
     summary:`${e.org}所属。${e.domain}領域の第一人者として${e.network}ネットワーク経由でインタビューが可能です。`,
     insight:`${e.name}はグローバルな視点から${e.domain}の実務的知見を提供します。C-suiteレベルの経営課題から実行戦略まで幅広く対応。`,
-    implications:`利用可能: Expert Interview (60-90分) / Written Q&A (48時間) / Ongoing Advisory契約`,
+
     keyData:`ネットワーク: ${e.network} | 地域: ${e.region} | 専門: ${e.domain}`
   });
   document.getElementById('consultQuery').placeholder=`${e.name}の視点から質問する...`;
@@ -587,7 +587,7 @@ function showDetail(a){
     <div><div class="detail-section-title">SUMMARY</div><div class="detail-text">${a.summary||''}</div></div>
     ${a.keyData?`<div class="insight-box"><div class="insight-label">KEY DATA POINT</div><div class="insight-text">${a.keyData}</div></div>`:''}
     ${a.insight?`<div><div class="detail-section-title">EXPERT INSIGHT</div><div class="detail-text">${a.insight}</div></div>`:''}
-    ${a.implications?`<div><div class="detail-section-title">STRATEGIC IMPLICATIONS</div><div class="detail-text">${a.implications}</div></div>`:''}
+    
     <div style="height:20px"></div>`;
 }
 
