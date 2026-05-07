@@ -112,7 +112,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 .tag{font-family:'DM Mono',monospace;font-size:0.7em;padding:2px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;color:var(--text3)}
 
 /* RIGHT DETAIL PANEL */
-.detail-panel{width:360px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.detail-panel{width:360px;border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;min-height:0}
 .detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--text3)}
 .detail-empty-icon{font-size:28px;opacity:0.18;font-family:'DM Mono',monospace}
 .detail-header{padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -576,7 +576,7 @@ function selectFeedArticle(card,a){
 
 function showDetail(a){
   document.getElementById('detail-empty').style.display='none';
-  document.getElementById('detail-content').style.display='flex';
+  document.getElementById('detail-content').style.display='flex';document.getElementById('detail-content').style.overflowY='auto';
   document.getElementById('detail-meta').innerHTML=`
     <span class="card-source ${a.source||'web'}">${(a.source||'WEB').toUpperCase()}</span>
     <span class="card-region">${a.region||''}</span>
@@ -616,7 +616,7 @@ async function runConsult(){
   const sys=`You are a senior expert consultant with combined expertise from Alphasight, GLG, and Atheneum expert networks. ${modePrompts[consultMode]} Be specific, data-driven, and practical. Use Japanese if the question is in Japanese.`;
 
   document.getElementById('detail-empty').style.display='none';
-  document.getElementById('detail-content').style.display='flex';
+  document.getElementById('detail-content').style.display='flex';document.getElementById('detail-content').style.overflowY='auto';
 
   const body=document.getElementById('detail-body');
   const div=document.createElement('div');
